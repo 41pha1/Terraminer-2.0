@@ -59,8 +59,8 @@ public class frame extends JFrame {
 		Graphics g=strat.getDrawGraphics();
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, 20000, 20000);
-//		draw(g);
-		drawFunction(g);
+		draw(g);
+//		drawFunction(g);
 		g.dispose();
 		strat.show();
 	}

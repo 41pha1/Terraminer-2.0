@@ -62,10 +62,11 @@ public class simulation {
 			
 			load();
 			
-			for(int x=0; x<1000; x++)
+			for(int x=0; x<333; x++)
 			{
-				for(int y=0; y<256; y++)
+				for(int y=0; y<75; y++)
 				{
+//					blocks[x][y].setID(b[x*3 * 75 +y*3]);
 //					blocks[x][y].setID(b[x*y]);
 					blocks[x][y].setID(b[x * 256 +y]);
 				}
