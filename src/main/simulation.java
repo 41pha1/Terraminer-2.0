@@ -11,6 +11,7 @@ public class simulation {
 	static particel[] particels = new particel[100000];
 	static item[] items = new item[1000];
 	minimap m= new minimap();
+	static inventory i=new inventory();
 	boolean collide;
 	boolean load=false;
 	static double lastposX=0;
@@ -191,6 +192,7 @@ public class simulation {
 				particels[x].draw(g);
 			}
 		}
+		inventory.draw(g);
 		minimap.draw(g,100,100);
 	}
 	public static block[][] getBlocks() {

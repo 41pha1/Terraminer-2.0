@@ -141,6 +141,7 @@ public class item
 		{
 			if(-1*player.getPy()+3<ypos&&-1*player.getPy()+5>ypos)
 			{
+				inventory.collectItem(ID);
 				alive=false;
 			}
 		}

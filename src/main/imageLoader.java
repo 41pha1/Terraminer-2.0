@@ -8,7 +8,7 @@ import javax.imageio.ImageIO;
 
 public class imageLoader {
 	public static BufferedImage[][] Textures = new BufferedImage[32][16];
-	public static BufferedImage skin,sky,mb;
+	public static BufferedImage skin,sky,mb,gui;
 
 	public static void loadTextures() 
 	{
@@ -32,6 +32,7 @@ public class imageLoader {
 		skin=getImage("skin");	
 		sky=getImage("sky");
 		mb=getImage("mb");
+		gui=getImage("gui");
 	}
 	public static BufferedImage color(BufferedImage i)
 	{
