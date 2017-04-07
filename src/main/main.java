@@ -6,7 +6,6 @@ public class main
 {
 	static simulation s = new simulation();
 	static frame f = new frame();
-	
 	static long lastime = System.nanoTime();
 	static long lf = System.nanoTime();
 	static long tf = System.nanoTime();

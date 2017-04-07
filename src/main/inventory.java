@@ -3,13 +3,13 @@ package main;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.io.ObjectInputStream.GetField;
 
 public class inventory 
 {
 	public static slot[] slots =new slot[36];
 	public static byte selected=0;
 	public static boolean open=false;
+	public final static int FULL=-1;
 	public static boolean isOpen() {
 		return open;
 	}
@@ -66,7 +66,7 @@ public class inventory
 			g.drawImage(imageLoader.skin, frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+(int)(1000/15),frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+(int)(frame.getRHEIGHT()/23),imageLoader.skin.getWidth()/4, imageLoader.skin.getHeight()/4, null);
 			for(int x=0; x<36; x++)
 			{
-				g.drawImage(imageLoader.getTextures()[slots[x].getID()][0], getDrawPosX(x), getDrawPosY(x), frame.getWIDTH()/35, frame.getWIDTH()/35, null);
+				g.drawImage(imageLoader.getTextures()[slots[x].getID()][0], getDrawPosX(x), getDrawPosY(x), 28, 28, null);
 				if(slots[x].getCount()!=0&&slots[x].getCount()!=1)
 				{
 					g.drawString(""+slots[x].getCount(), getDrawPosX(x), getDrawPosY(x));
@@ -82,7 +82,7 @@ public class inventory
 				g.drawString(""+slots[x].getCount(), x*(int)(frame.getWIDTH()/18.13)+(int)(frame.getWIDTH()/3.75), (frame.getRHEIGHT()-(int)(frame.getRHEIGHT()/8)+(int)(frame.getWIDTH()/80)));
 			}
 		}
-		g.drawImage(imageLoader.sel, (selected)*frame.getWIDTH()/18+(int)(frame.getWIDTH()/3.75), (frame.getRHEIGHT()-(int)(frame.getRHEIGHT()/8)+(int)(frame.getWIDTH()/80)), frame.getWIDTH()/25, frame.getWIDTH()/25 ,null);
+		g.drawImage(imageLoader.sel, (selected)*frame.getWIDTH()/18+(int)(frame.getWIDTH()/3.85), (frame.getRHEIGHT()-(int)(frame.getRHEIGHT()/8)+(int)(frame.getWIDTH()/130)), frame.getWIDTH()/25, frame.getWIDTH()/25 ,null);
 	}
 	public static byte getSelected() {
 		return selected;
@@ -158,6 +158,6 @@ public class inventory
 			{
 				return x;
 			}
-		}return (Integer) null;
+		}return FULL;
 	}
 }

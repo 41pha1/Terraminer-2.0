@@ -105,28 +105,28 @@ public class simulation {
 	public static int DisplayXtoBlockX(float X)
 	{
 		double px;
-		if(player.getPx()>0){
+		if(player.getPx()>0)
+		{
 			px=0;
-			return (int) ((int)(X/(frame.getWIDTH()/block.size))+px*frame.getWIDTH()/block.getSize());
-		}else 
-			{
+			return (int) ((X/(frame.getWIDTH()/block.size))+px*frame.getWIDTH()/block.getSize());
+		}
+		else 
+		{
 			px= player.getPx();
-			return (int) ((int)(X/(frame.getWIDTH()/block.size))-player.getPx());
-			}
-		
-		
+			return (int) ((X/(frame.getWIDTH()/block.size))-player.getPx());
+		}
 	}
 	public static int DisplayYtoBlockY(float Y)
 	{
 		double py;
 		if(player.getPy()<-246){
 			py=-246;
-			return  (int) (((int)(Y/(frame.getWIDTH()/block.size))-py));
+			return  (int) (((Y/(frame.getWIDTH()/block.size))-py));
 		}
 		else 
 		{
 		py= player.getPy();
-		return  (int) (((int)(Y/(frame.getWIDTH()/block.size))-player.getPy()));
+		return  (int) (((Y/(frame.getWIDTH()/block.size))-py+0.5));
 		}
 		
 	}
@@ -331,7 +331,7 @@ public class simulation {
 			}
 		}return false;
 	}
-	public static boolean checkCollision(int x, int y)
+	public static boolean checkCollision(int x, int y, int id)
 	{
 		double x1,x2,y1,y2,w1,w2,h1,h2;
 		x1=(-1*player.getPx())+7.4;
@@ -342,7 +342,6 @@ public class simulation {
 		y2=y;
 		w2=x2+1;
 		h2=y2+1;
-					
 					
 		if(((x2<=x1 && x1<=w2) || (x2<=w1 && w1<=w2)) && ((y2<=y1 && y1<=h2) || (y2<=h1 && h1<=h2)))
 		{
@@ -420,7 +419,6 @@ public class simulation {
 		if(inventory.getSelected()>8)inventory.setSelected((byte) 0);
 		if(inventory.getSelected()<0)inventory.setSelected((byte) 8);
 		keyboard.setSa(0);
-		
 		if(keyboard.isRbutton())
 		{
 			int x1=DisplayXtoBlockX(keyboard.getMx());
@@ -431,7 +429,7 @@ public class simulation {
 				{
 					if(inventory.slots[inventory.selected].getID()!=0)
 					{
-						if(!checkCollision(x1, y1))
+						if(!checkCollision(x1, y1, inventory.slots[inventory.selected].getID()))
 						{
 							blocks[x1][y1].setID(inventory.getHandItem());	
 							inventory.slots[inventory.selected].setCount(inventory.slots[inventory.selected].getCount()-1);
@@ -475,12 +473,10 @@ public class simulation {
 				blocks[x][y].update();
 			}
 		}
-		
 		for(int i=0; i<10000; i++)
 		{
 			if(particels[i].isAlive()) particels[i].update();
 		}
-		
 		for(int i=0; i<1000; i++)
 		{
 			if(items[i].isAlive()) items[i].update();

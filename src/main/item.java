@@ -7,8 +7,9 @@ public class item
 {
 	int ID;
 	double xpos,ypos;
-	double velocityX, velocityY;
-	double accelarationX, accelarationY;
+	double floating=-0.1;
+	double velocityX, velocityY, velocityF=0.01;
+	double accelarationX, accelarationY, accelarationF=0.001;
 	double lastposX, lastposY;
 	boolean alive=false;
 
@@ -55,7 +56,7 @@ public class item
 			py=-246;
 		}else py= player.getPy();
 		
-		g.drawImage(imageLoader.getTextures()[ID][0], (int)((xpos*frame.getWIDTH()/block.size)+px*frame.getWIDTH()/block.size), (int)((ypos*frame.getWIDTH()/block.size)+py*frame.getWIDTH()/block.size), frame.getWIDTH()/(block.size*4), frame.getWIDTH()/(block.size*4),null);
+		g.drawImage(imageLoader.getTextures()[ID][0], (int)((xpos*frame.getWIDTH()/block.size)+px*frame.getWIDTH()/block.size), (int)((ypos*frame.getWIDTH()/block.size)+floating*frame.getWIDTH()/block.size+py*frame.getWIDTH()/block.size), frame.getWIDTH()/(block.size*4), frame.getWIDTH()/(block.size*4),null);
 	}
 	public boolean checkCollision(double lx, double ly)
 	{
@@ -141,17 +142,24 @@ public class item
 		{
 			if(-1*player.getPy()+3<ypos&&-1*player.getPy()+5>ypos)
 			{
-				inventory.collectItem(ID);
-				alive=false;
+				if(inventory.getFirstSlot(ID)!=inventory.FULL)
+				{
+					inventory.collectItem(ID);
+					alive=false;
+				}
 			}
 		}
 	}
 	public void update()
 	{
+		floating+=velocityF;
 		ypos+=velocityY;
 		xpos+=velocityX;
 		velocityY/=accelarationY;
 		velocityX/=accelarationX;
+		velocityF-=accelarationF;
+		if(velocityF<-0.01)accelarationF=-1*accelarationF;
+		if(velocityF>0.01)accelarationF=-1*accelarationF;
 		updateCollision();
 		updateCollect();
 		ypos+=simulation.speed;
