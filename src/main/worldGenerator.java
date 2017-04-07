@@ -26,7 +26,6 @@ public class worldGenerator
 				if(y>253) {
 					simulation.blocks[x][y].setID(4);
 				}
-				
 			}
 		}
 	}

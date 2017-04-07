@@ -352,9 +352,6 @@ public class simulation {
 	}
 	public static void updateMovement()
 	{
-		minimap.setZoom(minimap.getZoom()+keyboard.getSa()/8);
-		keyboard.setSa(0);
-		
 		
 		velocity+=acceleration;
 		
@@ -370,18 +367,20 @@ public class simulation {
 			
 			System.exit(0);
 		}
-		
-		if(keyboard.isW()) {
-			player.setPy(player.getPy()+speed);
-		}
-		if(keyboard.isA()) {
-			player.setPx(player.getPx()+speed);
-		}
-		if(keyboard.isS()) {
-			player.setPy(player.getPy()-speed);
-		}
-		if(keyboard.isD()) {
-			player.setPx(player.getPx()-speed);
+		if(!inventory.isOpen())
+		{
+			if(keyboard.isW()) {
+				player.setPy(player.getPy()+speed);
+			}
+			if(keyboard.isA()) {
+				player.setPx(player.getPx()+speed);
+			}
+			if(keyboard.isS()) {
+				player.setPy(player.getPy()-speed);
+			}
+			if(keyboard.isD()) {
+				player.setPx(player.getPx()-speed);
+			}
 		}
 		player.setPy(player.getPy()-velocity);
 	}
@@ -417,6 +416,11 @@ public class simulation {
 	}	
 	public static void updateMouse()
 	{
+		inventory.setSelected((byte)(inventory.getSelected()+keyboard.getSa()/8));
+		if(inventory.getSelected()>8)inventory.setSelected((byte) 0);
+		if(inventory.getSelected()<0)inventory.setSelected((byte) 8);
+		keyboard.setSa(0);
+		
 		if(keyboard.isRbutton())
 		{
 			int x1=DisplayXtoBlockX(keyboard.getMx());
@@ -425,7 +429,14 @@ public class simulation {
 			{
 				if(blocks[x1][y1].getID()==0)
 				{
-					if(!checkCollision(x1, y1)) blocks[x1][y1].setID(6);	
+					if(inventory.slots[inventory.selected].getID()!=0)
+					{
+						if(!checkCollision(x1, y1))
+						{
+							blocks[x1][y1].setID(inventory.getHandItem());	
+							inventory.slots[inventory.selected].setCount(inventory.slots[inventory.selected].getCount()-1);
+						}
+					}
 				}
 			}
 		}
@@ -443,6 +454,16 @@ public class simulation {
 					}
 				}
 			}
+		}
+	}
+	public static void updateKeyboard()
+	{
+		inventory.updateKeys();
+		updateMovement();
+		
+		if(!inventory.isOpen())
+		{
+			updateMouse();
 		}
 	}
 	public static void update() 
@@ -464,8 +485,7 @@ public class simulation {
 		{
 			if(items[i].isAlive()) items[i].update();
 		}
-		updateMouse();
-		updateMovement();
+		updateKeyboard();
 		updateKollision();
 	}
 }

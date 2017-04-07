@@ -13,6 +13,7 @@ import javax.swing.SwingUtilities;
 
 public class keyboard implements KeyListener, MouseListener, MouseMotionListener, MouseWheelListener {
 	public static boolean a, w, s, d, space, shift, e, esc, lbutton, mbutton,rbutton, plus, minus;
+	public static boolean k1,k2,k3,k4,k5,k6,k7,k8,k9;
 	public static int mx, my;
 	public static double sa;
 	
@@ -38,6 +39,36 @@ public class keyboard implements KeyListener, MouseListener, MouseMotionListener
 		}
 		if(e.getKeyCode()==KeyEvent.VK_M) {
 			minus = true;
+		}
+		if(e.getKeyCode()==KeyEvent.VK_E) {
+			this.e = true;
+		}
+		if(e.getKeyCode()==KeyEvent.VK_1) {
+			k1 = true;
+		}
+		if(e.getKeyCode()==KeyEvent.VK_2) {
+			k2 = true;
+		}
+		if(e.getKeyCode()==KeyEvent.VK_3) {
+			k3 = true;
+		}
+		if(e.getKeyCode()==KeyEvent.VK_4) {
+			k4 = true;
+		}
+		if(e.getKeyCode()==KeyEvent.VK_5) {
+			k5 = true;
+		}
+		if(e.getKeyCode()==KeyEvent.VK_6) {
+			k6 = true;
+		}
+		if(e.getKeyCode()==KeyEvent.VK_7) {
+			k7 = true;
+		}
+		if(e.getKeyCode()==KeyEvent.VK_8) {
+			k8 = true;
+		}
+		if(e.getKeyCode()==KeyEvent.VK_9) {
+			k9 = true;
 		}
 	}
 
@@ -143,6 +174,36 @@ public class keyboard implements KeyListener, MouseListener, MouseMotionListener
 		}
 		if(e.getKeyCode()==KeyEvent.VK_M) {
 			minus = false;
+		}
+		if(e.getKeyCode()==KeyEvent.VK_E) {
+			this.e = false;
+		}
+		if(e.getKeyCode()==KeyEvent.VK_1) {
+			k1 = false;
+		}
+		if(e.getKeyCode()==KeyEvent.VK_2) {
+			k2 = false;
+		}
+		if(e.getKeyCode()==KeyEvent.VK_3) {
+			k3 = false;
+		}
+		if(e.getKeyCode()==KeyEvent.VK_4) {
+			k4 = false;
+		}
+		if(e.getKeyCode()==KeyEvent.VK_5) {
+			k5 = false;
+		}
+		if(e.getKeyCode()==KeyEvent.VK_6) {
+			k6 = false;
+		}
+		if(e.getKeyCode()==KeyEvent.VK_7) {
+			k7 = false;
+		}
+		if(e.getKeyCode()==KeyEvent.VK_8) {
+			k8 = false;
+		}
+		if(e.getKeyCode()==KeyEvent.VK_9) {
+			k9 = false;
 		}
 	}
 

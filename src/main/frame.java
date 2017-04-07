@@ -25,6 +25,7 @@ public class frame extends JFrame {
 	public frame() {
 		WIDTH=1000;
 		HEIGHT=600;
+		
 		addKeyListener(new keyboard());
 		addMouseListener(new keyboard());
 		addMouseMotionListener(new keyboard());
