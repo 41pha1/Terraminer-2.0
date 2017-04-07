@@ -6,15 +6,26 @@ import java.awt.Graphics;
 
 public class inventory 
 {
-	public static slot[] slots =new slot[36];
+	public static slot[] slots =new slot[37];
 	public static byte selected=0;
 	public static boolean open=false;
-	public final static int FULL=-1;
+	public final static int FULL=-1, NO_SLOT_SELECTED=-1;
 	public static boolean isOpen() {
 		return open;
 	}
+	public static void pickUp(int slot)
+	{
+		slots[37].setID(slots[slot].getID());
+		slots[slot].setID(0);
+		slots[37].setCount(slots[slot].getCount());
+		slots[slot].setCount(0);
+	}
 	public static void updateKeys()
 	{
+		if(keyboard.lbutton)
+		{
+			pickUp(getSlotFromMouse(keyboard.mx, keyboard.my));
+		}
 		for(int x=0; x<36; x++)
 		{
 			if(slots[x].getCount()<1)
@@ -49,7 +60,7 @@ public class inventory
 	}
 	inventory()
 	{
-		for(int x=0; x<36; x++)
+		for(int x=0; x<37; x++)
 		{	
 			slots[x]=new slot(0,0);
 		}
@@ -71,7 +82,7 @@ public class inventory
 				{
 					g.drawString(""+slots[x].getCount(), getDrawPosX(x), getDrawPosY(x));
 				}
-			}
+			}g.drawImage(imageLoader.getTextures()[slots[36].getID()][0], keyboard.getMx(), keyboard.getMy(), 28, 28, null);
 		}
 		g.drawImage(imageLoader.gui, frame.getWIDTH()/4, frame.getRHEIGHT()-frame.getRHEIGHT()/8, frame.getWIDTH()/2, frame.getWIDTH()/20, null);
 		for(int x=0; x<9; x++)
@@ -139,6 +150,25 @@ public class inventory
 		int ffs=getFirstSlot(iD);
 		slots[ffs].setCount(slots[ffs].getCount()+1);
 		slots[ffs].setID(iD);
+	}
+	public static int getSlotFromMouse(int x, int y)
+	{
+		int slot=NO_SLOT_SELECTED;
+		
+		for(int i=0; i<36; i++)
+		{
+			double x2,y2,w2,h2;
+			x2=getDrawPosX(i);
+			y2=getDrawPosY(i);
+			w2=getDrawPosX(i)+28;
+			h2=getDrawPosY(i)+28;
+			
+			if(x2<=x && x<=w2 && y2<=y && y<=h2)
+			{
+				slot=i;
+			}
+		}
+		return slot;
 	}
 	public static int getFirstSlot(int ID)
 	{
