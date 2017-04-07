@@ -18,7 +18,7 @@ public class inventory
 	{
 		if(getSlotFromMouse(keyboard.mx, keyboard.my)!=NO_SLOT_SELECTED)
 		{
-			if(pickedUp)
+			if(slot==41)
 			{
 				int oldID, oldCount;
 				oldID=slots[slot].getID();
@@ -27,19 +27,36 @@ public class inventory
 				slots[36].setID(oldID);
 				slots[slot].setCount(slots[36].getCount());
 				slots[36].setCount(oldCount);
-				pickedUp=false;
-			}
-			else 
+				if(slots[37].getCount()>0)slots[37].setCount(slots[37].getCount()-1);
+				if(slots[38].getCount()>0)slots[38].setCount(slots[38].getCount()-1);
+				if(slots[39].getCount()>0)slots[39].setCount(slots[39].getCount()-1);
+				if(slots[40].getCount()>0)slots[40].setCount(slots[40].getCount()-1);
+				keyboard.setLbutton(false);
+			}else 
 			{
-				int oldID, oldCount;
-				oldID=slots[36].getID();
-				oldCount=slots[36].getCount();
-				slots[36].setID(slots[slot].getID());
-				slots[slot].setID(oldID);
-				slots[36].setCount(slots[slot].getCount());
-				slots[slot].setCount(oldCount);
-				pickedUp=true;
-			} keyboard.setLbutton(false);
+				if(pickedUp)
+				{
+					int oldID, oldCount;
+					oldID=slots[slot].getID();
+					oldCount=slots[slot].getCount();	
+					slots[slot].setID(slots[36].getID());
+					slots[36].setID(oldID);
+					slots[slot].setCount(slots[36].getCount());
+					slots[36].setCount(oldCount);
+					pickedUp=false;
+				}
+				else 
+				{
+					int oldID, oldCount;
+					oldID=slots[36].getID();
+					oldCount=slots[36].getCount();
+					slots[36].setID(slots[slot].getID());
+					slots[slot].setID(oldID);
+					slots[36].setCount(slots[slot].getCount());
+					slots[slot].setCount(oldCount);
+					pickedUp=true;
+				} keyboard.setLbutton(false);
+			}
 		}
 		if(slot==-1)
 		{
@@ -58,9 +75,9 @@ public class inventory
 				pickUp(getSlotFromMouse(keyboard.mx, keyboard.my));
 			}
 		}
-		for(int x=0; x<36; x++)
+		for(int x=0; x<41; x++)
 		{
-			if(slots[x].getCount()<1)
+			if(slots[x].getCount()<=0)
 			{
 				slots[x].setID(0);
 				slots[x].setCount(0);
@@ -105,11 +122,8 @@ public class inventory
 	}
 	public static void updateCrafting()
 	{
-		if(crafting.checkCrafting(slots[37].getID(), slots[38].getID(), slots[39].getID(), slots[40].getID())!=0)
-		{
-			slots[41].setID(crafting.checkCrafting(slots[37].getID(), slots[38].getID(), slots[39].getID(), slots[40].getID()));
-			slots[41].setCount(1);
-		}
+		slots[41].setID(crafting.checkCrafting(slots[37].getID(), slots[38].getID(), slots[39].getID(), slots[40].getID()));
+		slots[41].setCount(crafting.checkCount(slots[37].getID(), slots[38].getID(), slots[39].getID(), slots[40].getID()));
 	}
 	public static void drop(int id, int count)
 	{
@@ -200,7 +214,7 @@ public class inventory
 		}
 		if(slot<42)
 		{
-			return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+24+(slot-32)*35;
+			return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+30+(slot-33)*35;
 		}
 		return 0;
 	}
@@ -229,6 +243,10 @@ public class inventory
 		if(slot<41)
 		{
 			return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+75;
+		}
+		if(slot<42)
+		{
+			return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+55;
 		}
 		return 0;
 	}

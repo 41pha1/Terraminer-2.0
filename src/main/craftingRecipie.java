@@ -8,14 +8,22 @@ public class craftingRecipie
 	int s3; 
 	int s4;
 	int r1;
-	craftingRecipie(int S1,	int S2,	int S3,	int S4,	int R1, boolean shpd)
+	int c1;
+	craftingRecipie(int S1,	int S2,	int S3,	int S4,	int R1, int C1, boolean shpd)
 	{
 		s1=S1;
 		s2=S2;
 		s3=S3;
 		s4=S4;
 		r1=R1;
+		c1=C1;
 		shaped=shpd;
+	}
+	public int getC1() {
+		return c1;
+	}
+	public void setC1(int c1) {
+		this.c1 = c1;
 	}
 	public int getS1() {
 		return s1;
