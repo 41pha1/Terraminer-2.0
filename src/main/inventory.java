@@ -8,23 +8,57 @@ public class inventory
 {
 	public static slot[] slots =new slot[37];
 	public static byte selected=0;
-	public static boolean open=false;
+	public static boolean open=false, pickedUp=false;
 	public final static int FULL=-1, NO_SLOT_SELECTED=-1;
 	public static boolean isOpen() {
 		return open;
 	}
 	public static void pickUp(int slot)
 	{
-		slots[37].setID(slots[slot].getID());
-		slots[slot].setID(0);
-		slots[37].setCount(slots[slot].getCount());
-		slots[slot].setCount(0);
+		if(getSlotFromMouse(keyboard.mx, keyboard.my)!=NO_SLOT_SELECTED)
+		{
+			if(pickedUp)
+			{
+				int oldID, oldCount;
+				oldID=slots[slot].getID();
+				oldCount=slots[slot].getCount();	
+				slots[slot].setID(slots[36].getID());
+				slots[36].setID(oldID);
+				slots[slot].setCount(slots[36].getCount());
+				slots[36].setCount(oldCount);
+				pickedUp=false;
+			}
+			else 
+			{
+				int oldID, oldCount;
+				oldID=slots[36].getID();
+				oldCount=slots[36].getCount();
+				slots[36].setID(slots[slot].getID());
+				slots[slot].setID(oldID);
+				slots[36].setCount(slots[slot].getCount());
+				slots[slot].setCount(oldCount);
+				pickedUp=true;
+			} keyboard.setLbutton(false);
+		}
+		if(slot==-1)
+		{
+			if(pickedUp)
+			{
+				drop(slots[36].getID(), slots[36].getCount());
+				slots[36].setID(0);
+				slots[36].setCount(0);
+				pickedUp=false;
+			}
+		}
 	}
 	public static void updateKeys()
 	{
-		if(keyboard.lbutton)
+		if(open)
 		{
-			pickUp(getSlotFromMouse(keyboard.mx, keyboard.my));
+			if(keyboard.lbutton)
+			{	
+				pickUp(getSlotFromMouse(keyboard.mx, keyboard.my));
+			}
 		}
 		for(int x=0; x<36; x++)
 		{
@@ -47,22 +81,45 @@ public class inventory
 		{
 			if(inventory.isOpen())
 			{
-				inventory.setOpen(false);
+				open=false;
+				if(pickedUp)
+				{
+					drop(slots[36].getID(), slots[36].getCount());
+					slots[36].setID(0);
+					slots[36].setCount(0);
+				}
 			}else 
 			{
-				inventory.setOpen(true);
+				open=true;
 			}
 			keyboard.setE(false);
 		}
-	}
-	public static void setOpen(boolean open) {
-		inventory.open = open;
 	}
 	inventory()
 	{
 		for(int x=0; x<37; x++)
 		{	
 			slots[x]=new slot(0,0);
+		}
+	}
+	public static void drop(int id, int count)
+	{
+		double rand=((Math.random()-0.5)/2);
+		int p=0;
+		int i=0;
+		while(p<count && i<1000)
+		{
+			i++;
+			if(!simulation.items[i].isAlive())
+			{
+				simulation.items[i].drop(id, (-1*player.getPx())+7.4, (-1*player.getPy())+3.75);
+				simulation.items[i].setVelocityX(rand);
+				simulation.items[i].setVelocityY(-0.25);
+				simulation.items[i].setAccelarationX(1.1);
+				simulation.items[i].setAccelarationY(1.1);
+				simulation.items[i].setCantcollect(100);
+				p++;
+			}
 		}
 	}
 	public static void draw(Graphics g)
@@ -82,7 +139,7 @@ public class inventory
 				{
 					g.drawString(""+slots[x].getCount(), getDrawPosX(x), getDrawPosY(x));
 				}
-			}g.drawImage(imageLoader.getTextures()[slots[36].getID()][0], keyboard.getMx(), keyboard.getMy(), 28, 28, null);
+			}
 		}
 		g.drawImage(imageLoader.gui, frame.getWIDTH()/4, frame.getRHEIGHT()-frame.getRHEIGHT()/8, frame.getWIDTH()/2, frame.getWIDTH()/20, null);
 		for(int x=0; x<9; x++)
@@ -94,6 +151,7 @@ public class inventory
 			}
 		}
 		g.drawImage(imageLoader.sel, (selected)*frame.getWIDTH()/18+(int)(frame.getWIDTH()/3.85), (frame.getRHEIGHT()-(int)(frame.getRHEIGHT()/8)+(int)(frame.getWIDTH()/130)), frame.getWIDTH()/25, frame.getWIDTH()/25 ,null);
+		g.drawImage(imageLoader.getTextures()[slots[36].getID()][0], keyboard.getMx(), keyboard.getMy(), 28, 28, null);
 	}
 	public static byte getSelected() {
 		return selected;
@@ -160,8 +218,8 @@ public class inventory
 			double x2,y2,w2,h2;
 			x2=getDrawPosX(i);
 			y2=getDrawPosY(i);
-			w2=getDrawPosX(i)+28;
-			h2=getDrawPosY(i)+28;
+			w2=getDrawPosX(i)+32;
+			h2=getDrawPosY(i)+32;
 			
 			if(x2<=x && x<=w2 && y2<=y && y<=h2)
 			{

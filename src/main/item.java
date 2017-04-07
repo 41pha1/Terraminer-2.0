@@ -11,6 +11,13 @@ public class item
 	double velocityX, velocityY, velocityF=0.01;
 	double accelarationX, accelarationY, accelarationF=0.001;
 	double lastposX, lastposY;
+	double cantcollect;
+	public double getCantcollect() {
+		return cantcollect;
+	}
+	public void setCantcollect(double cantcollect) {
+		this.cantcollect = cantcollect;
+	}
 	boolean alive=false;
 
 	public void setAlive(boolean alive) {
@@ -138,20 +145,24 @@ public class item
 	}
 	public void updateCollect()
 	{
-		if(-1*player.getPx()+6.5<xpos&&-1*player.getPx()+8.5>xpos)
+		if(cantcollect==0)
 		{
-			if(-1*player.getPy()+3<ypos&&-1*player.getPy()+5>ypos)
+			if(-1*player.getPx()+6.5<xpos&&-1*player.getPx()+8.5>xpos)
 			{
-				if(inventory.getFirstSlot(ID)!=inventory.FULL)
+				if(-1*player.getPy()+3<ypos&&-1*player.getPy()+5>ypos)
 				{
-					inventory.collectItem(ID);
-					alive=false;
+					if(inventory.getFirstSlot(ID)!=inventory.FULL)
+					{
+						inventory.collectItem(ID);
+						alive=false;
+					}
 				}
 			}
 		}
 	}
 	public void update()
 	{
+		if(cantcollect>0)cantcollect--;
 		floating+=velocityF;
 		ypos+=velocityY;
 		xpos+=velocityX;
