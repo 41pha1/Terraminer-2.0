@@ -29,6 +29,7 @@ public class imageLoader {
 		saveTexture(15,"tallgrass");
 		saveTexture(16,"log_oak");
 		saveTexture(17,"leaves_big_oak");
+		saveTexture(18,"planks_oak");
 		skin=getImage("skin");	
 		sky=getImage("sky");
 		mb=getImage("mb");
