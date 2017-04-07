@@ -20,18 +20,39 @@ public class inventory
 		{
 			if(slot==41)
 			{
-				int oldID, oldCount;
-				oldID=slots[slot].getID();
-				oldCount=slots[slot].getCount();	
-				slots[slot].setID(slots[36].getID());
-				slots[36].setID(oldID);
-				slots[slot].setCount(slots[36].getCount());
-				slots[36].setCount(oldCount);
-				if(slots[37].getCount()>0)slots[37].setCount(slots[37].getCount()-1);
-				if(slots[38].getCount()>0)slots[38].setCount(slots[38].getCount()-1);
-				if(slots[39].getCount()>0)slots[39].setCount(slots[39].getCount()-1);
-				if(slots[40].getCount()>0)slots[40].setCount(slots[40].getCount()-1);
-				keyboard.setLbutton(false);
+				if(slots[slot].getID()!=0)
+				{
+					if(slots[36].getID()==slots[slot].getID())
+					{
+						int oldID, oldCount;
+						oldID=slots[slot].getID();
+						oldCount=slots[slot].getCount();	
+						slots[slot].setID(0);
+						slots[36].setID(oldID);
+						slots[slot].setCount(0);
+						slots[36].setCount(slots[36].getCount()+oldCount);
+						if(slots[37].getCount()>0)slots[37].setCount(slots[37].getCount()-1);
+						if(slots[38].getCount()>0)slots[38].setCount(slots[38].getCount()-1);
+						if(slots[39].getCount()>0)slots[39].setCount(slots[39].getCount()-1);
+						if(slots[40].getCount()>0)slots[40].setCount(slots[40].getCount()-1);
+						keyboard.setLbutton(false);
+					}
+					else 
+					{
+						int oldID, oldCount;
+						oldID=slots[slot].getID();
+						oldCount=slots[slot].getCount();	
+						slots[slot].setID(slots[36].getID());
+						slots[36].setID(oldID);
+						slots[slot].setCount(slots[36].getCount());
+						slots[36].setCount(oldCount);
+						if(slots[37].getCount()>0)slots[37].setCount(slots[37].getCount()-1);
+						if(slots[38].getCount()>0)slots[38].setCount(slots[38].getCount()-1);
+						if(slots[39].getCount()>0)slots[39].setCount(slots[39].getCount()-1);
+						if(slots[40].getCount()>0)slots[40].setCount(slots[40].getCount()-1);
+						keyboard.setLbutton(false);
+					}
+				}
 			}else 
 			{
 				if(pickedUp)
