@@ -6,10 +6,11 @@ import java.awt.Graphics;
 public class block
 {
 	int ID=0;
+	int ID2=0;
 	int lg=1;
 	int neededBlocks[]=new int[8];
 	static int size=15;
-	int [] rnd=new int[256];
+	int [] rnd=new int[500];
 	boolean mark=false;
 	boolean collision=true;
 	boolean needsBlock=false;
@@ -67,7 +68,6 @@ public class block
 	}
 	public void draw(Graphics g)
 	{
-//		System.out.println(player.getPx()+", "+player.getPy());
 		double px,py;
 		if(player.getPx()>0){
 			px=0;
@@ -75,9 +75,14 @@ public class block
 		if(player.getPy()<-246){
 			py=-246;
 		}else py= player.getPy();
-		
-		g.drawImage(imageLoader.getTextures()[ID][rnd[ID]], (int)((x*frame.getWIDTH()/size)+px*frame.getWIDTH()/size), (int)((y*frame.getWIDTH()/size)+py*frame.getWIDTH()/size), frame.getWIDTH()/size+2, frame.getWIDTH()/size+2,null);
+		g.drawImage(imageLoader.getTextures()[ID][rnd[ID]][ID2], (int)((x*frame.getWIDTH()/size)+px*frame.getWIDTH()/size), (int)((y*frame.getWIDTH()/size)+py*frame.getWIDTH()/size), frame.getWIDTH()/size+2, frame.getWIDTH()/size+2,null);
 		if(mark)g.fillRect((int)((x*frame.getWIDTH()/size)+player.getPx()*frame.getWIDTH()/size), (int)((y*frame.getWIDTH()/size)+player.getPy()*frame.getWIDTH()/size), frame.getWIDTH()/size+2, frame.getWIDTH()/size+2);
+	}
+	public int getID2() {
+		return ID2;
+	}
+	public void setID2(int iD2) {
+		ID2 = iD2;
 	}
 	public void drawMinimap(Graphics g)
 	{
@@ -94,7 +99,7 @@ public class block
 		{
 			for(int i=0; i<100; i++)
 			{
-				Color c = new Color(imageLoader.getTextures()[ID][0].getRGB((int)(Math.random()*64), (int)(Math.random()*64)));
+				Color c = new Color(imageLoader.getTextures()[ID][0][ID2].getRGB((int)(Math.random()*64), (int)(Math.random()*64)));
 				if(ID==17)
 				{
 					
@@ -111,7 +116,8 @@ public class block
 	{
 		if(ID!=0)
 		{
-		Color c = new Color(imageLoader.getTextures()[ID][0].getRGB(1,1));
+			System.out.println(ID+", "+ID2);
+		Color c = new Color(imageLoader.getTextures()[ID][0][ID2].getRGB(1,1));
 		return c;
 		}return Color.WHITE;
 	}
@@ -144,7 +150,7 @@ public class block
 	{
 		return ID;
 	}
-	public void setID(int id)
+	public void setID(int id, int id2)
 	{
 		if(id==0&&ID==16)
 		{
@@ -154,7 +160,7 @@ public class block
 			simulation.blocks[x][y-1].setLg(0);
 		}
 		
-		if(id==0||id==12||id==13||id==14||id==15||id==16||id==17)
+		if(id==0||(id==38 && id2==0)||(id==38 && id2==5)||(id==31&&id2==1)||(id==175&&id2==5)||id==17||id==18)
 		{
 			setCollision(false);
 		}else 
@@ -164,7 +170,7 @@ public class block
 		}
 		
 		
-		if(id==12||id==13||id==14||id==15)
+		if((id==38 && id2==0)||(id==38 && id2==5)||(id==31&&id2==1)||(id==175&&id2==5))
 		{
 			if(Math.random()>0.5)
 			{
@@ -173,30 +179,32 @@ public class block
 			{
 				setBackground(false);
 			}
-			neededBlocks[0]=1;
-			neededBlocks[1]=2;
-			neededBlocks[2]=2;
+			neededBlocks[0]=2;
+			neededBlocks[1]=3;
+			neededBlocks[2]=3;
 			setNeedsBlock(true);
 			
 		}else
 		{
 			setNeedsBlock(false);
 			setBackground(false);
-		}if(id==16||id==17)
+		}if(id==17||id==18)
 		{
 			setBackground(true);
-		}if(id==16)
+		}if(id==17)
 		{
-			neededBlocks[0]=1;
-			neededBlocks[1]=2;
-			neededBlocks[2]=16;
+			neededBlocks[0]=2;
+			neededBlocks[1]=3;
+			neededBlocks[2]=17;
 			setNeedsBlock(true);
 		}
 		ID=id;
+		ID2=id2;
 		int textures=0;
 		for(int x=0; x<16; x++)
 		{
-			if(imageLoader.getTextures()[ID][x]!=null)
+			System.out.println(ID+", "+ID2);
+			if(imageLoader.getTextures()[ID][x][ID2]!=null)
 			{
 				textures+=1;
 			}

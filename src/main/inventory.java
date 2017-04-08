@@ -22,49 +22,68 @@ public class inventory
 			{
 				if(slots[slot].getID()!=0)
 				{
-					if(slots[36].getID()==slots[slot].getID())
+					if(keyboard.isShift())
 					{
 						int oldID, oldCount;
 						oldID=slots[slot].getID();
 						oldCount=slots[slot].getCount();	
+						int ffs=getFirstSlot(oldID);
 						slots[slot].setID(0);
-						slots[36].setID(oldID);
+						slots[ffs].setID(oldID);
 						slots[slot].setCount(0);
-						slots[36].setCount(slots[36].getCount()+oldCount);
+						slots[ffs].setCount(slots[ffs].getCount()+oldCount);
 						if(slots[37].getCount()>0)slots[37].setCount(slots[37].getCount()-1);
 						if(slots[38].getCount()>0)slots[38].setCount(slots[38].getCount()-1);
 						if(slots[39].getCount()>0)slots[39].setCount(slots[39].getCount()-1);
 						if(slots[40].getCount()>0)slots[40].setCount(slots[40].getCount()-1);
-						keyboard.setLbutton(false);
 					}
-					else 
+					else
 					{
-						int oldID, oldCount;
-						oldID=slots[slot].getID();
-						oldCount=slots[slot].getCount();	
-						slots[slot].setID(slots[36].getID());
-						slots[36].setID(oldID);
-						slots[slot].setCount(slots[36].getCount());
-						slots[36].setCount(oldCount);
-						if(slots[37].getCount()>0)slots[37].setCount(slots[37].getCount()-1);
-						if(slots[38].getCount()>0)slots[38].setCount(slots[38].getCount()-1);
-						if(slots[39].getCount()>0)slots[39].setCount(slots[39].getCount()-1);
-						if(slots[40].getCount()>0)slots[40].setCount(slots[40].getCount()-1);
-						keyboard.setLbutton(false);
+						if(slots[36].getID()==slots[slot].getID())
+						{
+							int oldID, oldCount;
+							oldID=slots[slot].getID();
+							oldCount=slots[slot].getCount();	
+							slots[slot].setID(0);
+							slots[36].setID(oldID);
+							slots[slot].setCount(0);
+							slots[36].setCount(slots[36].getCount()+oldCount);
+							if(slots[37].getCount()>0)slots[37].setCount(slots[37].getCount()-1);
+							if(slots[38].getCount()>0)slots[38].setCount(slots[38].getCount()-1);
+							if(slots[39].getCount()>0)slots[39].setCount(slots[39].getCount()-1);
+				
+							if(slots[40].getCount()>0)slots[40].setCount(slots[40].getCount()-1);
+							keyboard.setLbutton(false);
+						}
+						else 
+						{
+							int oldID, oldCount;
+							oldID=slots[slot].getID();
+							oldCount=slots[slot].getCount();	
+							slots[slot].setID(slots[36].getID());
+							slots[36].setID(oldID);
+							slots[slot].setCount(slots[36].getCount());
+							slots[36].setCount(oldCount);
+							if(slots[37].getCount()>0)slots[37].setCount(slots[37].getCount()-1);
+							if(slots[38].getCount()>0)slots[38].setCount(slots[38].getCount()-1);
+							if(slots[39].getCount()>0)slots[39].setCount(slots[39].getCount()-1);
+							if(slots[40].getCount()>0)slots[40].setCount(slots[40].getCount()-1);
+							keyboard.setLbutton(false);
+						}
 					}
 				}
 			}else 
 			{
-				if(pickedUp)
+				if(slots[36].getID()==slots[slot].getID())
 				{
 					int oldID, oldCount;
 					oldID=slots[slot].getID();
 					oldCount=slots[slot].getCount();	
-					slots[slot].setID(slots[36].getID());
-					slots[36].setID(oldID);
-					slots[slot].setCount(slots[36].getCount());
-					slots[36].setCount(oldCount);
-					pickedUp=false;
+					slots[slot].setID(oldID);
+					slots[36].setID(0);
+					slots[slot].setCount(slots[36].getCount()+oldCount);
+					slots[36].setCount(0);
+					keyboard.setLbutton(false);
 				}
 				else 
 				{
@@ -76,7 +95,8 @@ public class inventory
 					slots[36].setCount(slots[slot].getCount());
 					slots[slot].setCount(oldCount);
 					pickedUp=true;
-				} keyboard.setLbutton(false);
+				    keyboard.setLbutton(false);
+				}
 			}
 		}
 		if(slot==-1)
@@ -87,13 +107,54 @@ public class inventory
 			pickedUp=false;
 		}
 	}
-	public static void updateKeys()
+	public static void pickUpR(int slot)
+	{
+		if(getSlotFromMouse(keyboard.mx, keyboard.my)!=NO_SLOT_SELECTED)
+		{
+			if(slot==41)
+			{
+			}
+			else 
+			{
+				if(slots[36].getID()==slots[slot].getID())
+				{
+					int oldID, oldCount;
+					oldID=slots[slot].getID();
+					oldCount=slots[slot].getCount();	
+					slots[slot].setCount(oldCount/2);
+					slots[36].setCount(slots[36].getCount()+(int)((oldCount+0.6)/2));
+					keyboard.setRbutton(false);
+				} 
+				if(0==slots[36].getID())
+				{
+					int oldID, oldCount;
+					oldID=slots[slot].getID();
+					oldCount=slots[slot].getCount();	
+					slots[slot].setCount(oldCount/2);
+					slots[36].setCount(slots[36].getCount()+(int)((oldCount+1)/2));
+					slots[36].setID(oldID);
+					keyboard.setRbutton(false);
+				} 
+			}
+		}
+		if(slot==-1)
+		{
+			drop(slots[36].getID(), (int)((slots[36].getCount())/2));
+			slots[36].setCount((int)(slots[36].getCount()+1)/2);
+			keyboard.setRbutton(false);
+		}
+	}
+	public static void update()
 	{
 		if(open)
 		{
 			if(keyboard.lbutton)
 			{	
 				pickUp(getSlotFromMouse(keyboard.mx, keyboard.my));
+			}
+			if(keyboard.rbutton)
+			{	
+				pickUpR(getSlotFromMouse(keyboard.mx, keyboard.my));
 			}
 		}
 		for(int x=0; x<41; x++)
@@ -180,7 +241,7 @@ public class inventory
 			{
 				if(x!=36)
 				{
-					g.drawImage(imageLoader.getTextures()[slots[x].getID()][0], getDrawPosX(x), getDrawPosY(x), 28, 28, null);
+					g.drawImage(imageLoader.getTextures()[slots[x].getID()][0][slots[x].getID2()], getDrawPosX(x), getDrawPosY(x), 28, 28, null);
 					if(slots[x].getCount()!=0&&slots[x].getCount()!=1)
 					{
 						g.drawString(""+slots[x].getCount(), getDrawPosX(x), getDrawPosY(x));
@@ -191,7 +252,7 @@ public class inventory
 		g.drawImage(imageLoader.gui, frame.getWIDTH()/4, frame.getRHEIGHT()-frame.getRHEIGHT()/8, frame.getWIDTH()/2, frame.getWIDTH()/20, null);
 		for(int x=0; x<9; x++)
 		{
-			g.drawImage(imageLoader.getTextures()[slots[x].getID()][0], x*(int)(frame.getWIDTH()/18.13)+(int)(frame.getWIDTH()/3.75), (frame.getRHEIGHT()-(int)(frame.getRHEIGHT()/8)+(int)(frame.getWIDTH()/80)), frame.getWIDTH()/35, frame.getWIDTH()/35 ,null);
+			g.drawImage(imageLoader.getTextures()[slots[x].getID()][0][slots[x].getID2()], x*(int)(frame.getWIDTH()/18.13)+(int)(frame.getWIDTH()/3.75), (frame.getRHEIGHT()-(int)(frame.getRHEIGHT()/8)+(int)(frame.getWIDTH()/80)), frame.getWIDTH()/35, frame.getWIDTH()/35 ,null);
 			if(slots[x].getCount()!=0&&slots[x].getCount()!=1)
 			{
 				g.drawString(""+slots[x].getCount(), x*(int)(frame.getWIDTH()/18.13)+(int)(frame.getWIDTH()/3.75), (frame.getRHEIGHT()-(int)(frame.getRHEIGHT()/8)+(int)(frame.getWIDTH()/80)));
@@ -202,7 +263,7 @@ public class inventory
 		{
 			g.drawString(""+slots[36].getCount(), keyboard.getMx(), keyboard.getMy());
 		}
-		g.drawImage(imageLoader.getTextures()[slots[36].getID()][0], keyboard.getMx(), keyboard.getMy(), 28, 28, null);
+		g.drawImage(imageLoader.getTextures()[slots[36].getID()][0][slots[36].getID2()], keyboard.getMx(), keyboard.getMy(), 28, 28, null);
 	}
 	public static byte getSelected() {
 		return selected;

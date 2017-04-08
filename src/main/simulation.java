@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 public class simulation {
 	static block[][] blocks = new block[1000][256];
 	static byte[] b=new byte[1000*256];
+	static byte[] b2=new byte[1000*256];
 	static particel[] particels = new particel[100000];
 	static item[] items = new item[1000];
 	minimap m= new minimap();
@@ -23,7 +24,6 @@ public class simulation {
 	static double velocity;
 	boolean la=false,ls=false,lw=false,ld=false;
 	static double speed = 0.12;
-
 	simulation() {
 		int dialogResult = JOptionPane.showConfirmDialog (null, "Would You Like to Load your Previous World?");
 		if(dialogResult == JOptionPane.YES_OPTION)
@@ -57,7 +57,7 @@ public class simulation {
 					blocks[x][y]=new block();
 					blocks[x][y].setX(x);
 					blocks[x][y].setY(y);
-					blocks[x][y].setID(0);
+					blocks[x][y].setID(0,0);
 				}
 			}
 			
@@ -69,7 +69,7 @@ public class simulation {
 				{
 //					blocks[x][y].setID(b[x*3 * 75 +y*3]);
 //					blocks[x][y].setID(b[x*y]);
-					blocks[x][y].setID(b[x * 256 +y]);
+					blocks[x][y].setID(b[x * 256 +y],b2[x * 256 +y]);
 				}
 			}
 		}else worldGenerator.generateWorld();
@@ -83,7 +83,10 @@ public class simulation {
     {
     	DataInputStream dis = new DataInputStream(new java.util.zip.GZIPInputStream(new java.io.FileInputStream(new java.io.File("level.dat"))));
    		dis.readFully(b);
+   		DataInputStream dis2 = new DataInputStream(new java.util.zip.GZIPInputStream(new java.io.FileInputStream(new java.io.File("level2.dat"))));
+   		dis2.readFully(b2);
    		dis.close();
+   		dis2.close();
     }
      catch (Exception e)
    {
@@ -92,10 +95,14 @@ public class simulation {
    }
 	public static void save()
 	  {
-	   try    {
+	   try    
+	   {
 	      java.io.DataOutputStream dos = new java.io.DataOutputStream(new java.util.zip.GZIPOutputStream(new java.io.FileOutputStream(new java.io.File("level.dat"))));
 	       dos.write(b);
+	       java.io.DataOutputStream dos2 = new java.io.DataOutputStream(new java.util.zip.GZIPOutputStream(new java.io.FileOutputStream(new java.io.File("level2.dat"))));
+	       dos2.write(b2);
 	      dos.close();
+	      dos2.close();
 	     }
 	    catch (Exception e)
 	   {
@@ -359,6 +366,7 @@ public class simulation {
 			for (int i = 0; i < 1000; i++) {
 		        for (int j = 0; j < 256; j++) { 
 		            b[i * 256 + j]=(byte) (blocks[i][j].getID()); 
+		            b2[i * 256 + j]=(byte) (blocks[i][j].getID2()); 
 		        }
 		    }
 			
@@ -411,7 +419,7 @@ public class simulation {
 				p++;
 			}
 		}
-		blocks[x1][y1].setID(0);	
+		blocks[x1][y1].setID(0,0);	
 	}	
 	public static void updateMouse()
 	{
@@ -431,7 +439,7 @@ public class simulation {
 					{
 						if(!checkCollision(x1, y1, inventory.slots[inventory.selected].getID()))
 						{
-							blocks[x1][y1].setID(inventory.getHandItem());	
+							blocks[x1][y1].setID(inventory.getHandItem(),0);	
 							inventory.slots[inventory.selected].setCount(inventory.slots[inventory.selected].getCount()-1);
 						}
 					}
@@ -456,7 +464,7 @@ public class simulation {
 	}
 	public static void updateKeyboard()
 	{
-		inventory.updateKeys();
+		inventory.update();
 		updateMovement();
 		
 		if(!inventory.isOpen())

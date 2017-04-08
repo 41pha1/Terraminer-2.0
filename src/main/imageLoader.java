@@ -7,29 +7,31 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class imageLoader {
-	public static BufferedImage[][] Textures = new BufferedImage[32][16];
+	public static BufferedImage[][][] Textures = new BufferedImage[500][16][32];
 	public static BufferedImage skin,sky,mb,gui, sel, inv;
 
 	public static void loadTextures() 
 	{
-		saveTexture(1,"grass_side");
-		saveTexture(2, "dirt");
-		saveTexture(3, "stone");
-		saveTexture(4, "bedrock");
-		saveTexture(5, "coal_ore");
-		saveTexture(6, "cobblestone");
-		saveTexture(7,"iron_ore");
-		saveTexture(8,"diamond_ore");
-		saveTexture(9,"redstone_ore");
-		saveTexture(10,"lapis_ore");
-		saveTexture(11,"emerald_ore");
-		saveTexture(12,"flower_rose");
-		saveTexture(13,"flower_tulip_orange");
-		saveTexture(14,"flower_paeonia");
-		saveTexture(15,"tallgrass");
-		saveTexture(16,"log_oak");
-		saveTexture(17,"leaves_big_oak");
-		saveTexture(18,"planks_oak");
+		saveTexture(2,0,"grass_side");
+		saveTexture(3,0, "dirt");
+		saveTexture(1,0, "stone");
+		saveTexture(7,0, "bedrock");
+		saveTexture(16,0, "coal_ore");
+		saveTexture(4,0, "cobblestone");
+		saveTexture(15,0,"iron_ore");
+		saveTexture(56,0,"diamond_ore");
+		saveTexture(73,0,"redstone_ore");
+		saveTexture(21,0,"lapis_ore");
+		saveTexture(129,0,"emerald_ore");
+		saveTexture(38,0,"flower_rose");
+		saveTexture(38,5,"flower_tulip_orange");
+		saveTexture(175,5,"flower_paeonia");
+		saveTexture(31,1,"tallgrass");
+		saveTexture(17,0,"log_oak");
+		saveTexture(18,0,"leaves_big_oak");
+		saveTexture(5,0,"planks_oak");
+		saveTexture(58,0,"crafting_table_side");
+		saveTexture(280,0,"stick");
 		skin=getImage("skin");	
 		sky=getImage("sky");
 		mb=getImage("mb");
@@ -69,9 +71,9 @@ public class imageLoader {
 		g.drawImage(map, 0, 0, x, y, null);
 		return scaled;
 	}
-	private static void saveTexture(int id, String filename)
+	private static void saveTexture(int id, int id2, String filename)
 	{
-		Textures[id][0]=getImage(filename);
+		Textures[id][0][id2]=getImage(filename);
 		
 		int x=1;
 		boolean go=true;
@@ -81,37 +83,36 @@ public class imageLoader {
 			{
 				if(getImage("bdc_"+filename+""+x)!=null)
 				{
-					Textures[id][x]=getImage("bdc_"+filename+"0"+x);
+					Textures[id][x][id2]=getImage("bdc_"+filename+"0"+x);
 				}else go=false;
 			}else 
 			{
 				if(getImage("bdc_"+filename+"0"+x)!=null)
 				{
-					Textures[id][x]=getImage("bdc_"+filename+"0"+x);
+					Textures[id][x][id2]=getImage("bdc_"+filename+"0"+x);
 				}else go=false;
 			}
 			x++;
 		}
-		if(id==17||id==15)
+		if(id==18||id==31&&id2==1)
 		{
-			Textures[id][0]=color(Textures[id][0]);
+			Textures[id][0][id2]=color(Textures[id][0][id2]);
 		}
 	}
 	private static BufferedImage getImage(String filename) {
-		try {
+		try 
+		{
 			BufferedImage texture= ImageIO.read(imageLoader.class.getClassLoader().getResourceAsStream("gfx/"+filename+".png"));
-//			System.out.println("Succesfully loaded  "+filename+".png");
 			return texture;
 		} catch (java.lang.IllegalArgumentException | IOException e) 
 		{
-//			System.out.println("Image "+filename+".png not found, Texture not loaded");
 			return null;
 		}
 	}
-	public static BufferedImage[][] getTextures() {
+	public static BufferedImage[][][] getTextures() {
 		return Textures;
 	}
-	public static void setTextures(BufferedImage[][] textures) {
+	public static void setTextures(BufferedImage[][][] textures) {
 		Textures = textures;
 	}
 }

@@ -34,6 +34,9 @@ public class keyboard implements KeyListener, MouseListener, MouseMotionListener
 		if(e.getKeyCode()==KeyEvent.VK_ESCAPE) {
 			esc = true;
 		}
+		if(e.getKeyCode()==KeyEvent.VK_SHIFT) {
+			shift = true;
+		}
 		if(e.getKeyCode()==KeyEvent.VK_P) {
 			plus = true;
 		}
@@ -169,6 +172,9 @@ public class keyboard implements KeyListener, MouseListener, MouseMotionListener
 		if(e.getKeyCode()==KeyEvent.VK_ESCAPE) {
 			esc = false;
 		}
+		if(e.getKeyCode()==KeyEvent.VK_SHIFT) {
+			shift = false;
+		}
 		if(e.getKeyCode()==KeyEvent.VK_P) {
 			plus = false;
 		}
@@ -205,6 +211,82 @@ public class keyboard implements KeyListener, MouseListener, MouseMotionListener
 		if(e.getKeyCode()==KeyEvent.VK_9) {
 			k9 = false;
 		}
+	}
+
+	public static boolean isK1() {
+		return k1;
+	}
+
+	public static void setK1(boolean k1) {
+		keyboard.k1 = k1;
+	}
+
+	public static boolean isK2() {
+		return k2;
+	}
+
+	public static void setK2(boolean k2) {
+		keyboard.k2 = k2;
+	}
+
+	public static boolean isK3() {
+		return k3;
+	}
+
+	public static void setK3(boolean k3) {
+		keyboard.k3 = k3;
+	}
+
+	public static boolean isK4() {
+		return k4;
+	}
+
+	public static void setK4(boolean k4) {
+		keyboard.k4 = k4;
+	}
+
+	public static boolean isK5() {
+		return k5;
+	}
+
+	public static void setK5(boolean k5) {
+		keyboard.k5 = k5;
+	}
+
+	public static boolean isK6() {
+		return k6;
+	}
+
+	public static void setK6(boolean k6) {
+		keyboard.k6 = k6;
+	}
+
+	public static boolean isK7() {
+		return k7;
+	}
+
+	public static void setK7(boolean k7) {
+		keyboard.k7 = k7;
+	}
+
+	public static boolean isK8() {
+		return k8;
+	}
+
+	public static void setK8(boolean k8) {
+		keyboard.k8 = k8;
+	}
+
+	public static boolean isK9() {
+		return k9;
+	}
+
+	public static void setK9(boolean k9) {
+		keyboard.k9 = k9;
+	}
+
+	public static void setSa(double sa) {
+		keyboard.sa = sa;
 	}
 
 	@Override

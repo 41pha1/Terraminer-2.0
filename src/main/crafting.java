@@ -2,15 +2,17 @@ package main;
 
 public class crafting 
 {
-	static craftingRecipie [] recipies=new craftingRecipie[16];
+	static craftingRecipie [] recipies=new craftingRecipie[256];
 
 	crafting()
 	{
-		for(int i=0; i<16; i++)
+		for(int i=0; i<256; i++)
 		{
 			recipies[i]=new craftingRecipie(0,0,0,0,0,0,false);
 		}
-		recipies[0]=new craftingRecipie(16,0,0,0,18,4,true);
+		recipies[0]=new craftingRecipie(17,0,0,0,5,4,true);
+		recipies[1]=new craftingRecipie(5,0,5,0,280,4,true);
+		recipies[2]=new craftingRecipie(5,5,5,5,58,1,true);
 	}
 	public static int checkCount(int s1, int s2, int s3, int s4)
 	{

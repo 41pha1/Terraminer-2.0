@@ -6,6 +6,7 @@ import java.awt.Graphics;
 public class item 
 {
 	int ID;
+	int ID2=0;
 	double xpos,ypos;
 	double floating=-0.1;
 	double velocityX, velocityY, velocityF=0.01;
@@ -63,7 +64,7 @@ public class item
 			py=-246;
 		}else py= player.getPy();
 		
-		g.drawImage(imageLoader.getTextures()[ID][0], (int)((xpos*frame.getWIDTH()/block.size)+px*frame.getWIDTH()/block.size), (int)((ypos*frame.getWIDTH()/block.size)+floating*frame.getWIDTH()/block.size+py*frame.getWIDTH()/block.size), frame.getWIDTH()/(block.size*4), frame.getWIDTH()/(block.size*4),null);
+		g.drawImage(imageLoader.getTextures()[ID][0][ID2], (int)((xpos*frame.getWIDTH()/block.size)+px*frame.getWIDTH()/block.size), (int)((ypos*frame.getWIDTH()/block.size)+floating*frame.getWIDTH()/block.size+py*frame.getWIDTH()/block.size), frame.getWIDTH()/(block.size*4), frame.getWIDTH()/(block.size*4),null);
 	}
 	public boolean checkCollision(double lx, double ly)
 	{
