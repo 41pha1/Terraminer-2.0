@@ -7,37 +7,49 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class imageLoader {
-	public static BufferedImage[][][] Textures = new BufferedImage[500][16][32];
-	public static BufferedImage skin,sky,mb,gui, sel, inv;
+	public static BufferedImage[][][] Textures = new BufferedImage[128][16][32];
+	public static BufferedImage skin,sky,mb,gui, sel, inv, crafting;
 
 	public static void loadTextures() 
-	{
+	{		
+		saveTexture(1,0, "stone");
 		saveTexture(2,0,"grass_side");
 		saveTexture(3,0, "dirt");
-		saveTexture(1,0, "stone");
-		saveTexture(7,0, "bedrock");
-		saveTexture(16,0, "coal_ore");
 		saveTexture(4,0, "cobblestone");
-		saveTexture(15,0,"iron_ore");
-		saveTexture(56,0,"diamond_ore");
-		saveTexture(73,0,"redstone_ore");
-		saveTexture(21,0,"lapis_ore");
-		saveTexture(129,0,"emerald_ore");
-		saveTexture(38,0,"flower_rose");
-		saveTexture(38,5,"flower_tulip_orange");
-		saveTexture(175,5,"flower_paeonia");
-		saveTexture(31,1,"tallgrass");
-		saveTexture(17,0,"log_oak");
-		saveTexture(18,0,"leaves_big_oak");
 		saveTexture(5,0,"planks_oak");
-		saveTexture(58,0,"crafting_table_side");
-		saveTexture(280,0,"stick");
+		saveTexture(7,0, "bedrock");
+		saveTexture(8,0, "coal_ore");
+		saveTexture(9,0,"iron_ore");
+		saveTexture(10,0,"diamond_ore");
+		saveTexture(11,0,"redstone_ore");
+		saveTexture(12,0,"lapis_ore");
+		saveTexture(13,0,"emerald_ore");
+		saveTexture(14,0,"flower_rose");
+		saveTexture(14,1,"flower_tulip_orange");
+		saveTexture(14,2,"flower_paeonia");
+		saveTexture(15,0,"tallgrass");
+		saveTexture(16,0,"log_oak");
+		saveTexture(17,0,"leaves_big_oak");
+		saveTexture(18,0,"crafting_table_side");
+		saveTexture(19,0,"sapling_oak");
+		saveTexture(100,0,"stick");
+		saveTexture(101,0,"wood_pickaxe");
+		saveTexture(102,0,"wood_shovel");
+		saveTexture(103,0,"wood_sword");
+		saveTexture(104,0,"wood_hoe");
+		saveTexture(105,0,"wood_axe");
+		saveTexture(106,0,"stone_pickaxe");
+		saveTexture(107,0,"stone_shovel");
+		saveTexture(108,0,"stone_sword");
+		saveTexture(109,0,"stone_hoe");
+		saveTexture(110,0,"stone_axe");
 		skin=getImage("skin");	
 		sky=getImage("sky");
 		mb=getImage("mb");
 		gui=getImage("gui");
 		sel=getImage("selected");
 		inv=getImage("inventory");
+		crafting=getImage("crafting");
 	}
 	public static BufferedImage color(BufferedImage i)
 	{
@@ -94,7 +106,7 @@ public class imageLoader {
 			}
 			x++;
 		}
-		if(id==18||id==31&&id2==1)
+		if(id==17||id==15&&id2==0)
 		{
 			Textures[id][0][id2]=color(Textures[id][0][id2]);
 		}

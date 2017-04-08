@@ -5,7 +5,7 @@ import java.awt.Graphics;
 
 public class block
 {
-	int ID=0;
+    int ID=0;
 	int ID2=0;
 	int lg=1;
 	int neededBlocks[]=new int[8];
@@ -29,6 +29,21 @@ public class block
 		this.collision = collision;
 	}
 	int x, y;
+	public int getDrop()
+	{
+		if(ID==2)return 3;
+		if(ID==1)return 4;
+		if(ID==17)
+		{
+			if(Math.random()>0.5)return 19;
+			return 0;
+		}
+		return ID;
+	}
+	public int getDrop2()
+	{
+		return ID2;
+	}
 	public void update()
 	{
 		if(ID==17)
@@ -116,7 +131,6 @@ public class block
 	{
 		if(ID!=0)
 		{
-			System.out.println(ID+", "+ID2);
 		Color c = new Color(imageLoader.getTextures()[ID][0][ID2].getRGB(1,1));
 		return c;
 		}return Color.WHITE;
@@ -152,6 +166,7 @@ public class block
 	}
 	public void setID(int id, int id2)
 	{
+		
 		if(id==0&&ID==16)
 		{
 			simulation.blocks[x+1][y].setLg(0);
@@ -160,7 +175,7 @@ public class block
 			simulation.blocks[x][y-1].setLg(0);
 		}
 		
-		if(id==0||(id==38 && id2==0)||(id==38 && id2==5)||(id==31&&id2==1)||(id==175&&id2==5)||id==17||id==18)
+		if(id==0||id==19||id==14||id==15||id==16||id==17)
 		{
 			setCollision(false);
 		}else 
@@ -170,12 +185,13 @@ public class block
 		}
 		
 		
-		if((id==38 && id2==0)||(id==38 && id2==5)||(id==31&&id2==1)||(id==175&&id2==5))
+		if((id==14 && id2==0)||id==19||(id==14 && id2==1)||(id==14&&id2==2)||(id==15&&id2==0))
 		{
 			if(Math.random()>0.5)
 			{
 				setBackground(true);
-			}else 
+			}
+			else 
 			{
 				setBackground(false);
 			}
@@ -188,14 +204,14 @@ public class block
 		{
 			setNeedsBlock(false);
 			setBackground(false);
-		}if(id==17||id==18)
+		}if(id==16||id==17)
 		{
 			setBackground(true);
-		}if(id==17)
+		}if(id==16)
 		{
 			neededBlocks[0]=2;
 			neededBlocks[1]=3;
-			neededBlocks[2]=17;
+			neededBlocks[2]=16;
 			setNeedsBlock(true);
 		}
 		ID=id;
@@ -203,7 +219,6 @@ public class block
 		int textures=0;
 		for(int x=0; x<16; x++)
 		{
-			System.out.println(ID+", "+ID2);
 			if(imageLoader.getTextures()[ID][x][ID2]!=null)
 			{
 				textures+=1;

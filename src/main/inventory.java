@@ -6,9 +6,10 @@ import java.awt.Graphics;
 
 public class inventory 
 {
-	public static slot[] slots =new slot[42];
+	public static slot[] slots =new slot[47];
 	public static crafting c=new crafting();
 	public static byte selected=0;
+	public static int container=0;
 	public static boolean open=false, pickedUp=false;
 	public final static int FULL=-1, NO_SLOT_SELECTED=-1;
 	public static boolean isOpen() {
@@ -18,80 +19,125 @@ public class inventory
 	{
 		if(getSlotFromMouse(keyboard.mx, keyboard.my)!=NO_SLOT_SELECTED)
 		{
-			if(slot==41)
+			if(slot==46)
 			{
 				if(slots[slot].getID()!=0)
 				{
 					if(keyboard.isShift())
 					{
-						int oldID, oldCount;
-						oldID=slots[slot].getID();
-						oldCount=slots[slot].getCount();	
-						int ffs=getFirstSlot(oldID);
-						slots[slot].setID(0);
-						slots[ffs].setID(oldID);
-						slots[slot].setCount(0);
-						slots[ffs].setCount(slots[ffs].getCount()+oldCount);
-						if(slots[37].getCount()>0)slots[37].setCount(slots[37].getCount()-1);
-						if(slots[38].getCount()>0)slots[38].setCount(slots[38].getCount()-1);
-						if(slots[39].getCount()>0)slots[39].setCount(slots[39].getCount()-1);
-						if(slots[40].getCount()>0)slots[40].setCount(slots[40].getCount()-1);
+						if(slots[slot].getCount()>0)
+						{
+							int oldID, oldID2, oldCount;
+							oldID=slots[slot].getID();
+							oldID2=slots[slot].getID2();
+							oldCount=slots[slot].getCount();	
+							int ffs=getFirstSlot(oldID, oldID2);
+							slots[slot].setID(0);
+							slots[ffs].setID(oldID);
+							slots[ffs].setID2(oldID2);
+							slots[slot].setCount(0);
+							slots[ffs].setCount(slots[ffs].getCount()+oldCount);
+							if(slots[37].getCount()>0)slots[37].setCount(slots[37].getCount()-1);
+							if(slots[38].getCount()>0)slots[38].setCount(slots[38].getCount()-1);
+							if(slots[39].getCount()>0)slots[39].setCount(slots[39].getCount()-1);
+							if(slots[40].getCount()>0)slots[40].setCount(slots[40].getCount()-1);
+							if(slots[41].getCount()>0)slots[41].setCount(slots[41].getCount()-1);
+							if(slots[42].getCount()>0)slots[42].setCount(slots[42].getCount()-1);
+							if(slots[43].getCount()>0)slots[43].setCount(slots[43].getCount()-1);
+							if(slots[44].getCount()>0)slots[44].setCount(slots[44].getCount()-1);
+							if(slots[45].getCount()>0)slots[45].setCount(slots[45].getCount()-1);
+						}
 					}
 					else
 					{
-						if(slots[36].getID()==slots[slot].getID())
+						if(slots[36].getID()==slots[slot].getID()&&slots[36].getID2()==slots[slot].getID2())
 						{
-							int oldID, oldCount;
+							int oldID, oldID2, oldCount;
 							oldID=slots[slot].getID();
+							oldID2=slots[slot].getID2();
 							oldCount=slots[slot].getCount();	
 							slots[slot].setID(0);
 							slots[36].setID(oldID);
+							slots[36].setID2(oldID2);
 							slots[slot].setCount(0);
 							slots[36].setCount(slots[36].getCount()+oldCount);
 							if(slots[37].getCount()>0)slots[37].setCount(slots[37].getCount()-1);
 							if(slots[38].getCount()>0)slots[38].setCount(slots[38].getCount()-1);
 							if(slots[39].getCount()>0)slots[39].setCount(slots[39].getCount()-1);
-				
 							if(slots[40].getCount()>0)slots[40].setCount(slots[40].getCount()-1);
+							if(slots[41].getCount()>0)slots[41].setCount(slots[41].getCount()-1);
+							if(slots[42].getCount()>0)slots[42].setCount(slots[42].getCount()-1);
+							if(slots[43].getCount()>0)slots[43].setCount(slots[43].getCount()-1);
+							if(slots[44].getCount()>0)slots[44].setCount(slots[44].getCount()-1);
+							if(slots[45].getCount()>0)slots[45].setCount(slots[45].getCount()-1);
 							keyboard.setLbutton(false);
 						}
 						else 
 						{
-							int oldID, oldCount;
+							int oldID, oldID2, oldCount;
 							oldID=slots[slot].getID();
+							oldID2=slots[slot].getID2();
 							oldCount=slots[slot].getCount();	
 							slots[slot].setID(slots[36].getID());
 							slots[36].setID(oldID);
+							slots[36].setID2(oldID2);
 							slots[slot].setCount(slots[36].getCount());
 							slots[36].setCount(oldCount);
 							if(slots[37].getCount()>0)slots[37].setCount(slots[37].getCount()-1);
 							if(slots[38].getCount()>0)slots[38].setCount(slots[38].getCount()-1);
 							if(slots[39].getCount()>0)slots[39].setCount(slots[39].getCount()-1);
 							if(slots[40].getCount()>0)slots[40].setCount(slots[40].getCount()-1);
+							if(slots[41].getCount()>0)slots[41].setCount(slots[41].getCount()-1);
+							if(slots[42].getCount()>0)slots[42].setCount(slots[42].getCount()-1);
+							if(slots[43].getCount()>0)slots[43].setCount(slots[43].getCount()-1);
+							if(slots[44].getCount()>0)slots[44].setCount(slots[44].getCount()-1);
+							if(slots[45].getCount()>0)slots[45].setCount(slots[45].getCount()-1);
 							keyboard.setLbutton(false);
 						}
 					}
 				}
 			}else 
 			{
-				if(slots[36].getID()==slots[slot].getID())
+				if(slots[36].getID()==0)
 				{
-					int oldID, oldCount;
+					if(keyboard.isShift())
+					{
+						int oldID, oldID2, oldCount;
+						oldID=slots[slot].getID();
+						oldID2=slots[slot].getID2();
+						oldCount=slots[slot].getCount();	
+						int ffs=getFirstSlot(oldID, oldID2);
+						slots[slot].setID(0);
+						slots[ffs].setID2(oldID2);
+						slots[ffs].setID(oldID);
+						slots[slot].setCount(0);
+						slots[ffs].setCount(slots[ffs].getCount()+oldCount);
+					}
+				}
+				if(slots[36].getID()==slots[slot].getID()&&slots[36].getID2()==slots[slot].getID2())
+				{
+					int oldID, oldID2, oldCount;
 					oldID=slots[slot].getID();
+					oldID2=slots[slot].getID2();
 					oldCount=slots[slot].getCount();	
 					slots[slot].setID(oldID);
+					slots[slot].setID2(oldID2);
 					slots[36].setID(0);
+					slots[36].setID2(0);
 					slots[slot].setCount(slots[36].getCount()+oldCount);
 					slots[36].setCount(0);
 					keyboard.setLbutton(false);
 				}
 				else 
 				{
-					int oldID, oldCount;
+					int oldID, oldID2, oldCount;
 					oldID=slots[36].getID();
+					oldID2=slots[36].getID2();
 					oldCount=slots[36].getCount();
 					slots[36].setID(slots[slot].getID());
+					slots[36].setID2(slots[slot].getID2());
 					slots[slot].setID(oldID);
+					slots[slot].setID2(oldID2);
 					slots[36].setCount(slots[slot].getCount());
 					slots[slot].setCount(oldCount);
 					pickedUp=true;
@@ -101,7 +147,7 @@ public class inventory
 		}
 		if(slot==-1)
 		{
-			drop(slots[36].getID(), slots[36].getCount());
+			drop(slots[36].getID(), slots[36].getID2(), slots[36].getCount());
 			slots[36].setID(0);
 			slots[36].setCount(0);
 			pickedUp=false;
@@ -111,35 +157,48 @@ public class inventory
 	{
 		if(getSlotFromMouse(keyboard.mx, keyboard.my)!=NO_SLOT_SELECTED)
 		{
-			if(slot==41)
+			if(slot==46)
 			{
 			}
 			else 
 			{
-				if(slots[36].getID()==slots[slot].getID())
+				if(slots[36].getID()==slots[slot].getID()&&slots[36].getID2()==slots[slot].getID2())
 				{
-					int oldID, oldCount;
-					oldID=slots[slot].getID();
-					oldCount=slots[slot].getCount();	
-					slots[slot].setCount(oldCount/2);
-					slots[36].setCount(slots[36].getCount()+(int)((oldCount+0.6)/2));
-					keyboard.setRbutton(false);
+					if(slots[36].getCount()>0)
+					{	
+						slots[slot].setCount(slots[slot].getCount()+1);
+						slots[36].setCount(slots[36].getCount()-1);
+						keyboard.setRbutton(false);
+					}
 				} 
+				if(0==slots[slot].getID())
+				{
+					if(slots[36].getCount()>0)
+					{
+						slots[slot].setCount(slots[slot].getCount()+1);
+						slots[slot].setID(slots[36].getID());
+						slots[slot].setID2(slots[36].getID2());
+						slots[36].setCount(slots[36].getCount()-1);
+						keyboard.setRbutton(false);
+					}
+				}
 				if(0==slots[36].getID())
 				{
-					int oldID, oldCount;
+					int oldID, oldID2, oldCount;
 					oldID=slots[slot].getID();
+					oldID2=slots[slot].getID2();
 					oldCount=slots[slot].getCount();	
 					slots[slot].setCount(oldCount/2);
 					slots[36].setCount(slots[36].getCount()+(int)((oldCount+1)/2));
 					slots[36].setID(oldID);
+					slots[36].setID2(oldID2);
 					keyboard.setRbutton(false);
 				} 
 			}
 		}
 		if(slot==-1)
 		{
-			drop(slots[36].getID(), (int)((slots[36].getCount())/2));
+			drop(slots[36].getID(), slots[36].getID2(), (int)((slots[36].getCount())/2));
 			slots[36].setCount((int)(slots[36].getCount()+1)/2);
 			keyboard.setRbutton(false);
 		}
@@ -148,6 +207,7 @@ public class inventory
 	{
 		if(open)
 		{
+			updateCrafting();
 			if(keyboard.lbutton)
 			{	
 				pickUp(getSlotFromMouse(keyboard.mx, keyboard.my));
@@ -157,16 +217,15 @@ public class inventory
 				pickUpR(getSlotFromMouse(keyboard.mx, keyboard.my));
 			}
 		}
-		for(int x=0; x<41; x++)
+		for(int x=0; x<47; x++)
 		{
 			if(slots[x].getCount()<=0)
 			{
 				slots[x].setID(0);
+				slots[x].setID2(0);
 				slots[x].setCount(0);
 			}
 		}
-		
-		updateCrafting();
 		
 		if(keyboard.k1)inventory.setSelected((byte) 0);
 		if(keyboard.k2)inventory.setSelected((byte) 1);
@@ -182,32 +241,33 @@ public class inventory
 			if(inventory.isOpen())
 			{
 				open=false;
-				for(int i=36; i<41; i++)
+				for(int i=36; i<46; i++)
 				{
-					drop(slots[i].getID(), slots[i].getCount());
+					drop(slots[i].getID(), slots[i].getID2(), slots[i].getCount());
 					slots[i].setID(0);
 					slots[i].setCount(0);
 				}
 			}else 
 			{
 				open=true;
+				container=0;
 			}
 			keyboard.setE(false);
 		}
 	}
 	inventory()
 	{
-		for(int x=0; x<42; x++)
+		for(int x=0; x<47; x++)
 		{	
 			slots[x]=new slot(0,0);
 		}
 	}
 	public static void updateCrafting()
 	{
-		slots[41].setID(crafting.checkCrafting(slots[37].getID(), slots[38].getID(), slots[39].getID(), slots[40].getID()));
-		slots[41].setCount(crafting.checkCount(slots[37].getID(), slots[38].getID(), slots[39].getID(), slots[40].getID()));
+		slots[46].setID(crafting.checkCrafting(slots[37].getID(), slots[38].getID(), slots[39].getID(), slots[40].getID(), slots[41].getID(), slots[42].getID(), slots[43].getID(), slots[44].getID(), slots[45].getID(),  container));
+		slots[46].setCount(crafting.checkCount(slots[37].getID(), slots[38].getID(), slots[39].getID(), slots[40].getID(), slots[41].getID(), slots[42].getID(), slots[43].getID(), slots[44].getID(), slots[45].getID(),  container));
 	}
-	public static void drop(int id, int count)
+	public static void drop(int id, int id2, int count)
 	{
 		double rand=((Math.random()-0.5)/2);
 		int p=0;
@@ -217,7 +277,7 @@ public class inventory
 			i++;
 			if(!simulation.items[i].isAlive())
 			{
-				simulation.items[i].drop(id, (-1*player.getPx())+7.4, (-1*player.getPy())+3.75);
+				simulation.items[i].drop(id, id2, (-1*player.getPx())+7.4, (-1*player.getPy())+3.75);
 				simulation.items[i].setVelocityX(rand);
 				simulation.items[i].setVelocityY(-0.25);
 				simulation.items[i].setAccelarationX(1.1);
@@ -235,9 +295,16 @@ public class inventory
 		
 		if(open)
 		{
-			g.drawImage(imageLoader.inv, frame.getWIDTH()/2-imageLoader.inv.getWidth()/4,frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4,imageLoader.inv.getWidth()/2, imageLoader.inv.getHeight()/2, null);
-			g.drawImage(imageLoader.skin, frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+(int)(1000/15),frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+(int)(frame.getRHEIGHT()/23),imageLoader.skin.getWidth()/4, imageLoader.skin.getHeight()/4, null);
-			for(int x=0; x<42; x++)
+			if(container==0)
+			{
+				g.drawImage(imageLoader.inv, frame.getWIDTH()/2-imageLoader.inv.getWidth()/4,frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4,imageLoader.inv.getWidth()/2, imageLoader.inv.getHeight()/2, null);
+				g.drawImage(imageLoader.skin, frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+(int)(1000/15),frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+(int)(frame.getRHEIGHT()/23),imageLoader.skin.getWidth()/4, imageLoader.skin.getHeight()/4, null);
+			}
+			if(container==1)
+			{
+				g.drawImage(imageLoader.crafting, frame.getWIDTH()/2-imageLoader.crafting.getWidth()/4,frame.getRHEIGHT()/2-imageLoader.crafting.getHeight()/4,imageLoader.crafting.getWidth()/2, imageLoader.crafting.getHeight()/2, null);
+			}
+			for(int x=0; x<47; x++)
 			{
 				if(x!=36)
 				{
@@ -270,65 +337,139 @@ public class inventory
 	}
 	public static int getDrawPosX(int slot)
 	{
-		if(slot<9)
+		if(container==0)
 		{
-			return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+24+slot*35;
-		}
-		if(slot<18)
+			if(slot<9)
+			{
+				return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+24+slot*35;
+			}
+			if(slot<18)
+			{
+				return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+24+(slot-9)*35;
+			}
+			if(slot<27)
+			{
+				return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+24+(slot-18)*35;
+			}
+			if(slot<36)
+			{
+				return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+24+(slot-27)*35;
+			}
+			if(slot<39)
+			{
+				return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+24+(slot-32)*35;
+			}
+			if(slot<41)
+			{
+				return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+24+(slot-34)*35;
+			}
+			if(slot==46)
+			{
+				return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+30+(slot-38)*35;
+			}
+		}if(container==1)
 		{
-			return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+24+(slot-9)*35;
-		}
-		if(slot<27)
-		{
-			return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+24+(slot-18)*35;
-		}
-		if(slot<36)
-		{
-			return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+24+(slot-27)*35;
-		}
-		if(slot<39)
-		{
-			return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+24+(slot-32)*35;
-		}
-		if(slot<41)
-		{
-			return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+24+(slot-34)*35;
-		}
-		if(slot<42)
-		{
-			return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+30+(slot-33)*35;
+			if(slot<9)
+			{
+				return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+24+slot*35;
+			}
+			if(slot<18)
+			{
+				return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+24+(slot-9)*35;
+			}
+			if(slot<27)
+			{
+				return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+24+(slot-18)*35;
+			}
+			if(slot<36)
+			{
+				return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+24+(slot-27)*35;
+			}
+			if(slot<40)
+			{
+				return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4-78+(slot-33)*35;
+			}
+			if(slot<43)
+			{
+				return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4-78+(slot-36)*35;
+			}
+			if(slot<46)
+			{
+				return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4-78+(slot-39)*35;
+			}
+			if(slot<47)
+			{
+				return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+40+(slot-40)*35;
+			}
 		}
 		return 0;
 	}
 	public static int getDrawPosY(int slot)
 	{
-		if(slot<9)
+		if(container==0)
 		{
-			return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+287;
-		}
-		if(slot<18)
+			if(slot<9)
+			{
+				return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+287;
+			}
+			if(slot<18)
+			{
+				return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+174;
+			}
+			if(slot<27)
+			{
+				return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+209;
+			}
+			if(slot<36)
+			{
+				return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+244;
+			}
+			if(slot<39)
+			{
+				return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+40;
+			}
+			if(slot<41)
+			{
+				return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+75;
+			}
+			if(slot==46)
+			{
+				return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+55;
+			}
+		}if(container==1)
 		{
-			return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+174;
-		}
-		if(slot<27)
-		{
-			return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+209;
-		}
-		if(slot<36)
-		{
-			return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+244;
-		}
-		if(slot<39)
-		{
-			return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+40;
-		}
-		if(slot<41)
-		{
-			return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+75;
-		}
-		if(slot<42)
-		{
-			return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+55;
+			if(slot<9)
+			{
+				return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+287;
+			}
+			if(slot<18)
+			{
+				return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+174;
+			}
+			if(slot<27)
+			{
+				return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+209;
+			}
+			if(slot<36)
+			{
+				return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+244;
+			}
+			if(slot<40)
+			{
+				return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+40;
+			}
+			if(slot<43)
+			{
+				return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+75;
+			}
+			if(slot<46)
+			{
+				return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+110;
+			}
+			if(slot<47)
+			{
+				return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+75;
+			}
 		}
 		return 0;
 	}
@@ -339,17 +480,22 @@ public class inventory
 	{
 		return slots[selected].getID();
 	}
-	public static void collectItem(int iD) 
+	public static int getHandItem2()
 	{
-		int ffs=getFirstSlot(iD);
+		return slots[selected].getID2();
+	}
+	public static void collectItem(int iD,int id2) 
+	{
+		int ffs=getFirstSlot(iD, id2);
 		slots[ffs].setCount(slots[ffs].getCount()+1);
 		slots[ffs].setID(iD);
+		slots[ffs].setID2(id2);
 	}
 	public static int getSlotFromMouse(int x, int y)
 	{
 		int slot=NO_SLOT_SELECTED;
 		
-		for(int i=0; i<42; i++)
+		for(int i=0; i<47; i++)
 		{
 			double x2,y2,w2,h2;
 			x2=getDrawPosX(i);
@@ -364,11 +510,11 @@ public class inventory
 		}
 		return slot;
 	}
-	public static int getFirstSlot(int ID)
+	public static int getFirstSlot(int ID, int ID2)
 	{
-		for(int x=0; x<36; x++)
+		for(int x=0; x<9; x++)
 		{
-			if(slots[x].getID()==ID)
+			if(slots[x].getID()==ID&&slots[x].getID2()==ID2)
 			{
 				if(slots[x].getCount()<=63)
 				{
@@ -378,10 +524,18 @@ public class inventory
 		}
 		for(int x=0; x<36; x++)
 		{
+			if(slots[x].getID()==ID&&slots[x].getID2()==ID2)
+			{
+				if(slots[x].getCount()<=63)
+				{
+					return  x;
+				}
+			}
 			if(slots[x].getID()==0)
 			{
 				return x;
 			}
-		}return FULL;
+		}
+		return FULL;
 	}
 }

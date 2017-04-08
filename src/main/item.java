@@ -45,9 +45,10 @@ public class item
 	public boolean isAlive() {
 		return alive;
 	}
-	public void drop(int id, double xpos, double ypos) 
+	public void drop(int id, int id2, double xpos, double ypos) 
 	{
 		this.ID=id;
+		this.ID2=id2;
 		this.xpos=xpos;
 		this.ypos=ypos;
 		lastposX=xpos;
@@ -152,9 +153,9 @@ public class item
 			{
 				if(-1*player.getPy()+3<ypos&&-1*player.getPy()+5>ypos)
 				{
-					if(inventory.getFirstSlot(ID)!=inventory.FULL)
+					if(inventory.getFirstSlot(ID, ID2)!=inventory.FULL)
 					{
-						inventory.collectItem(ID);
+						inventory.collectItem(ID, ID2);
 						alive=false;
 					}
 				}
@@ -163,6 +164,7 @@ public class item
 	}
 	public void update()
 	{
+		if(ID==0)alive=false;
 		if(cantcollect>0)cantcollect--;
 		floating+=velocityF;
 		ypos+=velocityY;
@@ -200,5 +202,11 @@ public class item
 	}
 	public void setAccelarationY(double accelarationY) {
 		this.accelarationY = accelarationY;
+	}
+	public int getID2() {
+		return ID2;
+	}
+	public void setID2(int iD2) {
+		ID2 = iD2;
 	}
 }

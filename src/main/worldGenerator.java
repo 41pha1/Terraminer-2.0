@@ -37,27 +37,27 @@ public class worldGenerator
 			{
 				if(rnd(y, 10, 80, 120)&&simulation.blocks[x][y].getID()==1)
 				{
-					simulation.blocks[x][y].setID(16,0);
+					simulation.blocks[x][y].setID(8,0);
 				}
 				if(rnd(y, 3, 40, 160)&&simulation.blocks[x][y].getID()==1)
 				{
-					simulation.blocks[x][y].setID(15,0);
+					simulation.blocks[x][y].setID(9,0);
 				}
 				if(rnd(y, 1, 30, 200)&&simulation.blocks[x][y].getID()==1)
 				{
-					simulation.blocks[x][y].setID(73,0);
+					simulation.blocks[x][y].setID(11,0);
 				}
 				if(rnd(y, 0.2, 30, 200)&&simulation.blocks[x][y].getID()==1)
 				{
-					simulation.blocks[x][y].setID(56,0);
+					simulation.blocks[x][y].setID(10,0);
 				}
 				if(rnd(y, 1, 50, 120)&&simulation.blocks[x][y].getID()==1)
 				{
-					simulation.blocks[x][y].setID(21,0);
+					simulation.blocks[x][y].setID(12,0);
 				}
 				if(rnd(y, 1, 90, 200)&&simulation.blocks[x][y].getID()==1)
 				{
-					simulation.blocks[x][y].setID(129,0);
+					simulation.blocks[x][y].setID(13,0);
 				}
 			}
 		}
@@ -77,12 +77,12 @@ public class worldGenerator
 		{
 			if(rnd(getFirstBlock(x, 1),1,5,getFirstBlock(x, 1)))
 			{
-				simulation.blocks[x][getFirstBlock(x, 2)-1].setID(17,0);
-				simulation.blocks[x][getFirstBlock(x, 2)-2].setID(17,0);
-				simulation.blocks[x][getFirstBlock(x, 2)-3].setID(17,0);
-				simulation.blocks[x][getFirstBlock(x, 2)-4].setID(18,0);
-				simulation.blocks[x+1][getFirstBlock(x, 2)-3].setID(18,0);
-				simulation.blocks[x-1][getFirstBlock(x, 2)-3].setID(18,0);
+				simulation.blocks[x][getFirstBlock(x, 2)-1].setID(16,0);
+				simulation.blocks[x][getFirstBlock(x, 2)-2].setID(16,0);
+				simulation.blocks[x][getFirstBlock(x, 2)-3].setID(16,0);
+				simulation.blocks[x][getFirstBlock(x, 2)-4].setID(17,0);
+				simulation.blocks[x+1][getFirstBlock(x, 2)-3].setID(17,0);
+				simulation.blocks[x-1][getFirstBlock(x, 2)-3].setID(17,0);
 				x++;
 			}
 		}
@@ -95,28 +95,28 @@ public class worldGenerator
 			{
 				if(simulation.blocks[x][getFirstBlock(x, 2)-1].getID()==0)
 				{
-					simulation.blocks[x][getFirstBlock(x, 2)-1].setID(38,0);
+					simulation.blocks[x][getFirstBlock(x, 2)-1].setID(14,0);
 				}
 			}
 			if(rnd(getFirstBlock(x, 1),1,5,getFirstBlock(x, 1)))
 			{
 				if(simulation.blocks[x][getFirstBlock(x, 2)-1].getID()==0)
 				{
-					simulation.blocks[x][getFirstBlock(x, 2)-1].setID(38,5);
+					simulation.blocks[x][getFirstBlock(x, 2)-1].setID(14,1);
 				}
 			}
 			if(rnd(getFirstBlock(x, 1),1,5,getFirstBlock(x, 1)))
 			{
 				if(simulation.blocks[x][getFirstBlock(x, 2)-1].getID()==0)
 				{
-					simulation.blocks[x][getFirstBlock(x, 2)-1].setID(31,1);
+					simulation.blocks[x][getFirstBlock(x, 2)-1].setID(14,2);
 				}
 			}
 			if(rnd(getFirstBlock(x, 1),1,5,getFirstBlock(x, 1)))
 			{
 				if(simulation.blocks[x][getFirstBlock(x, 2)-1].getID()==0)
 				{
-					simulation.blocks[x][getFirstBlock(x, 2)-1].setID(175,5);
+					simulation.blocks[x][getFirstBlock(x, 2)-1].setID(15,0);
 				}
 			}
 		}

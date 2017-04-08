@@ -24,55 +24,25 @@ public class simulation {
 	static double velocity;
 	boolean la=false,ls=false,lw=false,ld=false;
 	static double speed = 0.12;
-	simulation() {
+	simulation() 
+	{
 		int dialogResult = JOptionPane.showConfirmDialog (null, "Would You Like to Load your Previous World?");
-		if(dialogResult == JOptionPane.YES_OPTION)
-		{
-			load=true;
-		}
-		if(dialogResult == JOptionPane.CANCEL_OPTION)
-		{
-			System.exit(0);
-		}
+		if(dialogResult == JOptionPane.YES_OPTION)load=true;
+		if(dialogResult == JOptionPane.CANCEL_OPTION)System.exit(0);
 		imageLoader.loadTextures();
 		player.setPy(-5);
 		player.setPx(0);
-		
 		for(int i=0; i<100000; i++)
 		{
-		particels[i] = new particel();
+			particels[i] = new particel();
 		}
 		for(int i=0; i<1000; i++)
 		{
 			items[i] = new item();
 			items[i].setAlive(false);
 		}
-		
-		if(load)
-		{
-			for(int x=0; x<1000; x++)
-			{
-				for(int y=0; y<256; y++)
-				{
-					blocks[x][y]=new block();
-					blocks[x][y].setX(x);
-					blocks[x][y].setY(y);
-					blocks[x][y].setID(0,0);
-				}
-			}
-			
-			load();
-			
-			for(int x=0; x<333; x++)
-			{
-				for(int y=0; y<75; y++)
-				{
-//					blocks[x][y].setID(b[x*3 * 75 +y*3]);
-//					blocks[x][y].setID(b[x*y]);
-					blocks[x][y].setID(b[x * 256 +y],b2[x * 256 +y]);
-				}
-			}
-		}else worldGenerator.generateWorld();
+		if(load)load();
+		else worldGenerator.generateWorld();
 		
 		minimap.createMap();
 		
@@ -83,32 +53,57 @@ public class simulation {
     {
     	DataInputStream dis = new DataInputStream(new java.util.zip.GZIPInputStream(new java.io.FileInputStream(new java.io.File("level.dat"))));
    		dis.readFully(b);
+   		dis.close();
    		DataInputStream dis2 = new DataInputStream(new java.util.zip.GZIPInputStream(new java.io.FileInputStream(new java.io.File("level2.dat"))));
    		dis2.readFully(b2);
-   		dis.close();
    		dis2.close();
     }
      catch (Exception e)
    {
        e.printStackTrace();
 		}
+     for(int x=0; x<1000; x++)
+		{
+			for(int y=0; y<256; y++)
+			{
+				blocks[x][y]=new block();
+				blocks[x][y].setX(x);
+				blocks[x][y].setY(y);
+				blocks[x][y].setID(0,0);
+			}
+		}
+		
+		for(int x=0; x<1000; x++)
+		{
+			for(int y=0; y<256; y++)
+			{
+				blocks[x][y].setID(b[x * 256 +y], 0);
+				blocks[x][y].setID2(b2[x * 256 +y]);
+			}
+		}
    }
 	public static void save()
-	  {
+	{
+		for (int i = 0; i < 1000; i++) {
+	        for (int j = 0; j < 256; j++) { 
+	            b[i * 256 + j]=(byte) (blocks[i][j].getID()); 
+	            b2[i * 256 + j]=(byte) (blocks[i][j].getID2()); 
+	        }
+	    }
 	   try    
 	   {
-	      java.io.DataOutputStream dos = new java.io.DataOutputStream(new java.util.zip.GZIPOutputStream(new java.io.FileOutputStream(new java.io.File("level.dat"))));
+	       java.io.DataOutputStream dos = new java.io.DataOutputStream(new java.util.zip.GZIPOutputStream(new java.io.FileOutputStream(new java.io.File("level.dat"))));
 	       dos.write(b);
+		   dos.close();
 	       java.io.DataOutputStream dos2 = new java.io.DataOutputStream(new java.util.zip.GZIPOutputStream(new java.io.FileOutputStream(new java.io.File("level2.dat"))));
 	       dos2.write(b2);
-	      dos.close();
-	      dos2.close();
-	     }
-	    catch (Exception e)
-	   {
-	      e.printStackTrace();
+	       dos2.close();
 	    }
-	 }
+	    catch (Exception e)
+	    {
+	       e.printStackTrace();
+	    }
+	}
 	public static int DisplayXtoBlockX(float X)
 	{
 		double px;
@@ -138,8 +133,7 @@ public class simulation {
 		
 	}
 	public static void draw(Graphics g)
-	{
-		
+	{	
 		if(mu>10){
 			mu=0;
 			minimap.createMap();
@@ -362,16 +356,8 @@ public class simulation {
 		velocity+=acceleration;
 		
 		if(keyboard.isEsc())
-		{
-			for (int i = 0; i < 1000; i++) {
-		        for (int j = 0; j < 256; j++) { 
-		            b[i * 256 + j]=(byte) (blocks[i][j].getID()); 
-		            b2[i * 256 + j]=(byte) (blocks[i][j].getID2()); 
-		        }
-		    }
-			
+		{	
 			save();
-			
 			System.exit(0);
 		}
 		if(!inventory.isOpen())
@@ -404,19 +390,23 @@ public class simulation {
 				p++;
 			}
 		}
-		p=0;
-		i=0;
-		while(p<1 && i<1000)
+		if(blocks[x1][y1].getDrop()!=0)
 		{
-			i++;
-			if(!items[i].isAlive())
+			p=0;
+			i=0;
+			while(p<1 && i<1000)
 			{
-				items[i].drop(blocks[x1][y1].getID(), x1+0.5, y1+0.5);
-				items[i].setVelocityX((Math.random()-0.5)/2);
-				items[i].setVelocityY(-0.25);
-				items[i].setAccelarationX(1.1);
-				items[i].setAccelarationY(1.1);
-				p++;
+				i++;
+				if(!items[i].isAlive())
+				{
+					System.out.println(blocks[x1][y1].getDrop());
+					items[i].drop(blocks[x1][y1].getDrop(), blocks[x1][y1].getDrop2(), x1+0.5, y1+0.5);
+					items[i].setVelocityX((Math.random()-0.5)/2);
+					items[i].setVelocityY(-0.25);
+					items[i].setAccelarationX(1.1);
+					items[i].setAccelarationY(1.1);
+					p++;
+				}
 			}
 		}
 		blocks[x1][y1].setID(0,0);	
@@ -439,10 +429,15 @@ public class simulation {
 					{
 						if(!checkCollision(x1, y1, inventory.slots[inventory.selected].getID()))
 						{
-							blocks[x1][y1].setID(inventory.getHandItem(),0);	
+							blocks[x1][y1].setID(inventory.getHandItem(),inventory.getHandItem2());		
 							inventory.slots[inventory.selected].setCount(inventory.slots[inventory.selected].getCount()-1);
 						}
 					}
+				}
+				if(blocks[x1][y1].getID()==18)
+				{
+					inventory.open=true;
+					inventory.container=1;
 				}
 			}
 		}
@@ -454,7 +449,7 @@ public class simulation {
 			{
 				if(blocks[x1][y1].getID()!=0)
 				{
-					if(blocks[x1][y1].getID()!=4)
+					if(blocks[x1][y1].getID()!=7)
 					{
 						breackBlock(x1, y1);
 					}
