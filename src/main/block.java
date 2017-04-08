@@ -7,6 +7,43 @@ public class block
 {
     int ID=0;
 	int ID2=0;
+	int destroyed=0;
+	int destroyTime=0;
+	int effectiveTool=0;
+	long time=System.nanoTime();
+	public long getDestroyTime(int tool)
+	{
+		if(effectiveTool==1)
+		{
+			if(tool==101)
+			{
+				return destroyTime/3;
+			}if(tool==106)
+			{
+				return destroyTime/5;
+			}
+		}if(effectiveTool==2)
+		{
+			if(tool==102)
+			{
+				return destroyTime/3;
+			}
+		}
+		
+		return destroyTime;
+	}
+	public long getTime() {
+		return time;
+	}
+	public void setTime(long time) {
+		this.time = time;
+	}
+	public int getDestroyed() {
+		return destroyed;
+	}
+	public void setDestroyed(int destroyed) {
+		this.destroyed = destroyed;
+	}
 	int lg=1;
 	int neededBlocks[]=new int[8];
 	static int size=15;
@@ -91,6 +128,7 @@ public class block
 			py=-246;
 		}else py= player.getPy();
 		g.drawImage(imageLoader.getTextures()[ID][rnd[ID]][ID2], (int)((x*frame.getWIDTH()/size)+px*frame.getWIDTH()/size), (int)((y*frame.getWIDTH()/size)+py*frame.getWIDTH()/size), frame.getWIDTH()/size+2, frame.getWIDTH()/size+2,null);
+		if(destroyed!=0)g.drawImage(imageLoader.DestroyStage[destroyed-1], (int)((x*frame.getWIDTH()/size)+px*frame.getWIDTH()/size), (int)((y*frame.getWIDTH()/size)+py*frame.getWIDTH()/size), frame.getWIDTH()/size+2, frame.getWIDTH()/size+2,null);
 		if(mark)g.fillRect((int)((x*frame.getWIDTH()/size)+player.getPx()*frame.getWIDTH()/size), (int)((y*frame.getWIDTH()/size)+player.getPy()*frame.getWIDTH()/size), frame.getWIDTH()/size+2, frame.getWIDTH()/size+2);
 	}
 	public int getID2() {
@@ -166,6 +204,19 @@ public class block
 	}
 	public void setID(int id, int id2)
 	{
+		if(id==1)
+		{
+			destroyTime=500000000;
+			effectiveTool=1;
+		}
+		if(id==2||id==3)
+		{
+			destroyTime=100000000;
+			effectiveTool=2;
+		}
+		
+		
+		
 		
 		if(id==0&&ID==16)
 		{

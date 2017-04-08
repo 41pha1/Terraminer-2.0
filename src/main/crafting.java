@@ -34,7 +34,7 @@ public class crafting
 	{
 		if(container==0)
 		{
-			for(int i=0; i<16; i++)
+			for(int i=0; i<256; i++)
 			{
 				if(recipies2x2[i].isShaped())
 				{
@@ -44,7 +44,7 @@ public class crafting
 		}
 		else if(container==1)
 		{
-			for(int i=0; i<16; i++)
+			for(int i=0; i<256; i++)
 			{
 				if(recipies3x3[i].isShaped())
 				{
@@ -58,7 +58,7 @@ public class crafting
 	{
 		if(container==0)
 		{
-			for(int i=0; i<16; i++)
+			for(int i=0; i<256; i++)
 			{
 				if(recipies2x2[i].isShaped())
 				{
@@ -71,7 +71,7 @@ public class crafting
 			}return 0;	
 		}else if(container==1)
 		{
-			for(int i=0; i<16; i++)
+			for(int i=0; i<256; i++)
 			{
 				if(recipies3x3[i].isShaped())
 				{

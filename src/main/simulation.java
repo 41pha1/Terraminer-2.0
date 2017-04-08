@@ -410,6 +410,7 @@ public class simulation {
 			}
 		}
 		blocks[x1][y1].setID(0,0);	
+		blocks[x1][y1].setDestroyed(0);
 	}	
 	public static void updateMouse()
 	{
@@ -417,10 +418,10 @@ public class simulation {
 		if(inventory.getSelected()>8)inventory.setSelected((byte) 0);
 		if(inventory.getSelected()<0)inventory.setSelected((byte) 8);
 		keyboard.setSa(0);
+		int x1=DisplayXtoBlockX(keyboard.getMx());
+		int y1=DisplayYtoBlockY(keyboard.getMy()-(frame.getWIDTH()/block.size)/2);
 		if(keyboard.isRbutton())
 		{
-			int x1=DisplayXtoBlockX(keyboard.getMx());
-			int y1=DisplayYtoBlockY(keyboard.getMy()-(frame.getWIDTH()/block.size)/2);
 			if(x1>=0&&y1>=0)
 			{
 				if(blocks[x1][y1].getID()==0)
@@ -441,18 +442,43 @@ public class simulation {
 				}
 			}
 		}
+		for(int x=0; x<256; x++)
+		{
+			for(int y=0; y<256; y++)
+			{
+				if(x!=x1||y!=y1)
+				{
+					blocks[x][y].setDestroyed(0);
+				}
+			}
+		}
 		if(keyboard.isLbutton())
 		{
-			int x1=DisplayXtoBlockX(keyboard.getMx());
-			int y1=DisplayYtoBlockY(keyboard.getMy()-(frame.getWIDTH()/block.size)/2);
 			if(x1>=0&&y1>=0)
 			{
 				if(blocks[x1][y1].getID()!=0)
 				{
 					if(blocks[x1][y1].getID()!=7)
 					{
-						breackBlock(x1, y1);
+						if((System.nanoTime()-blocks[x1][y1].getTime())>blocks[x1][y1].getDestroyTime(inventory.getHandItem()))
+						{
+							blocks[x1][y1].setTime(System.nanoTime());
+							blocks[x1][y1].setDestroyed(blocks[x1][y1].getDestroyed()+1);
+						}
+						if(blocks[x1][y1].getDestroyed()>9)
+						{
+							breackBlock(x1, y1);
+						}
 					}
+				}
+			}
+		}else 
+		{
+			for(int x=0; x<256; x++)
+			{
+				for(int y=0; y<256; y++)
+				{
+					blocks[x][y].setDestroyed(0);
 				}
 			}
 		}

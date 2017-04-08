@@ -8,6 +8,7 @@ import javax.imageio.ImageIO;
 
 public class imageLoader {
 	public static BufferedImage[][][] Textures = new BufferedImage[128][16][32];
+	public static BufferedImage[] DestroyStage = new BufferedImage[10];
 	public static BufferedImage skin,sky,mb,gui, sel, inv, crafting;
 
 	public static void loadTextures() 
@@ -43,6 +44,16 @@ public class imageLoader {
 		saveTexture(108,0,"stone_sword");
 		saveTexture(109,0,"stone_hoe");
 		saveTexture(110,0,"stone_axe");
+		DestroyStage[0]=getImage("destroy_stage_0");
+		DestroyStage[1]=getImage("destroy_stage_1");
+		DestroyStage[2]=getImage("destroy_stage_2");
+		DestroyStage[3]=getImage("destroy_stage_3");
+		DestroyStage[4]=getImage("destroy_stage_4");
+		DestroyStage[5]=getImage("destroy_stage_5");
+		DestroyStage[6]=getImage("destroy_stage_6");
+		DestroyStage[7]=getImage("destroy_stage_7");
+		DestroyStage[8]=getImage("destroy_stage_8");
+		DestroyStage[9]=getImage("destroy_stage_9");
 		skin=getImage("skin");	
 		sky=getImage("sky");
 		mb=getImage("mb");
