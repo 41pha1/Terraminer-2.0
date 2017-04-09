@@ -4,11 +4,12 @@ import java.util.Random;
 
 public class worldGenerator 
 {
+	public static float[][]noise1;
 	public static float[][]noise;
 	
 	public static void generateTerrain()
 	{
-		noise=simplexNoise.generateNoise(256,5);
+		noise1=simplexNoise.generateNoise(256,5,0.5f);
 		for(int x=0; x<256; x++)
 		{	
 			for(int y=0; y<256; y++)
@@ -16,19 +17,19 @@ public class worldGenerator
 				simulation.blocks[x][y] = new block();
 				simulation.blocks[x][y].setX(x);
 				simulation.blocks[x][y].setY(y);
-				simulation.blocks[x][y].setID(0,0);
+				simulation.blocks[x][y].setID(item.AIR,0);
 				
-				if(y>(int)((noise[x][0]+1)*10)+50) {
-					simulation.blocks[x][y].setID(2,0);
+				if(y>(int)((noise1[x][0]+1)*10)+50) {
+					simulation.blocks[x][y].setID(item.GRASS,0);
 				}
-				if(y>(int)((noise[x][0]+1)*10)+51) {
-					simulation.blocks[x][y].setID(3,0);
+				if(y>(int)((noise1[x][0]+1)*10)+51) {
+					simulation.blocks[x][y].setID(item.DIRT,0);
 				}
-				if(y>(int)((noise[x][4]+1)*10)+54) {
-					simulation.blocks[x][y].setID(1,0);
+				if(y>(int)((noise1[x][4]+1)*10)+54) {
+					simulation.blocks[x][y].setID(item.STONE,0);
 				}
 				if(y>253) {
-					simulation.blocks[x][y].setID(7,0);
+					simulation.blocks[x][y].setID(item.BEDROCK,0);
 				}
 			}
 		}
@@ -39,36 +40,43 @@ public class worldGenerator
 		{	
 			for(int y=0; y<256; y++)
 			{
-				if(rnd(y, 10, 80, 120)&&simulation.blocks[x][y].getID()==1)
+				if(rnd(y, 10, 80, 120)&&simulation.blocks[x][y].getID()==item.STONE)
 				{
-					simulation.blocks[x][y].setID(8,0);
+					simulation.blocks[x][y].setID(item.COAL_ORE,0);
 				}
-				if(rnd(y, 3, 40, 160)&&simulation.blocks[x][y].getID()==1)
+				if(rnd(y, 3, 40, 160)&&simulation.blocks[x][y].getID()==item.STONE)
 				{
-					simulation.blocks[x][y].setID(9,0);
+					simulation.blocks[x][y].setID(item.IRON_ORE,0);
 				}
-				if(rnd(y, 1, 30, 200)&&simulation.blocks[x][y].getID()==1)
+				if(rnd(y, 1, 30, 200)&&simulation.blocks[x][y].getID()==item.STONE)
 				{
-					simulation.blocks[x][y].setID(11,0);
+					simulation.blocks[x][y].setID(item.REDSTONE_ORE,0);
 				}
-				if(rnd(y, 0.2, 30, 200)&&simulation.blocks[x][y].getID()==1)
+				if(rnd(y, 0.2, 30, 200)&&simulation.blocks[x][y].getID()==item.STONE)
 				{
-					simulation.blocks[x][y].setID(10,0);
+					simulation.blocks[x][y].setID(item.DIAMOND_ORE,0);
 				}
-				if(rnd(y, 1, 50, 120)&&simulation.blocks[x][y].getID()==1)
+				if(rnd(y, 1, 50, 120)&&simulation.blocks[x][y].getID()==item.STONE)
 				{
-					simulation.blocks[x][y].setID(12,0);
+					simulation.blocks[x][y].setID(item.LAPIS_ORE,0);
 				}
-				if(rnd(y, 1, 90, 200)&&simulation.blocks[x][y].getID()==1)
+				if(rnd(y, 1, 90, 200)&&simulation.blocks[x][y].getID()==item.STONE)
 				{
-					simulation.blocks[x][y].setID(13,0);
+					simulation.blocks[x][y].setID(item.LAPIS_ORE,0);
 				}
 			}
 		}
 	}
 	public static void generateCaves()
 	{
-		
+		noise=simplexNoise.generateNoise(256,1,0.5f);
+		for(int x=0; x<256; x++)
+		{
+			simulation.blocks[x][(int)((noise[x][0]+1)*50)+50].setID(item.AIR,0);
+			simulation.blocks[x][(int)((noise[x][0]+1)*50)+51].setID(item.AIR,0);
+			simulation.blocks[x][(int)((noise[x][0]+1)*50)+52].setID(item.AIR,0);
+			simulation.blocks[x][(int)((noise[x][0]+1)*50)+53].setID(item.AIR,0);
+		}
 	}
 	public static void generateOverworld()
 	{
@@ -79,7 +87,7 @@ public class worldGenerator
 	{
 		for(int x=1; x<255; x++)
 		{
-			if(rnd(getFirstBlock(x, 0),2,5,getFirstBlock(x, 0)))
+			if(rnd(getFirstBlock(x, item.AIR),2,5,getFirstBlock(x, item.AIR)))
 			{
 				generateTree(x, getFirstBlock(x, 2), (int)((Math.random()*3)));
 				x++;
@@ -88,43 +96,43 @@ public class worldGenerator
 	}
 	public static void generateTree(int x, int y, int id2)
 	{
-		simulation.blocks[x][y-1].setID(16,id2);
-		simulation.blocks[x][y-2].setID(16,id2);
-		simulation.blocks[x][y-3].setID(16,id2);
-		simulation.blocks[x][y-4].setID(17,id2);
-		simulation.blocks[x+1][y-3].setID(17,id2);
-		simulation.blocks[x-1][y-3].setID(17,id2);
+		simulation.blocks[x][y-1].setID(item.LOG,id2);
+		simulation.blocks[x][y-2].setID(item.LOG,id2);
+		simulation.blocks[x][y-3].setID(item.LOG,id2);
+		simulation.blocks[x][y-4].setID(item.LEAVE,id2);
+		simulation.blocks[x+1][y-3].setID(item.LEAVE,id2);
+		simulation.blocks[x-1][y-3].setID(item.LEAVE,id2);
 	}
 	public static void generatePlants()
 	{
 		for(int x=0; x<255; x++)
 		{
-			if(rnd(getFirstBlock(x, 1),1,5,getFirstBlock(x, 1)))
+			if(rnd(getFirstBlock(x, item.AIR),1,5,getFirstBlock(x, item.AIR)))
 			{
-				if(simulation.blocks[x][getFirstBlock(x, 0)].getID()==2||simulation.blocks[x][getFirstBlock(x, 0)].getID()==3)
+				if(simulation.blocks[x][getFirstBlock(x, item.AIR)].getID()==item.GRASS||simulation.blocks[x][getFirstBlock(x, item.AIR)].getID()==item.DIRT)
 				{
-					simulation.blocks[x][getFirstBlock(x, 0)-1].setID(14,0);
+					simulation.blocks[x][getFirstBlock(x, item.AIR)-1].setID(item.FLOWER,0);
 				}
 			}
-			if(rnd(getFirstBlock(x, 1),1,5,getFirstBlock(x, 1)))
+			if(rnd(getFirstBlock(x, item.AIR),1,5,getFirstBlock(x, item.AIR)))
 			{
-				if(simulation.blocks[x][getFirstBlock(x, 0)].getID()==2||simulation.blocks[x][getFirstBlock(x, 0)].getID()==3)
+				if(simulation.blocks[x][getFirstBlock(x, item.AIR)].getID()==item.GRASS||simulation.blocks[x][getFirstBlock(x, item.AIR)].getID()==item.DIRT)
 				{
-					simulation.blocks[x][getFirstBlock(x, 0)-1].setID(14,1);
+					simulation.blocks[x][getFirstBlock(x, item.AIR)-1].setID(item.FLOWER,1);
 				}
 			}
-			if(rnd(getFirstBlock(x, 1),1,5,getFirstBlock(x, 1)))
+			if(rnd(getFirstBlock(x, item.AIR),1,5,getFirstBlock(x, item.AIR)))
 			{
-				if(simulation.blocks[x][getFirstBlock(x, 0)].getID()==2||simulation.blocks[x][getFirstBlock(x, 0)].getID()==3)
+				if(simulation.blocks[x][getFirstBlock(x, item.AIR)].getID()==item.GRASS||simulation.blocks[x][getFirstBlock(x, item.AIR)].getID()==item.DIRT)
 				{
-					simulation.blocks[x][getFirstBlock(x, 0)-1].setID(14,2);
+					simulation.blocks[x][getFirstBlock(x, item.AIR)-1].setID(item.FLOWER,2);
 				}
 			}
-			if(rnd(getFirstBlock(x, 1),1,5,getFirstBlock(x, 1)))
+			if(rnd(getFirstBlock(x, item.AIR),1,5,getFirstBlock(x, item.AIR)))
 			{
-				if(simulation.blocks[x][getFirstBlock(x, 0)].getID()==2||simulation.blocks[x][getFirstBlock(x, 0)].getID()==3)
+				if(simulation.blocks[x][getFirstBlock(x, item.AIR)].getID()==item.GRASS||simulation.blocks[x][getFirstBlock(x, item.AIR)].getID()==item.DIRT)
 				{
-					simulation.blocks[x][getFirstBlock(x, 0)-1].setID(15,0);
+					simulation.blocks[x][getFirstBlock(x, item.AIR)-1].setID(item.TALLGRASS,0);
 				}
 			}
 		}
@@ -139,11 +147,11 @@ public class worldGenerator
 	}
 	public static int getFirstBlock(int x, int id)
 	{	
-		if(id==0)
+		if(id==item.AIR)
 		{
 			for(int y=0; y<256; y++)
 			{
-				if(simulation.blocks[x][y].getID()!=0)
+				if(simulation.blocks[x][y].getID()!=item.AIR)
 				{
 					return y;
 				}

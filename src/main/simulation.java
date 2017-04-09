@@ -68,7 +68,7 @@ public class simulation {
    {
        e.printStackTrace();
 		}
-     for(int x=0; x<1000; x++)
+     for(int x=0; x<256; x++)
 		{
 			for(int y=0; y<256; y++)
 			{
@@ -79,7 +79,7 @@ public class simulation {
 			}
 		}
 		
-		for(int x=0; x<1000; x++)
+		for(int x=0; x<256; x++)
 		{
 			for(int y=0; y<256; y++)
 			{
@@ -90,7 +90,7 @@ public class simulation {
    }
 	public static void save()
 	{
-		for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < 256; i++) {
 	        for (int j = 0; j < 256; j++) { 
 	            b[i * 256 + j]=(byte) (blocks[i][j].getID()); 
 	            b2[i * 256 + j]=(byte) (blocks[i][j].getID2()); 
@@ -415,7 +415,7 @@ public class simulation {
 				}
 			}
 		}
-		blocks[x1][y1].setID(0,0);	
+		blocks[x1][y1].setID(item.AIR,0);	
 		blocks[x1][y1].setDestroyed(0);
 	}	
 	public static void updateMouse()
@@ -430,9 +430,9 @@ public class simulation {
 		{
 			if(x1>=0&&y1>=0)
 			{
-				if(blocks[x1][y1].getID()==0)
+				if(blocks[x1][y1].getID()==item.AIR)
 				{
-					if(inventory.slots[inventory.selected].getID()!=0)
+					if(inventory.slots[inventory.selected].getID()!=item.AIR)
 					{
 						if(!checkCollision(x1, y1, inventory.slots[inventory.selected].getID()))
 						{
@@ -441,12 +441,12 @@ public class simulation {
 						}
 					}
 				}
-				if(blocks[x1][y1].getID()==18)
+				if(blocks[x1][y1].getID()==item.CRAFTING_TABLE)
 				{
 					inventory.open=true;
 					inventory.container=1;
 				}
-				if(blocks[x1][y1].getID()==20)
+				if(blocks[x1][y1].getID()==item.FURNACE)
 				{
 					inventory.open=true;
 					inventory.container=2;
@@ -467,9 +467,9 @@ public class simulation {
 		{
 			if(x1>=0&&y1>=0)
 			{
-				if(blocks[x1][y1].getID()!=0)
+				if(blocks[x1][y1].getID()!=item.AIR)
 				{
-					if(blocks[x1][y1].getID()!=7)
+					if(blocks[x1][y1].getID()!=item.BEDROCK)
 					{
 						if(blocks[x1][y1].getDestroyTime(inventory.getHandItem())==0)
 						{

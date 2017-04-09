@@ -285,7 +285,7 @@ public class inventory
 	{
 		for(int x=0; x<47; x++)
 		{	
-			slots[x]=new slot(0,0);
+			slots[x]=new slot(4,1);
 		}
 		slots[0].setID(18);
 		slots[0].setCount(1);
@@ -296,9 +296,15 @@ public class inventory
 	}
 	public static void updateCrafting()
 	{
-		slots[46].setID(crafting.checkCrafting(slots[37].getID(), slots[38].getID(), slots[39].getID(), slots[40].getID(), slots[41].getID(), slots[42].getID(), slots[43].getID(), slots[44].getID(), slots[45].getID(),  container));
-//		slots[46].setID(crafting.checkCrafting2(slots[37].getID(), slots[38].getID(), slots[39].getID(), slots[40].getID(), slots[41].getID(), slots[42].getID(), slots[43].getID(), slots[44].getID(), slots[45].getID(),  container));
-		slots[46].setCount(crafting.checkCount(slots[37].getID(), slots[38].getID(), slots[39].getID(), slots[40].getID(), slots[41].getID(), slots[42].getID(), slots[43].getID(), slots[44].getID(), slots[45].getID(),  container));
+		if(container==0||container==1)
+		{
+			slots[46].setID(crafting.checkCrafting(slots[37].getID(), slots[38].getID(), slots[39].getID(), slots[40].getID(), slots[41].getID(), slots[42].getID(), slots[43].getID(), slots[44].getID(), slots[45].getID(),  container));
+//			slots[46].setID(crafting.checkCrafting2(slots[37].getID(), slots[38].getID(), slots[39].getID(), slots[40].getID(), slots[41].getID(), slots[42].getID(), slots[43].getID(), slots[44].getID(), slots[45].getID(),  container));
+			slots[46].setCount(crafting.checkCount(slots[37].getID(), slots[38].getID(), slots[39].getID(), slots[40].getID(), slots[41].getID(), slots[42].getID(), slots[43].getID(), slots[44].getID(), slots[45].getID(),  container));
+		}if(container==2)
+		{
+			slots[46].setID(crafting.checkCrafting(slots[37].getID(), slots[38].getID(), slots[39].getID(), slots[40].getID(), slots[41].getID(), slots[42].getID(), slots[43].getID(), slots[44].getID(), slots[45].getID(),  container));  
+		}
 	}
 	public static void drop(int id, int id2, int count)
 	{
@@ -439,6 +445,37 @@ public class inventory
 				return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+40+(slot-40)*35;
 			}
 		}
+		if(container==2)
+		{
+			if(slot<9)
+			{
+				return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+24+slot*35;
+			}
+			if(slot<18)
+			{
+				return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+24+(slot-9)*35;
+			}
+			if(slot<27)
+			{
+				return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+24+(slot-18)*35;
+			}
+			if(slot<36)
+			{
+				return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+24+(slot-27)*35;
+			}
+			if(slot<38)
+			{
+				return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+10+(slot-34)*35;
+			}
+			if(slot<39)
+			{
+				return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+10+(slot-35)*35;
+			}
+			if(slot==46)
+			{
+				return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+24+(slot-40)*35;
+			}
+		}
 		return 0;
 	}
 	public static int getDrawPosY(int slot)
@@ -506,6 +543,37 @@ public class inventory
 			if(slot<47)
 			{
 				return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+75;
+			}
+		}
+		if(container==2)
+		{
+			if(slot<9)
+			{
+				return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+287;
+			}
+			if(slot<18)
+			{
+				return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+174;
+			}
+			if(slot<27)
+			{
+				return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+209;
+			}
+			if(slot<36)
+			{
+				return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+244;
+			}
+			if(slot<38)
+			{
+				return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+38;
+			}
+			if(slot<39)
+			{
+				return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+108;
+			}
+			if(slot==46)
+			{
+				return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+70;
 			}
 		}
 		return 0;

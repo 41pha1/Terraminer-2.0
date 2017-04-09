@@ -225,22 +225,22 @@ public class block
 	}
 	public void setID(int id, int id2)
 	{
-		if(id==1||id==4||id==8||id==10||id==11||id==12||id==13)
+		if(id==item.STONE||id==item.COBBLE||id==item.COAL_ORE||id==item.IRON_ORE||id==item.REDSTONE_ORE||id==item.DIAMOND_ORE||id==item.EMERALD_ORE||id==item.LAPIS_ORE||id==item.FURNACE)
 		{
 			destroyTime=500000000;
 			effectiveTool=1;
 		}
-		if(id==2||id==3)
+		if(id==item.GRASS||id==item.DIRT)
 		{
 			destroyTime=100000000;
 			effectiveTool=2;
 		}
-		if(id==14||id==15)
+		if(id==item.FLOWER||id==item.TALLGRASS||id==item.LEAVE)
 		{
 			destroyTime=0;
 			effectiveTool=0;
 		}
-		if(id==16||id==5||id==18)
+		if(id==item.LOG||id==item.PLANKS||id==item.CRAFTING_TABLE)
 		{
 			destroyTime=300000000;
 			effectiveTool=3;
@@ -249,7 +249,7 @@ public class block
 		
 		
 		
-		if(id==0&&ID==16)
+		if(id==item.AIR&&ID==item.LOG)
 		{
 			simulation.blocks[x+1][y].setLg(0);
 			simulation.blocks[x-1][y].setLg(0);
@@ -257,7 +257,7 @@ public class block
 			simulation.blocks[x][y-1].setLg(0);
 		}
 		
-		if(id==0||id==19||id==14||id==15||id==16||id==17||id==18||id==20)
+		if(id==item.AIR||id==item.SAPLING||id==item.FLOWER||id==item.TALLGRASS||id==item.LOG||id==item.LEAVE||id==item.CRAFTING_TABLE||id==item.FURNACE)
 		{
 			setCollision(false);
 			setBackground(true);
@@ -268,7 +268,7 @@ public class block
 		}
 		
 		
-		if((id==14 && id2==0)||id==19||(id==14 && id2==1)||(id==14&&id2==2)||(id==15&&id2==0))
+		if((id==item.FLOWER && id2==item.AIR)||id==item.SAPLING||id==item.FLOWER||id==item.TALLGRASS)
 		{
 			if(Math.random()>0.5)
 			{
@@ -278,22 +278,20 @@ public class block
 			{
 				setBackground(false);
 			}
-			neededBlocks[0]=2;
-			neededBlocks[1]=3;
-			neededBlocks[2]=3;
+			neededBlocks[0]=item.GRASS;
+			neededBlocks[1]=item.DIRT;
+			neededBlocks[2]=item.DIRT;
 			setNeedsBlock(true);
 			
 		}else
 		{
 			setNeedsBlock(false);
-		}if(id==16||id==17)
+		}
+		if(id==item.LOG)
 		{
-			setBackground(true);
-		}if(id==16)
-		{
-			neededBlocks[0]=2;
-			neededBlocks[1]=3;
-			neededBlocks[2]=16;
+			neededBlocks[0]=item.GRASS;
+			neededBlocks[1]=item.DIRT;
+			neededBlocks[2]=item.LOG;
 			setNeedsBlock(true);
 		}
 		ID=id;

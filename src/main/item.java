@@ -13,6 +13,14 @@ public class item
 	double accelarationX, accelarationY, accelarationF=0.001;
 	double lastposX, lastposY;
 	double cantcollect;
+	public static final int AIR=0, STONE=1, GRASS=2, DIRT=3, COBBLE=4, 
+		PLANKS=5, BEDROCK=7, COAL_ORE=8, IRON_ORE=9, DIAMOND_ORE=10, REDSTONE_ORE=11, 
+		LAPIS_ORE=12, EMERALD_ORE=13, FLOWER=14, TALLGRASS=15, LOG=16, LEAVE=17, 
+		CRAFTING_TABLE=18, SAPLING=19, FURNACE=20, STICK=100, WOOD_PICKAXE=101, WOOD_SHOVEL=102, 
+		WOOD_SWORD=103, WOOD_HOE=104, WOOD_AXE=105, STONE_PICKAXE=106, STONE_SHOVEL=107, 
+		STONE_SWORD=108, STONE_HOE=109, STONE_AXE=110, COAL=111, REDSTONE=112, 
+		DIAMOND=113, EMERALD=114, DYE=115;
+	
 	public double getCantcollect() {
 		return cantcollect;
 	}
@@ -93,7 +101,6 @@ public class item
 				}
 				else
 				{
-					
 					if(simulation.blocks[x][y].isCollision())
 					{	
 						double x1,x2,y1,y2,w1,w2,h1,h2;

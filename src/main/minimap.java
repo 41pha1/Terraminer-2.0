@@ -27,36 +27,40 @@ public class minimap
 	{
 		map=new BufferedImage(size, size, BufferedImage.TYPE_INT_RGB);
 		Graphics g= map.getGraphics();
-		noise=simplexNoise.generateNoise(400, 1);
 		
-		for(int x=0; x<400; x++)
-		{
-			for(int y=0; y<1; y++)
-			{
-				g.setColor(getColor(noise[x][y]));
-				g.fillRect(x, y, 1, 400);
-			}
-		}
-//		int x1=simulation.DisplayXtoBlockX(frame.getWIDTH()/2)-30, 
-//				x2=simulation.DisplayXtoBlockX(frame.getWIDTH()/2)+30, 
-//					
-//				y1=simulation.DisplayYtoBlockY(frame.getWIDTH()/2)-30, 
-//				y2=simulation.DisplayYtoBlockY(frame.getWIDTH()/2)+30;
-//				
-//				
-//				if(x1<0)x1=0;
-//				if(x2>255)x2=255;
-//				if(y1<0)y1=0;
-//				if(y2>255)y2=255;
-//				
-//				for(int x=0; x<x2; x++)
-//				{
-//					for(int y=0; y<y2; y++)
-//					{
-//						if(y<simulation.blocks[x].length)
-//						simulation.getBlocks()[x][y].drawMinimap(g, x1, y1);
-//					}
-//				}
+		
+//		noise=simplexNoise.generateNoise(400, 1);
+//		noise=worldGenerator.noise1;
+//		
+//		for(int x=0; x<256; x++)
+//		{
+//			for(int y=0; y<1; y++)
+//			{
+//				g.setColor(getColor(noise[x][y]));
+//				g.fillRect(x, y, 1, 400);
+//			}
+//		}
+//		
+		int x1=simulation.DisplayXtoBlockX(frame.getWIDTH()/2)-30, 
+				x2=simulation.DisplayXtoBlockX(frame.getWIDTH()/2)+30, 
+					
+				y1=simulation.DisplayYtoBlockY(frame.getWIDTH()/2)-30, 
+				y2=simulation.DisplayYtoBlockY(frame.getWIDTH()/2)+30;
+				
+				
+				if(x1<0)x1=0;
+				if(x2>255)x2=255;
+				if(y1<0)y1=0;
+				if(y2>255)y2=255;
+				
+				for(int x=0; x<x2; x++)
+				{
+					for(int y=0; y<y2; y++)
+					{
+						if(y<simulation.blocks[x].length)
+						simulation.getBlocks()[x][y].drawMinimap(g, x1, y1);
+					}
+				}
 	}
 	public static int getZoom() {
 		return zoom;

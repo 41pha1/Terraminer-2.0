@@ -14,6 +14,13 @@ public class craftingRecipie {
 	int r1;
 	int c1;
 
+	craftingRecipie(int S1, int R1, int C1) 
+	{
+		s1=S1;
+		r1=R1;
+		c1=C1;
+	}
+	
 	craftingRecipie(int S1, int S2, int S3, int S4, int R1, int C1, boolean shpd) {
 		s1 = S1;
 		s2 = S2;
