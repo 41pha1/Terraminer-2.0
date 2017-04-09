@@ -43,6 +43,12 @@ public class simulation {
 		}
 		if(load)load();
 		else worldGenerator.generateWorld();
+		while(!checkCollision())
+		{
+			player.setPy(player.getPy()-1);
+			System.out.println("lol");
+		}
+		
 		
 		minimap.createMap();
 		
@@ -440,6 +446,11 @@ public class simulation {
 					inventory.open=true;
 					inventory.container=1;
 				}
+				if(blocks[x1][y1].getID()==20)
+				{
+					inventory.open=true;
+					inventory.container=2;
+				}
 			}
 		}
 		for(int x=0; x<256; x++)
@@ -460,14 +471,20 @@ public class simulation {
 				{
 					if(blocks[x1][y1].getID()!=7)
 					{
-						if((System.nanoTime()-blocks[x1][y1].getTime())>blocks[x1][y1].getDestroyTime(inventory.getHandItem()))
+						if(blocks[x1][y1].getDestroyTime(inventory.getHandItem())==0)
 						{
-							blocks[x1][y1].setTime(System.nanoTime());
-							blocks[x1][y1].setDestroyed(blocks[x1][y1].getDestroyed()+1);
-						}
-						if(blocks[x1][y1].getDestroyed()>9)
+							breackBlock(x1,y1);
+						}else
 						{
-							breackBlock(x1, y1);
+							if((System.nanoTime()-blocks[x1][y1].getTime())>blocks[x1][y1].getDestroyTime(inventory.getHandItem()))
+							{
+								blocks[x1][y1].setTime(System.nanoTime());
+								blocks[x1][y1].setDestroyed(blocks[x1][y1].getDestroyed()+1);
+							}
+							if(blocks[x1][y1].getDestroyed()>9)
+							{
+								breackBlock(x1, y1);
+							}
 						}
 					}
 				}

@@ -22,14 +22,21 @@ public class block
 			{
 				return destroyTime/5;
 			}
-		}if(effectiveTool==2)
+		}
+		if(effectiveTool==2)
 		{
 			if(tool==102)
 			{
 				return destroyTime/3;
 			}
 		}
-		
+		if(effectiveTool==3)
+		{
+			if(tool==105)
+			{
+				return destroyTime/2;
+			}
+		}
 		return destroyTime;
 	}
 	public long getTime() {
@@ -70,6 +77,11 @@ public class block
 	{
 		if(ID==2)return 3;
 		if(ID==1)return 4;
+		if(ID==8)return 111;
+		if(ID==10)return 113;
+		if(ID==11)return 112;
+		if(ID==13)return 114;
+		if(ID==12)return 115;
 		if(ID==17)
 		{
 			if(Math.random()>0.5)return 19;
@@ -79,10 +91,19 @@ public class block
 	}
 	public int getDrop2()
 	{
+		if(ID==12)return 11;
+		if(ID==20)return 0;
 		return ID2;
 	}
 	public void update()
 	{
+		if(ID==19)
+		{
+			if(Math.random()>0.9995)
+			{
+				worldGenerator.generateTree(x,y+1,ID2);
+			}
+		}
 		if(ID==17)
 		{
 			if(Math.random()>0.9995)
@@ -137,13 +158,13 @@ public class block
 	public void setID2(int iD2) {
 		ID2 = iD2;
 	}
-	public void drawMinimap(Graphics g)
+	public void drawMinimap(Graphics g, int x1, int y1)
 	{
 		g.setColor(getTextureColor());
-		g.fillRect(x*(minimap.size/(simulation.blocks.length/minimap.zoom)),y*(minimap.size/(simulation.blocks.length/minimap.zoom)), minimap.size/(simulation.blocks.length/minimap.zoom), minimap.size/(simulation.blocks.length/minimap.zoom));
+		g.fillRect((x-x1+30)*(minimap.size/(simulation.blocks.length/minimap.zoom)),(y-y1+15)*(minimap.size/(simulation.blocks.length/minimap.zoom)), minimap.size/(simulation.blocks.length/minimap.zoom), minimap.size/(simulation.blocks.length/minimap.zoom));
 	}
 	
-	public static int getSize() {
+	public static int getSize(){
 		return size;
 	}
 	public Color getRandomTextureColor()
@@ -204,7 +225,7 @@ public class block
 	}
 	public void setID(int id, int id2)
 	{
-		if(id==1)
+		if(id==1||id==4||id==8||id==10||id==11||id==12||id==13)
 		{
 			destroyTime=500000000;
 			effectiveTool=1;
@@ -213,6 +234,16 @@ public class block
 		{
 			destroyTime=100000000;
 			effectiveTool=2;
+		}
+		if(id==14||id==15)
+		{
+			destroyTime=0;
+			effectiveTool=0;
+		}
+		if(id==16||id==5||id==18)
+		{
+			destroyTime=300000000;
+			effectiveTool=3;
 		}
 		
 		
@@ -226,9 +257,10 @@ public class block
 			simulation.blocks[x][y-1].setLg(0);
 		}
 		
-		if(id==0||id==19||id==14||id==15||id==16||id==17)
+		if(id==0||id==19||id==14||id==15||id==16||id==17||id==18||id==20)
 		{
 			setCollision(false);
+			setBackground(true);
 		}else 
 		{
 			setCollision(true);
@@ -254,7 +286,6 @@ public class block
 		}else
 		{
 			setNeedsBlock(false);
-			setBackground(false);
 		}if(id==16||id==17)
 		{
 			setBackground(true);

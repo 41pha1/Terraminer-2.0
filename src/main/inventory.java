@@ -11,13 +11,13 @@ public class inventory
 	public static byte selected=0;
 	public static int container=0;
 	public static boolean open=false, pickedUp=false;
-	public final static int FULL=-1, NO_SLOT_SELECTED=-1;
+	public final static int FULL=-1, NO_SLOT_SELECTED=-1, OUT_OF_INVENTORY=-2;
 	public static boolean isOpen() {
 		return open;
 	}
 	public static void pickUp(int slot)
 	{
-		if(getSlotFromMouse(keyboard.mx, keyboard.my)!=NO_SLOT_SELECTED)
+		if((slot!=NO_SLOT_SELECTED)&&(slot!=OUT_OF_INVENTORY))
 		{
 			if(slot==46)
 			{
@@ -27,16 +27,26 @@ public class inventory
 					{
 						if(slots[slot].getCount()>0)
 						{
-							int oldID, oldID2, oldCount;
+							int oldID, oldID2, oldCount, oldCount2;
 							oldID=slots[slot].getID();
 							oldID2=slots[slot].getID2();
-							oldCount=slots[slot].getCount();	
 							int ffs=getFirstSlot(oldID, oldID2);
-							slots[slot].setID(0);
+							oldCount=slots[ffs].getCount();	
+							oldCount2=slots[slot].getCount();	
 							slots[ffs].setID(oldID);
 							slots[ffs].setID2(oldID2);
-							slots[slot].setCount(0);
-							slots[ffs].setCount(slots[ffs].getCount()+oldCount);
+							if(slots[ffs].getCount()+slots[slot].getCount()<64)
+							{
+								slots[ffs].setCount(slots[slot].getCount()+oldCount);
+								slots[slot].setCount(0);
+								slots[slot].setID(0);
+								slots[slot].setID2(0);
+							}else 
+							{
+								slots[ffs].setCount(64);
+								slots[slot].setCount(slots[slot].getCount()-(64-oldCount));
+								slots[getFirstSlot(oldID, oldID2)].setCount(slots[getFirstSlot(oldID, oldID2)].getCount()+slots[slot].getCount());
+							}
 							if(slots[37].getCount()>0)slots[37].setCount(slots[37].getCount()-1);
 							if(slots[38].getCount()>0)slots[38].setCount(slots[38].getCount()-1);
 							if(slots[39].getCount()>0)slots[39].setCount(slots[39].getCount()-1);
@@ -98,54 +108,70 @@ public class inventory
 				}
 			}else 
 			{
-				if(slots[36].getID()==0)
+				if(slots[36].getID()==0&&keyboard.isShift())
 				{
-					if(keyboard.isShift())
+					int oldID, oldID2, oldCount;
+					oldID=slots[slot].getID();
+					oldID2=slots[slot].getID2();
+					int ffs=getFirstSlot(oldID, oldID2);
+					oldCount=slots[ffs].getCount();	
+					slots[ffs].setID2(oldID2);
+					slots[ffs].setID(oldID);
+					if(slots[ffs].getCount()+slots[slot].getCount()<64)
+					{
+						slots[ffs].setCount(slots[slot].getCount()+oldCount);
+						slots[slot].setCount(0);
+						slots[slot].setID(0);
+						slots[slot].setID2(0);
+					}else 
+					{
+						slots[ffs].setCount(64);
+						slots[slot].setCount(slots[slot].getCount()-(64-oldCount));
+					}
+					keyboard.setLbutton(false);
+				} 
+				else
+				{
+					if(slots[36].getID()==slots[slot].getID()&&slots[36].getID2()==slots[slot].getID2())
 					{
 						int oldID, oldID2, oldCount;
 						oldID=slots[slot].getID();
 						oldID2=slots[slot].getID2();
 						oldCount=slots[slot].getCount();	
-						int ffs=getFirstSlot(oldID, oldID2);
-						slots[slot].setID(0);
-						slots[ffs].setID2(oldID2);
-						slots[ffs].setID(oldID);
-						slots[slot].setCount(0);
-						slots[ffs].setCount(slots[ffs].getCount()+oldCount);
+						slots[slot].setID(oldID);
+						slots[slot].setID2(oldID2);
+						if(slots[slot].getCount()+slots[36].getCount()<64)
+						{
+							slots[slot].setCount(slots[36].getCount()+oldCount);
+							slots[36].setCount(0);
+							slots[36].setID(0);
+							slots[36].setID2(0);
+						}else 
+						{
+							slots[slot].setCount(64);
+							slots[36].setCount(slots[36].getCount()-(64-oldCount));
+						}
+						keyboard.setLbutton(false);
 					}
-				}
-				if(slots[36].getID()==slots[slot].getID()&&slots[36].getID2()==slots[slot].getID2())
-				{
-					int oldID, oldID2, oldCount;
-					oldID=slots[slot].getID();
-					oldID2=slots[slot].getID2();
-					oldCount=slots[slot].getCount();	
-					slots[slot].setID(oldID);
-					slots[slot].setID2(oldID2);
-					slots[36].setID(0);
-					slots[36].setID2(0);
-					slots[slot].setCount(slots[36].getCount()+oldCount);
-					slots[36].setCount(0);
-					keyboard.setLbutton(false);
-				}
-				else 
-				{
-					int oldID, oldID2, oldCount;
-					oldID=slots[36].getID();
-					oldID2=slots[36].getID2();
-					oldCount=slots[36].getCount();
-					slots[36].setID(slots[slot].getID());
-					slots[36].setID2(slots[slot].getID2());
-					slots[slot].setID(oldID);
-					slots[slot].setID2(oldID2);
-					slots[36].setCount(slots[slot].getCount());
-					slots[slot].setCount(oldCount);
-					pickedUp=true;
-				    keyboard.setLbutton(false);
+					else 
+					{
+						int oldID, oldID2, oldCount;
+						oldID=slots[36].getID();
+						oldID2=slots[36].getID2();
+						oldCount=slots[36].getCount();
+						slots[36].setID(slots[slot].getID());
+						slots[36].setID2(slots[slot].getID2());
+						slots[slot].setID(oldID);
+						slots[slot].setID2(oldID2);
+						slots[36].setCount(slots[slot].getCount());
+						slots[slot].setCount(oldCount);
+						pickedUp=true;
+					    keyboard.setLbutton(false);
+					}
 				}
 			}
 		}
-		if(slot==-1)
+		if(slot==OUT_OF_INVENTORY)
 		{
 			drop(slots[36].getID(), slots[36].getID2(), slots[36].getCount());
 			slots[36].setID(0);
@@ -155,7 +181,7 @@ public class inventory
 	}
 	public static void pickUpR(int slot)
 	{
-		if(getSlotFromMouse(keyboard.mx, keyboard.my)!=NO_SLOT_SELECTED)
+		if((slot!=NO_SLOT_SELECTED)&&(slot!=OUT_OF_INVENTORY))
 		{
 			if(slot==46)
 			{
@@ -196,7 +222,7 @@ public class inventory
 				} 
 			}
 		}
-		if(slot==-1)
+		if(slot==OUT_OF_INVENTORY)
 		{
 			drop(slots[36].getID(), slots[36].getID2(), (int)((slots[36].getCount())/2));
 			slots[36].setCount((int)(slots[36].getCount()+1)/2);
@@ -261,10 +287,17 @@ public class inventory
 		{	
 			slots[x]=new slot(0,0);
 		}
+		slots[0].setID(18);
+		slots[0].setCount(1);
+		slots[1].setID(20);
+		slots[1].setCount(1);
+		slots[2].setID(16);
+		slots[2].setCount(64);
 	}
 	public static void updateCrafting()
 	{
 		slots[46].setID(crafting.checkCrafting(slots[37].getID(), slots[38].getID(), slots[39].getID(), slots[40].getID(), slots[41].getID(), slots[42].getID(), slots[43].getID(), slots[44].getID(), slots[45].getID(),  container));
+//		slots[46].setID(crafting.checkCrafting2(slots[37].getID(), slots[38].getID(), slots[39].getID(), slots[40].getID(), slots[41].getID(), slots[42].getID(), slots[43].getID(), slots[44].getID(), slots[45].getID(),  container));
 		slots[46].setCount(crafting.checkCount(slots[37].getID(), slots[38].getID(), slots[39].getID(), slots[40].getID(), slots[41].getID(), slots[42].getID(), slots[43].getID(), slots[44].getID(), slots[45].getID(),  container));
 	}
 	public static void drop(int id, int id2, int count)
@@ -289,7 +322,7 @@ public class inventory
 	}
 	public static void draw(Graphics g)
 	{
-		g.setFont(new Font("ComicSans", Font.PLAIN, 10));
+		g.setFont(new Font("Arial", Font.BOLD, 10));
 		g.setColor(Color.white);
 
 		
@@ -303,6 +336,10 @@ public class inventory
 			if(container==1)
 			{
 				g.drawImage(imageLoader.crafting, frame.getWIDTH()/2-imageLoader.crafting.getWidth()/4,frame.getRHEIGHT()/2-imageLoader.crafting.getHeight()/4,imageLoader.crafting.getWidth()/2, imageLoader.crafting.getHeight()/2, null);
+			}
+			if(container==2)
+			{
+				g.drawImage(imageLoader.oven, frame.getWIDTH()/2-imageLoader.oven.getWidth()/4,frame.getRHEIGHT()/2-imageLoader.oven.getHeight()/4, imageLoader.oven.getWidth()/2, imageLoader.oven.getHeight()/2, null);
 			}
 			for(int x=0; x<47; x++)
 			{
@@ -500,13 +537,22 @@ public class inventory
 			double x2,y2,w2,h2;
 			x2=getDrawPosX(i);
 			y2=getDrawPosY(i);
-			w2=getDrawPosX(i)+32;
-			h2=getDrawPosY(i)+32;
+			w2=getDrawPosX(i)+35;
+			h2=getDrawPosY(i)+35;
 			
 			if(x2<=x && x<=w2 && y2<=y && y<=h2)
 			{
 				slot=i;
 			}
+		}
+		double x2,y2,w2,h2;
+		x2=frame.getWIDTH()/2-imageLoader.crafting.getWidth()/4;
+		y2=frame.getRHEIGHT()/2-imageLoader.crafting.getHeight()/4;
+		w2=x2+imageLoader.crafting.getWidth()/2;
+		h2=y2+imageLoader.crafting.getHeight()/2;
+		if(!(x2<=x && x<=w2 && y2<=y && y<=h2))
+		{
+			slot=OUT_OF_INVENTORY;
 		}
 		return slot;
 	}

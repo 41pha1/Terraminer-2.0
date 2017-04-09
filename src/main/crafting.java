@@ -22,6 +22,11 @@ public class crafting
 		recipies3x3[3]=new craftingRecipie(5,5,0,0,100, 0, 0, 100, 0, 104, 1,true);
 		recipies3x3[4]=new craftingRecipie(5,5,0,5,100, 0, 0, 100, 0, 105, 1,true);
 		recipies3x3[5]=new craftingRecipie(4,4,4,0,100, 0, 0, 100, 0, 106, 1,true);
+		recipies3x3[6]=new craftingRecipie(0,4,0,0,100, 0, 0, 100, 0, 107, 1,true);
+		recipies3x3[7]=new craftingRecipie(0,4,0,0,4, 0, 0, 100, 0, 108, 1,true);
+		recipies3x3[8]=new craftingRecipie(4,4,0,0,100, 0, 0, 100, 0, 109, 1,true);
+		recipies3x3[9]=new craftingRecipie(4,4,0,4,100, 0, 0, 100, 0, 110, 1,true);
+		recipies3x3[10]=new craftingRecipie(4,4,4,4,0, 4, 4, 4, 4, 20, 1,true);
 		recipies2x2[0]=new craftingRecipie(16,0,0,0,5,4,true);
 		recipies2x2[1]=new craftingRecipie(0,16,0,0,5,4,true);
 		recipies2x2[2]=new craftingRecipie(0,0,16,0,5,4,true);
@@ -48,6 +53,10 @@ public class crafting
 			{
 				if(recipies3x3[i].isShaped())
 				{
+					if(s1==recipies2x2[i].getS1()&&s2==recipies2x2[i].getS2()&&s4==recipies2x2[i].getS3()&&s5==recipies2x2[i].getS4())return recipies2x2[i].getC1();
+					if(s2==recipies2x2[i].getS1()&&s3==recipies2x2[i].getS2()&&s5==recipies2x2[i].getS3()&&s6==recipies2x2[i].getS4())return recipies2x2[i].getC1();
+					if(s4==recipies2x2[i].getS1()&&s5==recipies2x2[i].getS2()&&s7==recipies2x2[i].getS3()&&s8==recipies2x2[i].getS4())return recipies2x2[i].getC1();
+					if(s5==recipies2x2[i].getS1()&&s6==recipies2x2[i].getS2()&&s8==recipies2x2[i].getS3()&&s9==recipies2x2[i].getS4())return recipies2x2[i].getC1();
 					if(s1==recipies3x3[i].getS1()&&s2==recipies3x3[i].getS2()&&s3==recipies3x3[i].getS3()&&s4==recipies3x3[i].getS4()&&s5==recipies3x3[i].getS5()&&s6==recipies3x3[i].getS6()&&s7==recipies3x3[i].getS7()&&s8==recipies3x3[i].getS8()&&s9==recipies3x3[i].getS9())return recipies3x3[i].getC1();
 				}
 			}
@@ -75,6 +84,10 @@ public class crafting
 			{
 				if(recipies3x3[i].isShaped())
 				{
+					if(s1==recipies2x2[i].getS1()&&s2==recipies2x2[i].getS2()&&s4==recipies2x2[i].getS3()&&s5==recipies2x2[i].getS4())return recipies2x2[i].getR1();
+					if(s2==recipies2x2[i].getS1()&&s3==recipies2x2[i].getS2()&&s5==recipies2x2[i].getS3()&&s6==recipies2x2[i].getS4())return recipies2x2[i].getR1();
+					if(s4==recipies2x2[i].getS1()&&s5==recipies2x2[i].getS2()&&s7==recipies2x2[i].getS3()&&s8==recipies2x2[i].getS4())return recipies2x2[i].getR1();
+					if(s5==recipies2x2[i].getS1()&&s6==recipies2x2[i].getS2()&&s8==recipies2x2[i].getS3()&&s9==recipies2x2[i].getS4())return recipies2x2[i].getR1();
 					if(s1==recipies3x3[i].getS1()&&s2==recipies3x3[i].getS2()&&s3==recipies3x3[i].getS3()&&s4==recipies3x3[i].getS4()&&s5==recipies3x3[i].getS5()&&s6==recipies3x3[i].getS6()&&s7==recipies3x3[i].getS7()&&s8==recipies3x3[i].getS8()&&s9==recipies3x3[i].getS9())return recipies3x3[i].getR1();
 				}
 			}

@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 public class imageLoader {
 	public static BufferedImage[][][] Textures = new BufferedImage[128][16][32];
 	public static BufferedImage[] DestroyStage = new BufferedImage[10];
-	public static BufferedImage skin,sky,mb,gui, sel, inv, crafting;
+	public static BufferedImage skin,sky,mb,gui, sel, inv, crafting, oven;
 
 	public static void loadTextures() 
 	{		
@@ -18,6 +18,8 @@ public class imageLoader {
 		saveTexture(3,0, "dirt");
 		saveTexture(4,0, "cobblestone");
 		saveTexture(5,0,"planks_oak");
+		saveTexture(5,1,"planks_spruce");
+		saveTexture(5,2,"planks_birch");
 		saveTexture(7,0, "bedrock");
 		saveTexture(8,0, "coal_ore");
 		saveTexture(9,0,"iron_ore");
@@ -30,9 +32,17 @@ public class imageLoader {
 		saveTexture(14,2,"flower_paeonia");
 		saveTexture(15,0,"tallgrass");
 		saveTexture(16,0,"log_oak");
+		saveTexture(16,1,"log_spruce");
+		saveTexture(16,2,"log_birch");
 		saveTexture(17,0,"leaves_big_oak");
+		saveTexture(17,1,"leaves_spruce");
+		saveTexture(17,2,"leaves_birch");
 		saveTexture(18,0,"crafting_table_side");
 		saveTexture(19,0,"sapling_oak");
+		saveTexture(19,1,"sapling_spruce");
+		saveTexture(19,2,"sapling_birch");
+		saveTexture(20,0,"furnace_front_off");
+		saveTexture(20,1,"furnace_front_on");
 		saveTexture(100,0,"stick");
 		saveTexture(101,0,"wood_pickaxe");
 		saveTexture(102,0,"wood_shovel");
@@ -44,6 +54,11 @@ public class imageLoader {
 		saveTexture(108,0,"stone_sword");
 		saveTexture(109,0,"stone_hoe");
 		saveTexture(110,0,"stone_axe");
+		saveTexture(111,0,"coal");
+		saveTexture(112,0,"redstone_dust");
+		saveTexture(113,0,"diamond");
+		saveTexture(114,0,"emerald");
+		saveTexture(115,11,"dye_powder_blue");
 		DestroyStage[0]=getImage("destroy_stage_0");
 		DestroyStage[1]=getImage("destroy_stage_1");
 		DestroyStage[2]=getImage("destroy_stage_2");
@@ -61,6 +76,7 @@ public class imageLoader {
 		sel=getImage("selected");
 		inv=getImage("inventory");
 		crafting=getImage("crafting");
+		oven=getImage("furnace");
 	}
 	public static BufferedImage color(BufferedImage i)
 	{
