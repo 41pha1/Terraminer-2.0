@@ -2,12 +2,16 @@ package main;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
 public class block
 {
-    int ID=0;
+	int ID=0;
 	int ID2=0;
+	double seq=0;
 	int destroyed=0;
+	double pb=0;
 	int destroyTime=0;
 	int effectiveTool=0;
 	long time=System.nanoTime();
@@ -15,26 +19,46 @@ public class block
 	{
 		if(effectiveTool==1)
 		{
-			if(tool==101)
+			if(tool==item.WOOD_PICKAXE)
 			{
 				return destroyTime/3;
-			}if(tool==106)
+			}if(tool==item.STONE_PICKAXE)
 			{
 				return destroyTime/5;
+			}
+			if(tool==item.IRON_PICKAXE)
+			{
+				return destroyTime/7;
 			}
 		}
 		if(effectiveTool==2)
 		{
-			if(tool==102)
+			if(tool==item.WOOD_SHOVEL)
+			{
+				return destroyTime/2;
+			}
+			if(tool==item.STONE_SHOVEL)
 			{
 				return destroyTime/3;
+			}
+			if(tool==item.IRON_SHOVEL)
+			{
+				return destroyTime/4;
 			}
 		}
 		if(effectiveTool==3)
 		{
-			if(tool==105)
+			if(tool==item.WOOD_AXE)
 			{
 				return destroyTime/2;
+			}
+			if(tool==item.STONE_AXE)
+			{
+				return destroyTime/3;
+			}
+			if(tool==item.IRON_AXE)
+			{
+				return destroyTime/4;
 			}
 		}
 		return destroyTime;
@@ -44,6 +68,32 @@ public class block
 	}
 	public void setTime(long time) {
 		this.time = time;
+	}
+	public void isRightClicked()
+	{
+		if(ID==item.CRAFTING_TABLE)
+		{
+			inventory.open=true;
+			inventory.container=1;
+			inventory.x=x;
+			inventory.y=y;
+		}
+		if(ID==item.FURNACE)
+		{
+			inventory.open=true;
+			inventory.container=2;
+			inventory.x=x;
+			inventory.y=y;
+			inventory.slots[37].setID(simulation.blocks[x][y].getSlotID(0));
+			inventory.slots[37].setCount(simulation.blocks[x][y].getSlotCount(0));
+			inventory.slots[37].setID2(simulation.blocks[x][y].getSlotID2(0));
+			inventory.slots[38].setID(simulation.blocks[x][y].getSlotID(1));
+			inventory.slots[38].setCount(simulation.blocks[x][y].getSlotCount(1));
+			inventory.slots[38].setID2(simulation.blocks[x][y].getSlotID2(1));
+			inventory.slots[46].setID(simulation.blocks[x][y].getSlotID(2));
+			inventory.slots[46].setCount(simulation.blocks[x][y].getSlotCount(2));
+			inventory.slots[46].setID2(simulation.blocks[x][y].getSlotID2(2));
+		}
 	}
 	public int getDestroyed() {
 		return destroyed;
@@ -59,7 +109,6 @@ public class block
 	boolean collision=true;
 	boolean needsBlock=false;
 	boolean background=false;
-	
 	public boolean isBackground() {
 		return background;
 	}
@@ -73,6 +122,24 @@ public class block
 		this.collision = collision;
 	}
 	int x, y;
+	slot[] slots =new slot[27];
+    public int getSlotID(int n) 
+    {
+		return slots[n].getID();
+	}
+    public int getSlotID2(int n) 
+    {
+		return slots[n].getID2();
+	}
+    public int getSlotCount(int n) 
+    {
+		return slots[n].getCount();
+	}
+	public void setSlots(int n, int id, int id2, int c) {
+		slots[n].setID(id);
+		slots[n].setID2(id2);
+		slots[n].setCount(c);
+	}
 	public int getDrop()
 	{
 		if(ID==2)return 3;
@@ -97,6 +164,34 @@ public class block
 	}
 	public void update()
 	{
+		if(ID==item.FURNACE)
+		{
+			if(0!=crafting.checkCrafting(slots[0].getID(), slots[1].getID(), 0, 0, 0, 0, 0, 0, 0, 2))
+			{
+				simulation.blocks[x][y].setID2(1);
+				simulation.blocks[x][y].setPb(simulation.blocks[x][y].getPb()+0.2);
+				if(simulation.blocks[x][y].getPb()>90)
+				{
+					simulation.blocks[x][y].setPb(0);
+					slots[0].setCount(slots[0].getCount()-1);
+					slots[2].setID(crafting.checkCrafting(slots[0].getID(), slots[1].getID(), 0, 0, 0, 0, 0, 0, 0, 2));
+					slots[2].setCount(slots[2].getCount()+1);
+					if(inventory.isOpen()&&inventory.container==2)
+					{
+						inventory.slots[37].setCount(inventory.slots[37].getCount()-1);
+						inventory.slots[46].setID(crafting.checkCrafting(slots[0].getID(), slots[1].getID(), 0, 0, 0, 0, 0, 0, 0, 2));
+						inventory.slots[46].setCount(inventory.slots[46].getCount()+1);
+					}
+				}	
+			}
+			else 
+			{
+				simulation.blocks[x][y].setID2(0);
+				simulation.blocks[x][y].setPb(0);
+			}
+		}
+		seq+=0.2;
+		if(seq>=8)seq=0;
 		if(ID==19)
 		{
 			if(Math.random()>0.9995)
@@ -127,6 +222,12 @@ public class block
 			}
 		}		
 	}
+	public double getPb() {
+		return pb;
+	}
+	public void setPb(double pb) {
+		this.pb = pb;
+	}
 	public int getLg() {
 		return lg;
 	}
@@ -144,11 +245,19 @@ public class block
 		double px,py;
 		if(player.getPx()>0){
 			px=0;
-		}else px= player.getPx();
+		}
+		else px= player.getPx();
 		if(player.getPy()<-246){
 			py=-246;
-		}else py= player.getPy();
-		g.drawImage(imageLoader.getTextures()[ID][rnd[ID]][ID2], (int)((x*frame.getWIDTH()/size)+px*frame.getWIDTH()/size), (int)((y*frame.getWIDTH()/size)+py*frame.getWIDTH()/size), frame.getWIDTH()/size+2, frame.getWIDTH()/size+2,null);
+		}
+		else py= player.getPy();
+		if(ID==item.FURNACE&&ID2==1)
+		{
+			BufferedImage dst = new BufferedImage(64, 64, BufferedImage.TYPE_INT_RGB);    
+			dst=imageLoader.getTextures()[ID][rnd[ID]][ID2];
+			dst=dst.getSubimage(0, (int)(seq-0.5)*64, 64, 64);
+			g.drawImage(dst, (int)((x*frame.getWIDTH()/size)+px*frame.getWIDTH()/size), (int)((y*frame.getWIDTH()/size)+py*frame.getWIDTH()/size), frame.getWIDTH()/size+2, frame.getWIDTH()/size+2,null);
+		}else g.drawImage(imageLoader.getTextures()[ID][rnd[ID]][ID2], (int)((x*frame.getWIDTH()/size)+px*frame.getWIDTH()/size), (int)((y*frame.getWIDTH()/size)+py*frame.getWIDTH()/size), frame.getWIDTH()/size+2, frame.getWIDTH()/size+2,null);
 		if(destroyed!=0)g.drawImage(imageLoader.DestroyStage[destroyed-1], (int)((x*frame.getWIDTH()/size)+px*frame.getWIDTH()/size), (int)((y*frame.getWIDTH()/size)+py*frame.getWIDTH()/size), frame.getWIDTH()/size+2, frame.getWIDTH()/size+2,null);
 		if(mark)g.fillRect((int)((x*frame.getWIDTH()/size)+player.getPx()*frame.getWIDTH()/size), (int)((y*frame.getWIDTH()/size)+player.getPy()*frame.getWIDTH()/size), frame.getWIDTH()/size+2, frame.getWIDTH()/size+2);
 	}
@@ -163,7 +272,6 @@ public class block
 		g.setColor(getTextureColor());
 		g.fillRect((x-x1+30)*(minimap.size/(simulation.blocks.length/minimap.zoom)),(y-y1+15)*(minimap.size/(simulation.blocks.length/minimap.zoom)), minimap.size/(simulation.blocks.length/minimap.zoom), minimap.size/(simulation.blocks.length/minimap.zoom));
 	}
-	
 	public static int getSize(){
 		return size;
 	}
@@ -194,19 +302,15 @@ public class block
 		return c;
 		}return Color.WHITE;
 	}
-
 	public static void setSize(int size) {
 		block.size = size;
 	}
-
 	public boolean isMark() {
 		return mark;
 	}
-
 	public void setMark(boolean mark) {
 		this.mark = mark;
 	}
-
 	public int getX() {
 		return x;
 	}
@@ -225,6 +329,23 @@ public class block
 	}
 	public void setID(int id, int id2)
 	{
+		pb=0;
+		for(int x=0; x<27; x++)
+		{
+			if(slots[x]==null)
+			slots[x]=new slot(0, 0);
+		}
+		if(id==0)
+		{
+			for(int i=0; i<27; i++)
+			{
+				inventory.drop(slots[i].getID(), slots[i].getID2(), slots[i].getCount(),x,y);
+				slots[i].setID(0);
+				slots[i].setCount(0);
+			}
+		}
+		
+		
 		if(id==item.STONE||id==item.COBBLE||id==item.COAL_ORE||id==item.IRON_ORE||id==item.REDSTONE_ORE||id==item.DIAMOND_ORE||id==item.EMERALD_ORE||id==item.LAPIS_ORE||id==item.FURNACE)
 		{
 			destroyTime=500000000;
@@ -312,5 +433,4 @@ public class block
 	public void setNeedsBlock(boolean needsBlock) {
 		this.needsBlock = needsBlock;
 	}
-
 }

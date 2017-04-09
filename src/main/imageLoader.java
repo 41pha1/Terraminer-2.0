@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 public class imageLoader {
 	public static BufferedImage[][][] Textures = new BufferedImage[128][16][32];
 	public static BufferedImage[] DestroyStage = new BufferedImage[10];
-	public static BufferedImage skin,sky,mb,gui, sel, inv, crafting, oven;
+	public static BufferedImage skin,sky,mb,gui, sel, inv, crafting, oven, pb;
 
 	public static void loadTextures() 
 	{		
@@ -43,6 +43,7 @@ public class imageLoader {
 		saveTexture(item.SAPLING,2,"sapling_birch");
 		saveTexture(item.FURNACE,0,"furnace_front_off");
 		saveTexture(item.FURNACE,1,"furnace_front_on");
+		saveTexture(item.CHEST,0,"chest");
 		saveTexture(item.STICK,0,"stick");
 		saveTexture(item.WOOD_PICKAXE,0,"wood_pickaxe");
 		saveTexture(item.WOOD_SHOVEL,0,"wood_shovel");
@@ -59,6 +60,12 @@ public class imageLoader {
 		saveTexture(item.DIAMOND,0,"diamond");
 		saveTexture(item.EMERALD,0,"emerald");
 		saveTexture(item.DYE,11,"dye_powder_blue");
+		saveTexture(item.IRON,0,"iron_ingot");
+		saveTexture(item.IRON_PICKAXE,0,"iron_pickaxe");
+		saveTexture(item.IRON_SHOVEL,0,"iron_shovel");
+		saveTexture(item.IRON_SWORD,0,"iron_sword");
+		saveTexture(item.IRON_HOE,0,"iron_hoe");
+		saveTexture(item.IRON_AXE,0,"iron_axe");
 		DestroyStage[0]=getImage("destroy_stage_0");
 		DestroyStage[1]=getImage("destroy_stage_1");
 		DestroyStage[2]=getImage("destroy_stage_2");
@@ -77,6 +84,7 @@ public class imageLoader {
 		inv=getImage("inventory");
 		crafting=getImage("crafting");
 		oven=getImage("furnace");
+		pb=getImage("pb");
 	}
 	public static BufferedImage color(BufferedImage i)
 	{
@@ -145,6 +153,7 @@ public class imageLoader {
 			return texture;
 		} catch (java.lang.IllegalArgumentException | IOException e) 
 		{
+			System.out.println("Failed to load "+filename+".png");
 			return null;
 		}
 	}

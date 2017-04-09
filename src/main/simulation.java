@@ -441,16 +441,7 @@ public class simulation {
 						}
 					}
 				}
-				if(blocks[x1][y1].getID()==item.CRAFTING_TABLE)
-				{
-					inventory.open=true;
-					inventory.container=1;
-				}
-				if(blocks[x1][y1].getID()==item.FURNACE)
-				{
-					inventory.open=true;
-					inventory.container=2;
-				}
+				blocks[x1][y1].isRightClicked();
 			}
 		}
 		for(int x=0; x<256; x++)
