@@ -133,7 +133,7 @@ public class simplexNoise
           {
         	    return Math.max(min, Math.min(max, val));
           }
-          public static float[][] generateNoise(int width, int height, float w)
+          public static float[][] generateNoise(int width, int height, float w, float lF)
           {
         	  new simplexNoise((int)(Math.random()*1000));
         	  float[][] noise=new float[width][height];
@@ -146,10 +146,10 @@ public class simplexNoise
         			  for(int y=0; y<height; y++)
         			  {
         				  noise[x][y]+=(float)simplexNoise.noise(x*layerF, y*layerF)*weight;
-        				  noise[x][y]=clamp(noise[x][y],-1f,1f);
+//        				  noise[x][y]=clamp(noise[x][y],-1f,1f);
         			  }
         		  }
-        		  layerF*=3.5f;
+        		  layerF*=lF;
         		  weight*=w;
         	  }return noise;
           }  

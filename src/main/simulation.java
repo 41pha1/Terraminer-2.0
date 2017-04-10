@@ -6,9 +6,10 @@ import java.io.DataInputStream;
 import javax.swing.JOptionPane;
 
 public class simulation {
-	static block[][] blocks = new block[1000][256];
-	static byte[] b=new byte[1000*256];
-	static byte[] b2=new byte[1000*256];
+	static int mapsize=255;
+	static block[][] blocks = new block[mapsize+1][256];
+	static byte[] b=new byte[mapsize*256];
+	static byte[] b2=new byte[mapsize*256];
 	static particel[] particels = new particel[100000];
 	static item[] items = new item[1000];
 	minimap m= new minimap();
@@ -18,8 +19,8 @@ public class simulation {
 	static double lastposX=0;
 	static double lastposY=-6;
 	private static int mu=0;
-	private static int particleType=8;
-	private static int particleNumber=100;
+	private static int particleType=1;
+	private static int particleNumber=50;
 	static double acceleration=0.005;
 	static double velocity;
 	boolean la=false,ls=false,lw=false,ld=false;
@@ -43,13 +44,11 @@ public class simulation {
 		}
 		if(load)load();
 		else worldGenerator.generateWorld();
+		
 		while(!checkCollision())
 		{
 			player.setPy(player.getPy()-1);
-			System.out.println("lol");
 		}
-		
-		
 		minimap.createMap();
 		
 	}
@@ -68,9 +67,9 @@ public class simulation {
    {
        e.printStackTrace();
 		}
-     for(int x=0; x<256; x++)
+     for(int x=0; x<mapsize; x++)
 		{
-			for(int y=0; y<256; y++)
+			for(int y=0; y<256+1; y++)
 			{
 				blocks[x][y]=new block();
 				blocks[x][y].setX(x);
@@ -79,7 +78,7 @@ public class simulation {
 			}
 		}
 		
-		for(int x=0; x<256; x++)
+		for(int x=0; x<mapsize; x++)
 		{
 			for(int y=0; y<256; y++)
 			{
@@ -90,7 +89,7 @@ public class simulation {
    }
 	public static void save()
 	{
-		for (int i = 0; i < 256; i++) {
+		for (int i = 0; i < mapsize; i++) {
 	        for (int j = 0; j < 256; j++) { 
 	            b[i * 256 + j]=(byte) (blocks[i][j].getID()); 
 	            b2[i * 256 + j]=(byte) (blocks[i][j].getID2()); 
@@ -155,9 +154,9 @@ public class simulation {
 		
 		
 		if(x1<0)x1=0;
-		if(x2>255)x2=255;
+		if(x2>mapsize)x2=mapsize;
 		if(y1<0)y1=0;
-		if(y2>255)y2=255;
+		if(y2>mapsize)y2=mapsize;
 		
 		for(int x=x1; x<x2; x++)
 		{
@@ -244,7 +243,7 @@ public class simulation {
 		{
 			for(int y=0; y<255; y++)
 			{
-				if(x<0||x>255)
+				if(x<0||x>mapsize)
 				{
 					double x1,x2,y1,y2,w1,w2,h1,h2;
 					x1=(-1*lx)+7.4;
@@ -291,12 +290,12 @@ public class simulation {
 	public static boolean checkCollision()
 	{
 		
-		for(int x=-1; x<256; x++)
+		for(int x=-1; x<mapsize; x++)
 		{
 			for(int y=0; y<255; y++)
 			{
 				
-				if(x<0||x>255)
+				if(x<0||x>mapsize)
 				{
 					double x1,x2,y1,y2,w1,w2,h1,h2;
 					x1=(-1*player.getPx())+7.4;
@@ -444,7 +443,7 @@ public class simulation {
 				blocks[x1][y1].isRightClicked();
 			}
 		}
-		for(int x=0; x<256; x++)
+		for(int x=0; x<mapsize; x++)
 		{
 			for(int y=0; y<256; y++)
 			{
@@ -482,7 +481,7 @@ public class simulation {
 			}
 		}else 
 		{
-			for(int x=0; x<256; x++)
+			for(int x=0; x<mapsize; x++)
 			{
 				for(int y=0; y<256; y++)
 				{
@@ -503,7 +502,7 @@ public class simulation {
 	}
 	public static void update() 
 	{
-		for(int x=0; x<255; x++)
+		for(int x=0; x<mapsize; x++)
 		{
 			for(int y=0; y<255; y++)
 			{

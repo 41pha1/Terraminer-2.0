@@ -9,7 +9,7 @@ public class minimap
 	public static BufferedImage map;
 	public static int zoom=16;
 	public static float[][] noise;
-	public final static int size=400;
+	public final static int size=simulation.mapsize;
 	public minimap()
 	{
 		map=new BufferedImage(size, size, BufferedImage.TYPE_INT_RGB);
@@ -21,23 +21,25 @@ public class minimap
 	}
 	public static Color getColor(float val)
 	{
-		return(new Color((int)((val+1)*100),(int)((val+1)*100),(int)((val+1)*100)));
+		val=simplexNoise.clamp((int)((val+1)*80), 0, 254);
+		System.out.println(val);
+		return(new Color((int)val,(int)val,(int)val));
 	}
 	public static void createMap()
 	{
-//		map=new BufferedImage(size, size, BufferedImage.TYPE_INT_RGB);
-//		Graphics g= map.getGraphics();
+		map=new BufferedImage(size, size, BufferedImage.TYPE_INT_RGB);
+		Graphics g= map.getGraphics();
 		
 		
-//		noise=simplexNoise.generateNoise(400, 1);
+//		noise=simplexNoise.generateNoise(400, 1,0.5f, 3.5f);
 //		noise=worldGenerator.noise1;
-//		
-//		for(int x=0; x<256; x++)
+		
+//		for(int x=0; x<simulation.mapsize; x++)
 //		{
 //			for(int y=0; y<1; y++)
 //			{
 //				g.setColor(getColor(noise[x][y]));
-//				g.fillRect(x, y, 1, 400);
+//				g.fillRect(x, y, 1, simulation.mapsize);
 //			}
 //		}
 //		
@@ -53,14 +55,14 @@ public class minimap
 //				if(y1<0)y1=0;
 //				if(y2>255)y2=255;
 //				
-//				for(int x=0; x<x2; x++)
-//				{
-//					for(int y=0; y<y2; y++)
-//					{
-//						if(y<simulation.blocks[x].length)
-//						simulation.getBlocks()[x][y].drawMinimap(g, x1, y1);
-//					}
-//				}
+				for(int x=0; x<simulation.mapsize; x++)
+				{
+					for(int y=0; y<256; y++)
+					{
+						if(y<simulation.blocks[x].length)
+						simulation.getBlocks()[x][y].drawMinimap(g, 0, 0);
+					}
+				}
 	}
 	public static int getZoom() {
 		return zoom;

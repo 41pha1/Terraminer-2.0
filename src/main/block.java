@@ -9,6 +9,13 @@ public class block
 {
 	int ID=0;
 	int ID2=0;
+	int Biome=0;
+	public int getBiome() {
+		return Biome;
+	}
+	public void setBiome(int biome) {
+		Biome = biome;
+	}
 	double seq=0;
 	int destroyed=0;
 	double pb=0;
@@ -270,7 +277,9 @@ public class block
 	public void drawMinimap(Graphics g, int x1, int y1)
 	{
 		g.setColor(getTextureColor());
-		g.fillRect((x-x1+30)*(minimap.size/(simulation.blocks.length/minimap.zoom)),(y-y1+15)*(minimap.size/(simulation.blocks.length/minimap.zoom)), minimap.size/(simulation.blocks.length/minimap.zoom), minimap.size/(simulation.blocks.length/minimap.zoom));
+//		g.fillRect((x-x1+30)*(minimap.size/(simulation.blocks.length/minimap.zoom)),(y-y1+15)*(minimap.size/(simulation.blocks.length/minimap.zoom)), minimap.size/(simulation.blocks.length/minimap.zoom), minimap.size/(simulation.blocks.length/minimap.zoom));
+		g.fillRect(x,y,1,1);
+		
 	}
 	public static int getSize(){
 		return size;

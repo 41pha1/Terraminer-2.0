@@ -87,7 +87,7 @@ public class item
 		{
 			for(int y=(int) (ypos-2); y<(int) (ypos+2); y++)
 			{
-				if(x<0||x>255)
+				if(x<0||x>simulation.mapsize)
 				{
 					double x1,x2,y1,y2,w1,w2,h1,h2;
 					x1=lx;

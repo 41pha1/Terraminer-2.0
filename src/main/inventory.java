@@ -319,14 +319,14 @@ public class inventory
 		{	
 			slots[x]=new slot(0,0);
 		}
-		slots[0].setID(item.IRON_ORE);
-		slots[0].setCount(64);
-		slots[1].setID(item.FURNACE);
-		slots[1].setCount(1);
-		slots[2].setID(item.LOG);
-		slots[2].setCount(64);
-		slots[3].setID(item.COBBLE);
-		slots[3].setCount(64);
+//		slots[0].setID(item.IRON_ORE);
+//		slots[0].setCount(64);
+//		slots[1].setID(item.FURNACE);
+//		slots[1].setCount(1);
+//		slots[2].setID(item.LOG);
+//		slots[2].setCount(64);
+//		slots[3].setID(item.COBBLE);
+//		slots[3].setCount(64);
 	}
 	public static void updateCrafting()
 	{
