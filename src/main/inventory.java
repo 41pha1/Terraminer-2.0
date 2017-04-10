@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 
 public class inventory 
 {
-	public static slot[] slots =new slot[47];
+	public static slot[] slots =new slot[74];
 	public static crafting c=new crafting();
 	public static byte selected=0;
 	public static int x,y;
@@ -251,6 +251,13 @@ public class inventory
 				simulation.blocks[x][y].setSlots(1, slots[38].getID(), slots[38].getID2(), slots[38].getCount());
 				simulation.blocks[x][y].setSlots(2, slots[46].getID(), slots[46].getID2(), slots[46].getCount());
 			}
+			if(container==3)
+			{
+				for(int i=47; i<74; i++)
+				{
+					simulation.blocks[x][y].setSlots(i-47, slots[i].getID(), slots[i].getID2(), slots[i].getCount());
+				}
+			}
 			
 			updateCrafting();
 			if(keyboard.lbutton)
@@ -289,7 +296,7 @@ public class inventory
 				drop(slots[36].getID(), slots[36].getID2(), slots[36].getCount());
 				slots[36].setID(0);
 				slots[36].setCount(0);
-				if(container!=2)
+				if(container!=2&&container!=3)
 				{
 					for(int i=36; i<46; i++)
 					{
@@ -297,9 +304,18 @@ public class inventory
 						slots[i].setID(0);
 						slots[i].setCount(0);
 					}
-				}else
+				}
+				else if(container==2)
 				{
 					for(int i=36; i<47; i++)
+					{
+						slots[i].setID(0);
+						slots[i].setCount(0);
+					}
+				}
+				else if(container==3)
+				{
+					for(int i=36; i<74; i++)
 					{
 						slots[i].setID(0);
 						slots[i].setCount(0);
@@ -315,18 +331,18 @@ public class inventory
 	}
 	inventory()
 	{	
-		for(int x=0; x<47; x++)
+		for(int x=0; x<74; x++)
 		{	
 			slots[x]=new slot(0,0);
 		}
-//		slots[0].setID(item.IRON_ORE);
-//		slots[0].setCount(64);
-//		slots[1].setID(item.FURNACE);
-//		slots[1].setCount(1);
-//		slots[2].setID(item.LOG);
-//		slots[2].setCount(64);
-//		slots[3].setID(item.COBBLE);
-//		slots[3].setCount(64);
+		slots[0].setID(item.CHEST);
+		slots[0].setCount(64);
+		slots[1].setID(item.FURNACE);
+		slots[1].setCount(1);
+		slots[2].setID(item.LOG);
+		slots[2].setCount(64);
+		slots[3].setID(item.COBBLE);
+		slots[3].setCount(64);
 	}
 	public static void updateCrafting()
 	{
@@ -403,7 +419,11 @@ public class inventory
 				
 				g.drawImage(dst, frame.getWIDTH()/2-imageLoader.oven.getWidth()/4+157,frame.getRHEIGHT()/2-imageLoader.oven.getHeight()/4+68, ((int)(simulation.blocks[x][y].getPb())+2)/2, imageLoader.pb.getHeight()/2, null);
 			}
-			for(int x=0; x<47; x++)
+			if(container==3)
+			{
+				g.drawImage(imageLoader.chest, frame.getWIDTH()/2-imageLoader.chest.getWidth()/4,frame.getRHEIGHT()/2-imageLoader.chest.getHeight()/4,imageLoader.chest.getWidth()/2, imageLoader.chest.getHeight()/2, null);
+			}
+			for(int x=0; x<74; x++)
 			{
 				if(x!=36)
 				{
@@ -532,7 +552,56 @@ public class inventory
 				return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+24+(slot-40)*35;
 			}
 		}
-		return 0;
+		if(container==3)
+		{
+			if(slot<9)
+			{
+				return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+24+slot*35;
+			}
+			if(slot<18)
+			{
+				return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+24+(slot-9)*35;
+			}
+			if(slot<27)
+			{
+				return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+24+(slot-18)*35;
+			}
+			if(slot<36)
+			{
+				return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+24+(slot-27)*35;
+			}
+			if(slot<56&&slot>46)
+			{
+				return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+24+(slot-47)*35;
+			}
+			if(slot<65)
+			{
+				return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+24+(slot-56)*35;
+			}
+			if(slot<74)
+			{
+				return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+24+(slot-65)*35;
+			}
+		}
+		if(container==4)
+		{
+			if(slot<9)
+			{
+				return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+24+slot*35;
+			}
+			if(slot<18)
+			{
+				return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+24+(slot-9)*35;
+			}
+			if(slot<27)
+			{
+				return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+24+(slot-18)*35;
+			}
+			if(slot<36)
+			{
+				return frame.getWIDTH()/2-imageLoader.inv.getWidth()/4+24+(slot-27)*35;
+			}
+		}return 0;
 	}
 	public static int getDrawPosY(int slot)
 	{
@@ -632,6 +701,56 @@ public class inventory
 				return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+70;
 			}
 		}
+		if(container==3)
+		{
+			if(slot<9)
+			{
+				return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+287;
+			}
+			if(slot<18)
+			{
+				return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+174;
+			}
+			if(slot<27)
+			{
+				return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+209;
+			}
+			if(slot<36)
+			{
+				return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+244;
+			}
+			if(slot<56&&slot>46)
+			{
+				return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+34;
+			}
+			if(slot<65)
+			{
+				return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+69;
+			}
+			if(slot<74)
+			{
+				return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+104;
+			}
+		}
+		if(container==4)
+		{
+			if(slot<9)
+			{
+				return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+340;
+			}
+			if(slot<18)
+			{
+				return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+227;
+			}
+			if(slot<27)
+			{
+				return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+262;
+			}
+			if(slot<36)
+			{
+				return frame.getRHEIGHT()/2-imageLoader.inv.getHeight()/4+297;	
+			}
+		}
 		return 0;
 	}
 	public static void setSelected(byte selected) {
@@ -655,10 +774,17 @@ public class inventory
 	public static int getSlotFromMouse(int x, int y)
 	{
 		int slot=NO_SLOT_SELECTED;
-		
-		for(int i=0; i<47; i++)
+		double x2,y2,w2,h2;
+		x2=frame.getWIDTH()/2-imageLoader.crafting.getWidth()/4;
+		y2=frame.getRHEIGHT()/2-imageLoader.crafting.getHeight()/4;
+		w2=x2+imageLoader.crafting.getWidth()/2;
+		h2=y2+imageLoader.crafting.getHeight()/2;
+		if(!(x2<=x && x<=w2 && y2<=y && y<=h2))
 		{
-			double x2,y2,w2,h2;
+			slot=OUT_OF_INVENTORY;
+		}
+		for(int i=0; i<74; i++)
+		{
 			x2=getDrawPosX(i);
 			y2=getDrawPosY(i);
 			w2=getDrawPosX(i)+35;
@@ -668,15 +794,6 @@ public class inventory
 			{
 				slot=i;
 			}
-		}
-		double x2,y2,w2,h2;
-		x2=frame.getWIDTH()/2-imageLoader.crafting.getWidth()/4;
-		y2=frame.getRHEIGHT()/2-imageLoader.crafting.getHeight()/4;
-		w2=x2+imageLoader.crafting.getWidth()/2;
-		h2=y2+imageLoader.crafting.getHeight()/2;
-		if(!(x2<=x && x<=w2 && y2<=y && y<=h2))
-		{
-			slot=OUT_OF_INVENTORY;
 		}
 		return slot;
 	}

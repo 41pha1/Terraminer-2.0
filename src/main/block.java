@@ -85,6 +85,19 @@ public class block
 			inventory.x=x;
 			inventory.y=y;
 		}
+		if(ID==item.CHEST)
+		{
+			inventory.open=true;
+			inventory.container=3;
+			inventory.x=x;
+			inventory.y=y;
+			for(int i=0; i<27; i++)
+			{
+				inventory.slots[i+47].setID(simulation.blocks[x][y].getSlotID(i));
+				inventory.slots[i+47].setCount(simulation.blocks[x][y].getSlotCount(i));
+				inventory.slots[i+47].setID2(simulation.blocks[x][y].getSlotID2(i));
+			}
+		}
 		if(ID==item.FURNACE)
 		{
 			inventory.open=true;
@@ -290,7 +303,12 @@ public class block
 		{
 			for(int i=0; i<100; i++)
 			{
-				Color c = new Color(imageLoader.getTextures()[ID][0][ID2].getRGB((int)(Math.random()*64), (int)(Math.random()*64)));
+				Color c;
+				if(ID==item.CHEST)
+				{
+					c=new Color(imageLoader.getTextures()[item.LOG][0][0].getRGB((int)(Math.random()*64), (int)(Math.random()*64)));
+				}
+				else c = new Color(imageLoader.getTextures()[ID][0][ID2].getRGB((int)(Math.random()*64), (int)(Math.random()*64)));
 				if(ID==17)
 				{
 					
@@ -370,7 +388,7 @@ public class block
 			destroyTime=0;
 			effectiveTool=0;
 		}
-		if(id==item.LOG||id==item.PLANKS||id==item.CRAFTING_TABLE)
+		if(id==item.LOG||id==item.PLANKS||id==item.CRAFTING_TABLE||id==item.CHEST)
 		{
 			destroyTime=300000000;
 			effectiveTool=3;

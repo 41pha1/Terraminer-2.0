@@ -39,6 +39,7 @@ public class crafting
 		recipies3x3[13]=new craftingRecipie(item.AIR,  item.IRON,  item.AIR,  item.AIR,  item.IRON,   item.AIR,  item.AIR,  item.STICK,   item.AIR,  item.IRON_SWORD, 1,true);
 		recipies3x3[14]=new craftingRecipie(item.IRON,  item.IRON,  item.AIR,  item.AIR,  item.STICK,   item.AIR,  item.AIR,  item.STICK,   item.AIR,  item.IRON_HOE, 1,true);
 		recipies3x3[15]=new craftingRecipie(item.IRON,  item.IRON,  item.AIR,  item.IRON,  item.STICK,   item.AIR,  item.AIR,  item.STICK,   item.AIR,  item.IRON_AXE,  1,true);
+		recipies3x3[15]=new craftingRecipie(item.PLANKS,  item.PLANKS,  item.PLANKS,  item.PLANKS,  item.AIR,   item.PLANKS,  item.PLANKS,  item.PLANKS,   item.PLANKS,  item.CHEST,  1,true);
         recipies2x2[0]=new craftingRecipie(item.LOG,  item.AIR,  item.AIR,  item.AIR,  item.PLANKS,   4,  true);
 		recipies2x2[1]=new craftingRecipie(item.AIR,  item.LOG,  item.AIR,  item.AIR,  item.PLANKS,   4,  true);
 		recipies2x2[2]=new craftingRecipie(item.AIR,  item.AIR,  item.LOG,  item.AIR,  item.PLANKS,   4,  true);

@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 public class imageLoader {
 	public static BufferedImage[][][] Textures = new BufferedImage[128][16][32];
 	public static BufferedImage[] DestroyStage = new BufferedImage[10];
-	public static BufferedImage skin,sky,mb,gui, sel, inv, crafting, oven, pb;
+	public static BufferedImage skin,sky,mb,gui, sel, inv, crafting, oven, pb, chest;
 
 	public static void loadTextures() 
 	{		
@@ -85,6 +85,7 @@ public class imageLoader {
 		crafting=getImage("crafting");
 		oven=getImage("furnace");
 		pb=getImage("pb");
+		chest=getImage("chestGui");
 	}
 	public static BufferedImage color(BufferedImage i)
 	{
