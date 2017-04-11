@@ -66,6 +66,9 @@ public class imageLoader {
 		saveTexture(item.IRON_SWORD,0,"iron_sword");
 		saveTexture(item.IRON_HOE,0,"iron_hoe");
 		saveTexture(item.IRON_AXE,0,"iron_axe");
+		saveTexture(item.DOOR,0,"door");
+		saveTexture(item.DOOR,1,"door_wood_lower");
+		saveTexture(item.DOOR,2,"door_wood_upper");
 		DestroyStage[0]=getImage("destroy_stage_0");
 		DestroyStage[1]=getImage("destroy_stage_1");
 		DestroyStage[2]=getImage("destroy_stage_2");

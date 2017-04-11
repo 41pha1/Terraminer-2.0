@@ -11,6 +11,9 @@ public class inventory
 	public static crafting c=new crafting();
 	public static byte selected=0;
 	public static int x,y;
+	static int id=0;
+	static int id2=0; 
+	static int count=0;
 	public static int container=0;
 	public static boolean open=false, pickedUp=false;
 	public final static int FULL=-1, NO_SLOT_SELECTED=-1, OUT_OF_INVENTORY=-2;
@@ -19,22 +22,37 @@ public class inventory
 	}
 	public static void pickUp(int slot)
 	{
+		int asc=0;
+		for(int x=0; x<74; x++)
+		{
+			if(slots[x].getChanged())asc++;
+		}if(asc<1)
+		{
+			id=slots[36].getID();
+			id2=slots[36].getID2();
+			count=slots[36].getCount();
+			for(int x=0; x<74; x++)
+			{
+				slots[x].setOldCount(slots[x].getCount());
+			}
+		}
+		System.out.println(asc);
 		if((slot!=NO_SLOT_SELECTED)&&(slot!=OUT_OF_INVENTORY))
 		{
 			if(slot==46)
 			{
+				keyboard.setLbutton(false);
 				if(slots[slot].getID()!=0)
 				{
 					if(keyboard.isShift())
 					{
 						if(slots[slot].getCount()>0)
 						{
-							int oldID, oldID2, oldCount, oldCount2;
+							int oldID, oldID2, oldCount;
 							oldID=slots[slot].getID();
 							oldID2=slots[slot].getID2();
 							int ffs=getFirstSlot(oldID, oldID2);
 							oldCount=slots[ffs].getCount();	
-							oldCount2=slots[slot].getCount();	
 							slots[ffs].setID(oldID);
 							slots[ffs].setID2(oldID2);
 							if(slots[ffs].getCount()+slots[slot].getCount()<64)
@@ -88,7 +106,6 @@ public class inventory
 								if(slots[44].getCount()>0)slots[44].setCount(slots[44].getCount()-1);
 								if(slots[45].getCount()>0)slots[45].setCount(slots[45].getCount()-1);
 							}
-							keyboard.setLbutton(false);
 						}
 						else 
 						{
@@ -113,15 +130,15 @@ public class inventory
 								if(slots[44].getCount()>0)slots[44].setCount(slots[44].getCount()-1);
 								if(slots[45].getCount()>0)slots[45].setCount(slots[45].getCount()-1);
 							}
-							keyboard.setLbutton(false);
 						}
 					}
 				}
 			}
-			else 
+			else
 			{
 				if(slots[36].getID()==0&&keyboard.isShift())
 				{
+					slots[slot].setChanged(true);
 					int oldID, oldID2, oldCount;
 					oldID=slots[slot].getID();
 					oldID2=slots[slot].getID2();
@@ -131,68 +148,142 @@ public class inventory
 					slots[ffs].setID(oldID);
 					if(slots[ffs].getCount()+slots[slot].getCount()<64)
 					{
-						slots[ffs].setCount(slots[slot].getCount()+oldCount);
-						slots[slot].setCount(0);
-						slots[slot].setID(0);
-						slots[slot].setID2(0);
+						if(ffs!=slot)
+						{
+							slots[ffs].setCount(slots[slot].getCount()+oldCount);
+							slots[slot].setCount(0);
+							slots[slot].setID(0);
+							slots[slot].setID2(0);
+						}	
 					}else 
 					{
 						slots[ffs].setCount(64);
 						slots[slot].setCount(slots[slot].getCount()-(64-oldCount));
 					}
-					keyboard.setLbutton(false);
-				} 
+				}
 				else
 				{
 					if(slots[36].getID()==slots[slot].getID()&&slots[36].getID2()==slots[slot].getID2())
 					{
-						int oldID, oldID2, oldCount;
-						oldID=slots[slot].getID();
-						oldID2=slots[slot].getID2();
-						oldCount=slots[slot].getCount();	
-						slots[slot].setID(oldID);
-						slots[slot].setID2(oldID2);
-						if(slots[slot].getCount()+slots[36].getCount()<64)
+						if(slots[slot].getChanged()==false)
 						{
-							slots[slot].setCount(slots[36].getCount()+oldCount);
-							slots[36].setCount(0);
-							slots[36].setID(0);
-							slots[36].setID2(0);
-						}else 
-						{
-							slots[slot].setCount(64);
-							slots[36].setCount(slots[36].getCount()-(64-oldCount));
+							slots[slot].setChanged(true);
+							if(asc<1)
+							{
+								int oldID, oldID2, oldCount;
+								oldID=slots[slot].getID();
+								oldID2=slots[slot].getID2();
+								oldCount=slots[slot].getCount();	
+								slots[slot].setID(oldID);
+								slots[slot].setID2(oldID2);
+								if(slots[slot].getCount()+slots[36].getCount()<64)
+								{
+									slots[slot].setCount(slots[36].getCount()+oldCount);
+									slots[36].setCount(0);
+									slots[36].setID(0);
+									slots[36].setID2(0);
+								}else 
+								{
+									slots[slot].setCount(64);
+									slots[36].setCount(slots[36].getCount()-(64-oldCount));
+								}
+							}else 
+							{
+								int c=0;
+								for(int x=0; x<74; x++)
+								{
+									if(slots[x].getChanged()||x==slot)
+									{
+									    c++;
+									}
+								}
+								int n=0;
+								for(int x=0; x<74; x++)
+								{
+									if(slots[x].getChanged()||x==slot)
+									{
+										if(slots[x].getID()==id||slots[x].getID()==item.AIR)
+										{
+											slots[x].setCount(slots[x].getOldCount()+count/c);
+											n+=count/c;
+											slots[x].setID(id);
+											slots[x].setID2(id2);
+										}else slots[x].setChanged(false);
+										
+									}
+								}
+
+								slots[36].setCount(count-n);
+								slots[36].setID(id);
+								slots[36].setID2(id2);
+							}
 						}
-						keyboard.setLbutton(false);
 					}
-					else 
+					else 	
+					if(slots[slot].getChanged()==false)
 					{
-						int oldID, oldID2, oldCount;
-						oldID=slots[36].getID();
-						oldID2=slots[36].getID2();
-						oldCount=slots[36].getCount();
-						slots[36].setID(slots[slot].getID());
-						slots[36].setID2(slots[slot].getID2());
-						slots[slot].setID(oldID);
-						slots[slot].setID2(oldID2);
-						slots[36].setCount(slots[slot].getCount());
-						slots[slot].setCount(oldCount);
-						pickedUp=true;
-					    keyboard.setLbutton(false);
+						if(asc<1)
+						{
+							slots[slot].setChanged(true);
+							int oldID, oldID2, oldCount;
+							oldID=slots[36].getID();
+							oldID2=slots[36].getID2();
+							oldCount=slots[36].getCount();
+							slots[36].setID(slots[slot].getID());
+							slots[36].setID2(slots[slot].getID2());
+							slots[slot].setID(oldID);
+							slots[slot].setID2(oldID2);
+							slots[36].setCount(slots[slot].getCount());
+							slots[slot].setCount(oldCount);
+						}
+						else 
+						{
+							int c=0;
+							for(int x=0; x<74; x++)
+							{
+								if(slots[x].getChanged()||x==slot)
+								{
+								    c++;
+								}
+							}
+							for(int x=0; x<74; x++)
+							{
+								if(slots[x].getChanged()||x==slot)
+								{
+									if(slots[x].getID()==id||slots[x].getID()==item.AIR)
+									{
+										slots[x].setCount(slots[x].getOldCount()+count/c);
+										slots[x].setID(id);
+										slots[x].setID2(id2);
+									}else slots[x].setChanged(false);
+								}
+							}
+						}
 					}
 				}
 			}
 		}
 		if(slot==OUT_OF_INVENTORY)
 		{
-			drop(slots[36].getID(), slots[36].getID2(), slots[36].getCount());
-			slots[36].setID(0);
-			slots[36].setCount(0);
-			pickedUp=false;
+			if(asc<1)
+			{
+				drop(slots[36].getID(), slots[36].getID2(), slots[36].getCount());
+				slots[36].setID(0);
+				slots[36].setCount(0);
+				pickedUp=false;
+			}
 		}
 	}
 	public static void pickUpR(int slot)
 	{
+		int asc=0;
+		for(int x=0; x<74; x++)
+		{
+			if(slots[x].getChanged())asc++;
+			id=0;
+			id2=0; 
+			count=0;
+		}
 		if((slot!=NO_SLOT_SELECTED)&&(slot!=OUT_OF_INVENTORY))
 		{
 			if(slot==46)
@@ -204,41 +295,54 @@ public class inventory
 				{
 					if(slots[36].getCount()>0)
 					{	
-						slots[slot].setCount(slots[slot].getCount()+1);
-						slots[36].setCount(slots[36].getCount()-1);
-						keyboard.setRbutton(false);
+						if(slots[slot].getChanged()==false)
+						{
+							slots[slot].setChanged(true);
+							slots[slot].setCount(slots[slot].getCount()+1);
+							slots[36].setCount(slots[36].getCount()-1);
+						}
 					}
 				} 
 				if(0==slots[slot].getID())
 				{
 					if(slots[36].getCount()>0)
 					{
-						slots[slot].setCount(slots[slot].getCount()+1);
-						slots[slot].setID(slots[36].getID());
-						slots[slot].setID2(slots[36].getID2());
-						slots[36].setCount(slots[36].getCount()-1);
-						keyboard.setRbutton(false);
+						if(slots[slot].getChanged()==false)
+						{
+							slots[slot].setChanged(true);
+							slots[slot].setCount(slots[slot].getCount()+1);
+							slots[slot].setID(slots[36].getID());
+							slots[slot].setID2(slots[36].getID2());
+							slots[36].setCount(slots[36].getCount()-1);
+						}
 					}
 				}
 				if(0==slots[36].getID())
 				{
-					int oldID, oldID2, oldCount;
-					oldID=slots[slot].getID();
-					oldID2=slots[slot].getID2();
-					oldCount=slots[slot].getCount();	
-					slots[slot].setCount(oldCount/2);
-					slots[36].setCount(slots[36].getCount()+(int)((oldCount+1)/2));
-					slots[36].setID(oldID);
-					slots[36].setID2(oldID2);
-					keyboard.setRbutton(false);
-				} 
+					if(asc==0)
+					{
+						slots[slot].setChanged(true);
+						int oldID, oldID2, oldCount;
+						oldID=slots[slot].getID();
+						oldID2=slots[slot].getID2();
+						oldCount=slots[slot].getCount();	
+						slots[slot].setCount(oldCount/2);
+						slots[36].setCount(slots[36].getCount()+(int)((oldCount+1)/2));
+						slots[36].setID(oldID);
+						slots[36].setID2(oldID2);
+						keyboard.setRbutton(false);
+					}
+				}
 			}
 		}
 		if(slot==OUT_OF_INVENTORY)
 		{
-			drop(slots[36].getID(), slots[36].getID2(), (int)((slots[36].getCount())/2));
-			slots[36].setCount((int)(slots[36].getCount()+1)/2);
-			keyboard.setRbutton(false);
+			if(asc==0)
+			{
+				drop(slots[36].getID(), slots[36].getID2(), (int)((slots[36].getCount())/2));
+				slots[36].setCount((int)(slots[36].getCount()+1)/2);
+				keyboard.setRbutton(false);
+			}
 		}
 	}
 	public static void update()
@@ -260,6 +364,22 @@ public class inventory
 			}
 			
 			updateCrafting();
+			if(keyboard.isLbuttonr())
+			{
+				keyboard.lbuttonr=false;
+				for(int i=0; i<74; i++)
+				{
+					slots[i].setChanged(false);
+				}
+			}
+			if(keyboard.isRbuttonr())
+			{
+				keyboard.rbuttonr=false;
+				for(int i=0; i<74; i++)
+				{
+					slots[i].setChanged(false);
+				}
+			}
 			if(keyboard.lbutton)
 			{	
 				pickUp(getSlotFromMouse(keyboard.mx, keyboard.my));
@@ -267,6 +387,18 @@ public class inventory
 			if(keyboard.rbutton)
 			{	
 				pickUpR(getSlotFromMouse(keyboard.mx, keyboard.my));
+			}
+		}
+		else 
+		{
+			if(keyboard.isQr())
+			{
+				keyboard.setQr(false);
+				if(slots[selected].getCount()>0)
+				{
+					drop(getHandItem(), getHandItem2(), 1);
+					slots[selected].setCount(slots[selected].getCount()-1);	
+				}
 			}
 		}
 		for(int x=0; x<47; x++)
@@ -335,14 +467,16 @@ public class inventory
 		{	
 			slots[x]=new slot(0,0);
 		}
-		slots[0].setID(item.CHEST);
-		slots[0].setCount(64);
+		slots[0].setID(item.CRAFTING_TABLE);
+		slots[0].setCount(1);
 		slots[1].setID(item.FURNACE);
 		slots[1].setCount(1);
-		slots[2].setID(item.LOG);
+		slots[2].setID(item.PLANKS);
 		slots[2].setCount(64);
 		slots[3].setID(item.COBBLE);
 		slots[3].setCount(64);
+		slots[4].setID(item.DOOR);
+		slots[4].setCount(64);
 	}
 	public static void updateCrafting()
 	{

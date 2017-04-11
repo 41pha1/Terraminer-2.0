@@ -23,7 +23,8 @@ public class crafting
 		}
 		furnace[0]=new craftingRecipie(item.COBBLE, item.STONE, 1);
 		furnace[1]=new craftingRecipie(item.IRON_ORE, item.IRON, 1);
-		recipies3x3[0]=new craftingRecipie(5,5,5,0,100, 0, 0, 100, 0, 101, 1,true);
+		recipies3x3[0]=new craftingRecipie(item.PLANKS,item.PLANKS,item.PLANKS,item.AIR,item.STICK, item.AIR, item.AIR, item.STICK, item.AIR, item.WOOD_PICKAXE, 1,true);
+		recipies3x3[0]=new craftingRecipie(item.PLANKS,item.PLANKS,item.AIR,item.PLANKS,item.PLANKS, item.AIR, item.PLANKS, item.PLANKS, item.AIR, item.DOOR, 1,true);
 		recipies3x3[1]=new craftingRecipie(item.AIR,  item.PLANKS,   item.AIR,  item.AIR,  item.STICK,   item.AIR,  item.AIR,  item.STICK,   item.AIR,  item.WOOD_SHOVEL, 1,true);
 		recipies3x3[2]=new craftingRecipie(item.AIR,  item.PLANKS,   item.AIR,  item.AIR,  item.PLANKS,    item.AIR,  item.AIR,  item.STICK,   item.AIR,  item.WOOD_SWORD, 1,true);
 		recipies3x3[3]=new craftingRecipie(item.PLANKS,   item.PLANKS,   item.AIR,  item.AIR,  item.STICK,   item.AIR,  item.AIR,  item.STICK,   item.AIR, item.WOOD_HOE,   1,true);

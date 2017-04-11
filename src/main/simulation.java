@@ -6,7 +6,7 @@ import java.io.DataInputStream;
 import javax.swing.JOptionPane;
 
 public class simulation {
-	static int mapsize=255;
+	static int mapsize=500;
 	static block[][] blocks = new block[mapsize+1][256];
 	static byte[] b=new byte[mapsize*256];
 	static byte[] b2=new byte[mapsize*256];
@@ -24,7 +24,7 @@ public class simulation {
 	static double acceleration=0.005;
 	static double velocity;
 	boolean la=false,ls=false,lw=false,ld=false;
-	static double speed = 0.12;
+	static double speed = 0.2;
 	simulation() 
 	{
 		int dialogResult = JOptionPane.showConfirmDialog (null, "Would You Like to Load your Previous World?");
@@ -363,7 +363,7 @@ public class simulation {
 		if(keyboard.isEsc())
 		{	
 			save();
-			System.exit(0);
+//			System.exit(0);
 		}
 		if(!inventory.isOpen())
 		{
@@ -382,7 +382,7 @@ public class simulation {
 		}
 		player.setPy(player.getPy()-velocity);
 	}
-	public static void breackBlock(int x1, int y1)
+	public static void breackBlock(int x1, int y1) 
 	{
 		int p=0;
 		int i=0;
@@ -395,10 +395,16 @@ public class simulation {
 				p++;
 			}
 		}
+		drop(x1, y1);
+		blocks[x1][y1].setID(item.AIR,0);	
+		blocks[x1][y1].setDestroyed(0);
+	}
+	public static void drop(int x1, int y1)
+	{
 		if(blocks[x1][y1].getDrop()!=0)
 		{
-			p=0;
-			i=0;
+			int p=0;
+			int i=0;
 			while(p<1 && i<1000)
 			{
 				i++;
@@ -414,9 +420,8 @@ public class simulation {
 				}
 			}
 		}
-		blocks[x1][y1].setID(item.AIR,0);	
-		blocks[x1][y1].setDestroyed(0);
-	}	
+	}
+	
 	public static void updateMouse()
 	{
 		inventory.setSelected((byte)(inventory.getSelected()+keyboard.getSa()/8));
@@ -425,22 +430,41 @@ public class simulation {
 		keyboard.setSa(0);
 		int x1=DisplayXtoBlockX(keyboard.getMx());
 		int y1=DisplayYtoBlockY(keyboard.getMy()-(frame.getWIDTH()/block.size)/2);
+		if(keyboard.isRbuttonr())
+		{
+			blocks[x1][y1].isRightClicked();
+		}
 		if(keyboard.isRbutton())
 		{
 			if(x1>=0&&y1>=0)
 			{
 				if(blocks[x1][y1].getID()==item.AIR)
 				{
-					if(inventory.slots[inventory.selected].getID()!=item.AIR)
+					if(inventory.getHandItem()!=item.DOOR)
 					{
-						if(!checkCollision(x1, y1, inventory.slots[inventory.selected].getID()))
+						if(inventory.slots[inventory.selected].getID()!=item.AIR)
 						{
-							blocks[x1][y1].setID(inventory.getHandItem(),inventory.getHandItem2());		
-							inventory.slots[inventory.selected].setCount(inventory.slots[inventory.selected].getCount()-1);
+							if(!checkCollision(x1, y1, inventory.slots[inventory.selected].getID()))
+							{
+								blocks[x1][y1].setID(inventory.getHandItem(),inventory.getHandItem2());		
+								inventory.slots[inventory.selected].setCount(inventory.slots[inventory.selected].getCount()-1);
+							}
 						}
-					}
+					}else
+					{
+						if(blocks[x1][y1-1].getID()==item.AIR)
+						{
+							if(inventory.slots[inventory.selected].getID()!=item.AIR)
+							{
+								if(!checkCollision(x1, y1, inventory.slots[inventory.selected].getID()))
+								{
+									blocks[x1][y1].setID(inventory.getHandItem(),inventory.getHandItem2());		
+									inventory.slots[inventory.selected].setCount(inventory.slots[inventory.selected].getCount()-1);
+								}
+							}
+						}
+					}	
 				}
-				blocks[x1][y1].isRightClicked();
 			}
 		}
 		for(int x=0; x<mapsize; x++)

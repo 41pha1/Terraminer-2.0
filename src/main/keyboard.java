@@ -12,13 +12,17 @@ import java.awt.event.MouseWheelListener;
 import javax.swing.SwingUtilities;
 
 public class keyboard implements KeyListener, MouseListener, MouseMotionListener, MouseWheelListener {
-	public static boolean a, w, s, d, space, shift, e, esc, lbutton, mbutton,rbutton, plus, minus;
+	public static boolean a, w, s, d, q, space, shift, e, esc, lbutton, mbutton,rbutton, plus, minus;
+	public static boolean ar, wr, sr, dr, qr, spacer, shiftr, er, escr, lbuttonr, mbuttonr,rbuttonr, plusr, minusr;
 	public static boolean k1,k2,k3,k4,k5,k6,k7,k8,k9;
 	public static int mx, my;
 	public static double sa;
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode()==KeyEvent.VK_Q) {
+			q = true;
+		}
 		if(e.getKeyCode()==KeyEvent.VK_W) {
 			w = true; s = false;
 		}
@@ -157,32 +161,35 @@ public class keyboard implements KeyListener, MouseListener, MouseMotionListener
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+		if(e.getKeyCode()==KeyEvent.VK_Q) {
+			q = false;qr=true;
+		}
 		if(e.getKeyCode()==KeyEvent.VK_W) {
-			w = false;
+			w = false;wr=true;
 		}
 		if(e.getKeyCode()==KeyEvent.VK_A) {
-			a = false;
+			a = false;ar=true;
 		}
 		if(e.getKeyCode()==KeyEvent.VK_S) {
-			s = false;
+			s = false;sr=true;
 		}
 		if(e.getKeyCode()==KeyEvent.VK_D) {
-			d = false;
+			d = false;dr=true;
 		}
 		if(e.getKeyCode()==KeyEvent.VK_ESCAPE) {
-			esc = false;
+			esc = false;escr=true;
 		}
 		if(e.getKeyCode()==KeyEvent.VK_SHIFT) {
-			shift = false;
+			shift = false;shiftr=true;
 		}
 		if(e.getKeyCode()==KeyEvent.VK_P) {
-			plus = false;
+			plus = false;plusr=true;
 		}
 		if(e.getKeyCode()==KeyEvent.VK_M) {
-			minus = false;
+			minus = false;minusr=true;
 		}
 		if(e.getKeyCode()==KeyEvent.VK_E) {
-			this.e = false;
+			this.e = false;er=true;
 		}
 		if(e.getKeyCode()==KeyEvent.VK_1) {
 			k1 = false;
@@ -211,6 +218,126 @@ public class keyboard implements KeyListener, MouseListener, MouseMotionListener
 		if(e.getKeyCode()==KeyEvent.VK_9) {
 			k9 = false;
 		}
+	}
+
+	public static boolean isAr() {
+		return ar;
+	}
+
+	public static void setAr(boolean ar) {
+		keyboard.ar = ar;
+	}
+
+	public static boolean isWr() {
+		return wr;
+	}
+
+	public static void setWr(boolean wr) {
+		keyboard.wr = wr;
+	}
+
+	public static boolean isSr() {
+		return sr;
+	}
+
+	public static void setSr(boolean sr) {
+		keyboard.sr = sr;
+	}
+
+	public static boolean isDr() {
+		return dr;
+	}
+
+	public static void setDr(boolean dr) {
+		keyboard.dr = dr;
+	}
+
+	public static boolean isQr() {
+		return qr;
+	}
+
+	public static void setQr(boolean qr) {
+		keyboard.qr = qr;
+	}
+
+	public static boolean isSpacer() {
+		return spacer;
+	}
+
+	public static void setSpacer(boolean spacer) {
+		keyboard.spacer = spacer;
+	}
+
+	public static boolean isShiftr() {
+		return shiftr;
+	}
+
+	public static void setShiftr(boolean shiftr) {
+		keyboard.shiftr = shiftr;
+	}
+
+	public static boolean isEr() {
+		return er;
+	}
+
+	public static void setEr(boolean er) {
+		keyboard.er = er;
+	}
+
+	public static boolean isEscr() {
+		return escr;
+	}
+
+	public static void setEscr(boolean escr) {
+		keyboard.escr = escr;
+	}
+
+	public static boolean isLbuttonr() {
+		return lbuttonr;
+	}
+
+	public static void setLbuttonr(boolean lbuttonr) {
+		keyboard.lbuttonr = lbuttonr;
+	}
+
+	public static boolean isMbuttonr() {
+		return mbuttonr;
+	}
+
+	public static void setMbuttonr(boolean mbuttonr) {
+		keyboard.mbuttonr = mbuttonr;
+	}
+
+	public static boolean isRbuttonr() {
+		return rbuttonr;
+	}
+
+	public static void setRbuttonr(boolean rbuttonr) {
+		keyboard.rbuttonr = rbuttonr;
+	}
+
+	public static boolean isPlusr() {
+		return plusr;
+	}
+
+	public static void setPlusr(boolean plusr) {
+		keyboard.plusr = plusr;
+	}
+
+	public static boolean isMinusr() {
+		return minusr;
+	}
+
+	public static void setMinusr(boolean minusr) {
+		keyboard.minusr = minusr;
+	}
+
+	public static boolean isQ() {
+		return q;
+	}
+
+	public static void setQ(boolean q) {
+		keyboard.q = q;
 	}
 
 	public static boolean isK1() {
@@ -327,13 +454,13 @@ public class keyboard implements KeyListener, MouseListener, MouseMotionListener
 	@Override
       public void mouseReleased(MouseEvent mouseEvent) {
         if (SwingUtilities.isLeftMouseButton(mouseEvent)) {
-          lbutton=false;
+          lbutton=false; lbuttonr=true;
         }
         if (SwingUtilities.isMiddleMouseButton(mouseEvent)) {
         	mbutton=false;
         }
         if (SwingUtilities.isRightMouseButton(mouseEvent)) {
-        	rbutton=false;
+        	rbutton=false; rbuttonr=true;
         }
       }
 	public static boolean isLbutton() {

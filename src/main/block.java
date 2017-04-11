@@ -78,6 +78,32 @@ public class block
 	}
 	public void isRightClicked()
 	{
+		keyboard.setRbuttonr(false);
+		if(ID==item.DOOR)
+		{
+			if(collision)
+			{
+				collision=false;
+				if(ID2==2)
+				{
+					simulation.blocks[x][y+1].setCollision(false);
+				}else if(ID2==1)
+				{
+					simulation.blocks[x][y-1].setCollision(false);
+				}
+			}
+			else 
+			{
+				collision=true;
+				if(ID2==2)
+				{
+					simulation.blocks[x][y+1].setCollision(true);
+				}else if(ID2==1)
+				{
+					simulation.blocks[x][y-1].setCollision(true);
+				}
+			}
+		}
 		if(ID==item.CRAFTING_TABLE)
 		{
 			inventory.open=true;
@@ -169,6 +195,7 @@ public class block
 		if(ID==11)return 112;
 		if(ID==13)return 114;
 		if(ID==12)return 115;
+		if(ID==item.DOOR&&ID2==2)return 0;
 		if(ID==17)
 		{
 			if(Math.random()>0.5)return 19;
@@ -180,6 +207,7 @@ public class block
 	{
 		if(ID==12)return 11;
 		if(ID==20)return 0;
+		if(ID==item.DOOR)return 0;
 		return ID2;
 	}
 	public void update()
@@ -356,19 +384,41 @@ public class block
 	}
 	public void setID(int id, int id2)
 	{
+		needsBlock=false;
+		background=false;
 		pb=0;
 		for(int x=0; x<27; x++)
 		{
 			if(slots[x]==null)
 			slots[x]=new slot(0, 0);
 		}
-		if(id==0)
+		if(id==item.AIR)
 		{
+			if(ID==item.DOOR&&ID2==2)
+			{
+				simulation.breackBlock(x,y+1);
+			}
 			for(int i=0; i<27; i++)
 			{
 				inventory.drop(slots[i].getID(), slots[i].getID2(), slots[i].getCount(),x,y);
 				slots[i].setID(0);
 				slots[i].setCount(0);
+			}
+		}
+		if(id==item.DOOR)
+		{
+			background=true;
+			if(id2==0)
+			{
+				id2=1;
+				simulation.blocks[x][y-1].setID(item.DOOR, 2);
+			}
+			if(id2==2)
+			{
+				neededBlocks[0]=item.DOOR;
+				neededBlocks[1]=item.DOOR;
+				neededBlocks[2]=item.DOOR;
+				setNeedsBlock(true);
 			}
 		}
 		
@@ -388,7 +438,7 @@ public class block
 			destroyTime=0;
 			effectiveTool=0;
 		}
-		if(id==item.LOG||id==item.PLANKS||id==item.CRAFTING_TABLE||id==item.CHEST)
+		if(id==item.LOG||id==item.PLANKS||id==item.CRAFTING_TABLE||id==item.CHEST||id==item.DOOR)
 		{
 			destroyTime=300000000;
 			effectiveTool=3;
@@ -412,7 +462,6 @@ public class block
 		}else 
 		{
 			setCollision(true);
-			setBackground(false);
 		}
 		
 		
@@ -422,18 +471,11 @@ public class block
 			{
 				setBackground(true);
 			}
-			else 
-			{
-				setBackground(false);
-			}
 			neededBlocks[0]=item.GRASS;
 			neededBlocks[1]=item.DIRT;
 			neededBlocks[2]=item.DIRT;
 			setNeedsBlock(true);
 			
-		}else
-		{
-			setNeedsBlock(false);
 		}
 		if(id==item.LOG)
 		{
